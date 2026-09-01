@@ -72,6 +72,15 @@ CREATE TABLE Borrowings (
 );
 GO
 
+CREATE TABLE Fines (
+    FineID       INT IDENTITY(1,1) PRIMARY KEY,
+    BorrowingID  INT NOT NULL FOREIGN KEY REFERENCES Borrowings(BorrowingID),
+    FineAmount   SMALLMONEY NOT NULL CHECK (FineAmount > 0),
+    FineDate     DATE DEFAULT GETDATE(),
+    PaidDate     DATE NULL
+);
+GO
+
 -- تأكيد إنشاء الجداول
 SELECT TABLE_NAME
 FROM INFORMATION_SCHEMA.TABLES
