@@ -90,7 +90,7 @@
             // 
             this.btnLogin.Location = new System.Drawing.Point(222, 326);
             this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(82, 27);
+            this.btnLogin.Size = new System.Drawing.Size(91, 41);
             this.btnLogin.TabIndex = 5;
             this.btnLogin.Text = "Login";
             this.btnLogin.UseVisualStyleBackColor = true;
@@ -98,11 +98,12 @@
             // 
             // btnCancle
             // 
+            this.btnCancle.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancle.Location = new System.Drawing.Point(132, 326);
             this.btnCancle.Name = "btnCancle";
-            this.btnCancle.Size = new System.Drawing.Size(82, 27);
+            this.btnCancle.Size = new System.Drawing.Size(82, 41);
             this.btnCancle.TabIndex = 6;
-            this.btnCancle.Text = "Cancle";
+            this.btnCancle.Text = "Close";
             this.btnCancle.UseVisualStyleBackColor = true;
             this.btnCancle.Click += new System.EventHandler(this.btnCancle_Click);
             // 
@@ -124,7 +125,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancle;
-            this.ClientSize = new System.Drawing.Size(427, 574);
+            this.ClientSize = new System.Drawing.Size(427, 452);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnCancle);
             this.Controls.Add(this.btnLogin);

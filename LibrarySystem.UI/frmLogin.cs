@@ -24,7 +24,7 @@ namespace LibrarySystem.UI
 
         private void btnCancle_Click(object sender, EventArgs e)
         {
-
+            Close();
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
