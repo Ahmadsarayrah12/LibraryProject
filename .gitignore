@@ -70,3 +70,12 @@ desktop.ini
 _ReSharper*/
 *.[Rr]e[Ss]harper
 *.DotSettings.user
+
+## نتائج ClickOnce Publish (لو نشرت التطبيق مستقبلاً)
+*.pubxml
+*.pubxml.user
+PublishProfiles/
+
+## نتائج اختبارات (لو ضفت Unit Tests لـ Business/DataAccess مستقبلاً)
+[Tt]est[Rr]esult*/
+*.trx
