@@ -1,0 +1,72 @@
+## ===================================
+## .gitignore — .NET / WinForms / Visual Studio
+## ===================================
+
+## User-specific files (لا تشاركهم، خاصين بجهازك)
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.rsuser
+
+## نتائج البناء (Build outputs)
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Oo]ut/
+
+## مجلد كاش Visual Studio
+.vs/
+
+## NuGet Packages
+*.nupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## ملفات البناء والتشخيص
+msbuild.log
+msbuild.err
+msbuild.wrn
+*.pdb
+*.cache
+*.ilk
+*.obj
+*.log
+
+## ملفات إعدادات حساسة أو محلية
+appsettings.Development.json
+appsettings.local.json
+*.config.user
+
+## ملفات قواعد بيانات محلية (لو استخدمت LocalDB/SQLite للتجربة)
+*.mdf
+*.ldf
+*.sdf
+*.db
+
+## Visual Studio Code (لو استخدمته أحياناً)
+.vscode/
+
+## ملفات نظام التشغيل
+.DS_Store
+Thumbs.db
+desktop.ini
+
+## ملفات ReSharper / JetBrains
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
