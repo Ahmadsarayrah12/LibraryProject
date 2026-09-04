@@ -60,7 +60,7 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Login Screen";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-             // 
+            // 
             // label2
             // 
             this.label2.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -88,7 +88,7 @@
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(180, 25);
             this.txtUserName.TabIndex = 4;
-             // 
+            // 
             // txtPassword
             // 
             this.txtPassword.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -141,7 +141,8 @@
             this.Name = "frmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login Form";
-             this.ResumeLayout(false);
+            this.Load += new System.EventHandler(this.frmLogin_Load);
+            this.ResumeLayout(false);
             this.PerformLayout();
 
         }

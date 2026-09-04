@@ -9,12 +9,16 @@ namespace LibrarySystem.DataAccess
             ref int userID, ref int personID, ref bool isActive)
         {
             bool isFound = false;
-
+            // query 
             string query = @"SELECT UserID, PersonID, IsActive 
                              FROM Users 
                              WHERE Username = @Username AND Password = @Password;";
+            
+            //(Using) is more safe than any thing ..
 
             using (SqlConnection connection = new SqlConnection(clsSettingsDataAccessLayer.ConnectionString))
+
+            //Command set
             using (SqlCommand command = new SqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@Username", username);
@@ -30,8 +34,8 @@ namespace LibrarySystem.DataAccess
                             isFound = true;
                             userID = (int)reader["UserID"];
                             personID = (int)reader["PersonID"];
-
-                            // التعامل الآمن مع احتمالية وجود قيم NULL
+                           
+                            // deal with null case.
                             isActive = reader["IsActive"] != DBNull.Value && (bool)reader["IsActive"];
                         }
                     }

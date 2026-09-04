@@ -10,39 +10,45 @@ namespace LibrarySystem.UI
         {
             InitializeComponent();
         }
-
+        //Login Proccess
         private void btnLogin_Click(object sender, EventArgs e)
         {
             string username = txtUserName.Text.Trim();
             string password = txtPassword.Text.Trim();
 
              if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-            {
-                MessageBox.Show("يرجى إدخال اسم المستخدم وكلمة المرور.", "حقول مطلوبة", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+             {
+                MessageBox.Show("Please Enter Username and password", "Required fields", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
-            }
+             }
 
              clsBusinessLayerUsers user = clsBusinessLayerUsers.FindByUserNameAndPassword(username, password);
 
              if (user == null)
-            {
-                MessageBox.Show("اسم المستخدم أو كلمة المرور غير صحيحة.", "خطأ في تسجيل الدخول", MessageBoxButtons.OK, MessageBoxIcon.Error);
+             {
+                MessageBox.Show("Incorrect username or password.", "Login error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-            }
+             }
 
              if (!user.IsActive)
-            {
-                MessageBox.Show("هذا الحساب موقوف، يرجى مراجعة المسؤول.", "حساب غير مفعل", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+             {
+                MessageBox.Show("This account is suspended, please contact the administrator.", "account is suspended", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
-            }
-
-             MessageBox.Show("تم تسجيل الدخول بنجاح!", "مرحباً", MessageBoxButtons.OK, MessageBoxIcon.Information);
+             }
+            clsGlobal.CurrentUser = user;
+            DialogResult = DialogResult.OK;
+            this.Close();
  
         }
 
         private void btnCancle_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void frmLogin_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
