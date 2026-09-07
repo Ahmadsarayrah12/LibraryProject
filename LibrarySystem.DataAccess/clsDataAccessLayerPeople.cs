@@ -151,32 +151,7 @@ namespace LibrarySystem.DataAccess
         }
 
         // 5. Read All (DataTable)
-        public static DataTable GetAllPeople()
-        {
-            DataTable dt = new DataTable();
-            string query = @"SELECT PersonID, FirstName, LastName, Phone, Email FROM People ORDER BY PersonID DESC;";
-
-            using (SqlConnection connection = new SqlConnection(clsSettingsDataAccessLayer.ConnectionString))
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                try
-                {
-                    connection.Open();
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        if (reader.HasRows)
-                        {
-                            dt.Load(reader);
-                        }
-                    }
-                }
-                catch (Exception)
-                {
-                    
-                }
-            }
-            return dt;
-        }
+        
 
         // 6. Check Existence
         public static bool IsPersonExist(int personID)
@@ -202,5 +177,83 @@ namespace LibrarySystem.DataAccess
             }
             return isFound;
         }
+
+        public static DataTable GetAllPeople()
+        {
+            DataTable dt = new DataTable();
+            string query = @"SELECT 
+                        Users.UserID,
+                        Users.PersonID,
+                        (People.FirstName + ' ' + People.LastName) AS FullName,
+                        People.Phone,
+                        People.Email,
+                        Users.Username,
+                        Users.Permissions,
+                        Users.IsActive
+                     FROM Users
+                     INNER JOIN People ON Users.PersonID = People.PersonID
+                     ORDER BY Users.UserID DESC;";
+
+            using (SqlConnection connection = new SqlConnection(clsSettingsDataAccessLayer.ConnectionString))
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                try
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            dt.Load(reader);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+            return dt;
+        }
+
+
+        public static bool ChangePassword(int UserID ,string NewPassword)
+        {
+            bool isFound = false;
+
+            string query = @"UPDATE [dbo].[Users]
+                             SET  
+       
+                            [Password] =  @NewPassword
+      
+                             WHERE  UserID = @UserID;";
+
+
+            using (SqlConnection connection = new SqlConnection(clsSettingsDataAccessLayer.ConnectionString))
+            using (SqlCommand command =new SqlCommand(query, connection))
+            {
+
+                command.Parameters.AddWithValue("@NewPassword", NewPassword);
+                command.Parameters.AddWithValue("@UserID", UserID);
+
+
+                try
+                {
+                    connection.Open();
+                  int RowEfferted= command.ExecuteNonQuery();
+
+
+                    isFound = (RowEfferted > 0);
+                }
+                catch
+                {
+                    return false;
+                }
+
+            }
+            return isFound;
+        }
+
+
     }
 }

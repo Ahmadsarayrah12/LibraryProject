@@ -211,49 +211,195 @@ namespace LibrarySystem.DataAccess
 
         }
 
-        public static bool UpdateUser(int UserID, string Username, string Password, bool IsActive, int Permissions)
+        public static bool UpdateUser(int userID, string username, string password, bool isActive, int permissions)
         {
-
-            int rowAfficted = 0;
+            int rowsAffected = 0;
 
             string query = @"UPDATE [dbo].[Users]
-                            SET  [Username] =  @Username 
-                                ,[Password] = @Password 
-                                ,[IsActive] =  @IsActive 
-                                ,[Permissions] =  @Permissions 
-                            WHERE UserID=@UserID";
+                     SET [Username]    = @Username,
+                         [Password]    = @Password,
+                         [IsActive]    = @IsActive,
+                         [Permissions] = @Permissions
+                     WHERE UserID = @UserID;";
 
+            using (SqlConnection connection = new SqlConnection(clsSettingsDataAccessLayer.ConnectionString))
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                 command.Parameters.AddWithValue("@UserID", userID);
+
+                command.Parameters.AddWithValue("@Username", username);
+                command.Parameters.AddWithValue("@Password", password);
+                command.Parameters.AddWithValue("@IsActive", isActive);
+                command.Parameters.AddWithValue("@Permissions", permissions);
+
+                try
+                {
+                    connection.Open();
+                    rowsAffected = command.ExecuteNonQuery();
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+
+            return (rowsAffected > 0);
+        }
+
+        public static bool DeactivateUser(int userID)
+        {
+            int rowsAffected = 0;
+            string query = @"UPDATE [dbo].[Users]
+                     SET [IsActive] = 0
+                     WHERE UserID = @UserID;";
+
+            using (SqlConnection connection = new SqlConnection(clsSettingsDataAccessLayer.ConnectionString))
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@UserID", userID);
+
+                try
+                {
+                    connection.Open();
+                    rowsAffected = command.ExecuteNonQuery();
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+
+            return (rowsAffected > 0);
+        }
+
+        public static bool DeleteUser(int userID)
+        {
+            int rowsAffected = 0;
+            string query = @"DELETE FROM [dbo].[Users] 
+                     WHERE UserID = @UserID;";
+
+            using (SqlConnection connection = new SqlConnection(clsSettingsDataAccessLayer.ConnectionString))
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@UserID", userID);
+
+                try
+                {
+                    connection.Open();
+                    rowsAffected = command.ExecuteNonQuery();
+                }
+                catch (Exception)
+                {
+                     return false;
+                }
+            }
+
+            return (rowsAffected > 0);
+        }
+
+
+        public static bool IsExistUser(int UserID)
+        {
+
+
+            bool isFound = false;
+            string query = @"SELECT person= 1 FROM [dbo].[Users] 
+                             WHERE UserID = @UserID;";
+
+            using (SqlConnection connection = new SqlConnection(clsSettingsDataAccessLayer.ConnectionString))  
+
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@UserID", UserID);
+
+                try
+                {
+                    connection.Open();
+                    object result = command.ExecuteScalar();
+                    isFound = (result != null);
+                       
+
+                }
+                catch
+                {
+
+                    return false;
+
+                }
+
+            }
+            return isFound;
+        }
+
+        public static bool IsUserExistForPersonID(int PersonID)
+        {
+            bool isFound = false;
+
+            string query = @"SELECT person= 1 FROM [dbo].[Users] 
+                             WHERE PersonID = @PersonID;";
 
             using (SqlConnection connection = new SqlConnection(clsSettingsDataAccessLayer.ConnectionString))
             using (SqlCommand command = new SqlCommand(query, connection))
             {
 
+                command.Parameters.AddWithValue("@PersonID", PersonID);
 
-                command.Parameters.AddWithValue("@UserID", UserID);
-                command.Parameters.AddWithValue("@Username", Username);
-                command.Parameters.AddWithValue(@"Password", Password);                       
-                command.Parameters.AddWithValue("@IsActive", IsActive); 
-                command.Parameters.AddWithValue("@Permissions", Permissions);
+                try
+                {
+                    connection.Open();
+                    object result = command.ExecuteScalar();
+                    isFound = (result != null);
+                }
+                catch
+                {
+                    return false;
+                }
+
+
+            }
+
+            return isFound;
+
+        }
+
+       public static DataTable GetAllUser()
+       {
+            DataTable dt = new DataTable();
+
+            string query = @"SELECT        Users.UserID, Users.PersonID, People.FirstName +' '+ People.LastName as FullName, Users.Username, Users.Permissions, Users.IsActive, People.Phone, People.Email
+                             FROM            People INNER JOIN
+                             Users ON People.PersonID = Users.PersonID";
+
+
+            using (SqlConnection connection = new SqlConnection(clsSettingsDataAccessLayer.ConnectionString))
+            using (SqlCommand command = new SqlCommand(query,connection))
+            {
 
                 try
                 {
                     connection.Open();
 
-                    rowAfficted = command.ExecuteNonQuery();
+                    using(SqlDataReader reader = command.ExecuteReader())
+                    {
+
+                        if (reader.HasRows)
+                        {
+                            dt.Load(reader);
+                        }
+
+                    }
 
 
                 }
                 catch
                 {
-                    rowAfficted = -1;
+
                 }
- 
-            
+
+                return dt;
             }
 
-            return rowAfficted > 0;
-        }
-
+       }
 
     }
 }
