@@ -19,7 +19,17 @@ namespace LibrarySystem.UI
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            lblUser.Text = "Current User: "+clsGlobal.CurrentUser.Username.ToString();
+              lblUser.Text = $"Current User: {clsGlobal.CurrentUser.FullName} | Date: {DateTime.Now:dd/MM/yyyy}";
         }
+
+         
+
+        private void tsmiUser_Click(object sender, EventArgs e)
+        {
+            frmUsers users = new frmUsers();
+            users.ShowDialog();
+        }
+
+
     }
 }

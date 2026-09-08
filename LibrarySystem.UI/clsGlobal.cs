@@ -9,7 +9,7 @@ namespace LibrarySystem.UI
     internal class clsGlobal
     {
 
-        public static clsBusinessLayerUsers CurrentUser { get; set; }
+        public static clsUser CurrentUser { get; set; }
 
     }
 }

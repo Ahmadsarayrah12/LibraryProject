@@ -22,7 +22,7 @@ namespace LibrarySystem.UI
                 return;
              }
 
-             clsBusinessLayerUsers user = clsBusinessLayerUsers.FindByUserNameAndPassword(username, password);
+             clsUser user = clsUser.FindByUserNameAndPassword(username, password);
 
              if (user == null)
              {
