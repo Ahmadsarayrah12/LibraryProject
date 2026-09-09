@@ -130,8 +130,10 @@ namespace LibrarySystem.UI
                 chkManagePeople.Checked = _User.CheckAccessPermission(clsUser.enPermissions.pManagePeople);
                 chkManageUsers.Checked = _User.CheckAccessPermission(clsUser.enPermissions.pManageUsers);
                 chkManageBooks.Checked = _User.CheckAccessPermission(clsUser.enPermissions.pManageBooks);
-                chkBorrowing.Checked = _User.CheckAccessPermission(clsUser.enPermissions.pBorrowing);
-                chkFines.Checked = _User.CheckAccessPermission(clsUser.enPermissions.pFines);
+                chkBorrowing.Checked   = _User.CheckAccessPermission(clsUser.enPermissions.pBorrowing);
+                chkFines.Checked =       _User.CheckAccessPermission(clsUser.enPermissions.pFines);
+
+
             }
         }
 
@@ -173,7 +175,7 @@ namespace LibrarySystem.UI
         {
             _ResetDefaultValues();
 
-            if (_Mode == enMode.Update)
+            if (_Mode == enMode.Update) 
                 _LoadUserData();
         }
 
@@ -246,7 +248,7 @@ namespace LibrarySystem.UI
             {
                 if (clsUser.IsUserExist(txtUsername.Text.Trim()))
                 {
-                    e.Cancel = true;
+                   
                     errorProvider1.SetError(txtUsername, "Username is already used by another user!");
                     return;
                 }
@@ -262,7 +264,7 @@ namespace LibrarySystem.UI
         {
             if (string.IsNullOrWhiteSpace(txtPassword.Text))
             {
-                e.Cancel = true;
+ 
                 errorProvider1.SetError(txtPassword, "Password cannot be blank!");
             }
             else
@@ -278,7 +280,7 @@ namespace LibrarySystem.UI
         {
             if (txtConfirmPassword.Text.Trim() != txtPassword.Text.Trim())
             {
-                e.Cancel = true;
+                
                 errorProvider1.SetError(txtConfirmPassword, "Password confirmation does not match!");
             }
             else
@@ -328,7 +330,7 @@ namespace LibrarySystem.UI
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // Close dialog immediately to unblock frmUsers.ShowDialog() and trigger data grid refresh
-                this.Close();
+                lblUserID.Text = _User.PersonID.ToString();
             }
             else
             {

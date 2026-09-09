@@ -26,8 +26,20 @@ namespace LibrarySystem.UI
 
         private void tsmiUser_Click(object sender, EventArgs e)
         {
+
+           
+          if ( clsGlobal.CurrentUser.CheckAccessPermission(Business.clsUser.enPermissions.pManageUsers))
+          {
+              
             frmUsers users = new frmUsers();
             users.ShowDialog();
+          }
+            else
+            {
+
+                MessageBox.Show("You Dont have Permission To Enter User screen", "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+             }
+
         }
 
 

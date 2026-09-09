@@ -154,6 +154,7 @@ namespace LibrarySystem.UI
             // Numeric comparisons require direct equality syntax without quotes (e.g., UserID = 10)
             if (filterColumn == "UserID" || filterColumn == "PersonID")
             {
+
                 // Safe parsing prevents syntax exceptions in the RowFilter expression
                 if (int.TryParse(txtFilterValue.Text.Trim(), out int value))
                 {
@@ -164,6 +165,7 @@ namespace LibrarySystem.UI
                     // If parsing fails during transition typing, assign an impossible value to clear results safely
                     _dtAllUsers.DefaultView.RowFilter = $"{filterColumn} = -1";
                 }
+                  
             }
             else
             {
@@ -255,6 +257,7 @@ namespace LibrarySystem.UI
                 // Refresh the table upon returning to reflect updated modifications
                 _RefreshUsersList();
             }
+
         }
 
         /// <summary>

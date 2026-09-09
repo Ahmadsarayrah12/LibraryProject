@@ -18,17 +18,17 @@ namespace LibrarySystem.UI
             Application.SetCompatibleTextRenderingDefault(false);
 
 
-            //frmLogin login = new frmLogin();
+            frmLogin login = new frmLogin();
 
-            //if (login.ShowDialog() == DialogResult.OK)
-            //{
+            if (login.ShowDialog() == DialogResult.OK)
+            {
 
-            //    Application.Run(new frmMain());
-            //}
-            //else
-            //    Application.Exit();
+                Application.Run(new frmMain());
+            }
+            else
+                Application.Exit();
 
-            Application.Run(new frmUsers());
+            //Application.Run(new frmUsers());
 
 
         }
