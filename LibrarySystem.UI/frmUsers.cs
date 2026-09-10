@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Windows.Forms;
 using LibrarySystem.Business;
@@ -223,12 +223,11 @@ namespace LibrarySystem.UI
         /// </summary>
         private void btnAddUser_Click(object sender, EventArgs e)
         {
-            frmAddUpdateUser frm = new frmAddUpdateUser();
+            using (frmAddUpdateUser frm = new frmAddUpdateUser())
+            {
+                frm.ShowDialog();
+            }
 
-            // ShowDialog blocks execution until the user completes the action and dismisses the form
-            frm.ShowDialog();
-
-            // Instant data refresh to display newly added records
             _RefreshUsersList();
         }
 
@@ -247,17 +246,15 @@ namespace LibrarySystem.UI
         {
             if (dgvUsers.CurrentRow != null)
             {
-                // Safely extract the primary key value of the selected user record
                 int selectedUserID = (int)dgvUsers.CurrentRow.Cells["UserID"].Value;
 
-                // Pass the ID to the overloaded constructor to trigger update mode and auto-populate fields
-                frmAddUpdateUser frm = new frmAddUpdateUser(selectedUserID);
-                frm.ShowDialog();
+                using (frmAddUpdateUser frm = new frmAddUpdateUser(selectedUserID))
+                {
+                    frm.ShowDialog();
+                }
 
-                // Refresh the table upon returning to reflect updated modifications
                 _RefreshUsersList();
             }
-
         }
 
         /// <summary>
@@ -309,9 +306,10 @@ namespace LibrarySystem.UI
 
         private void tsmiCurrentUserInfo_Click(object sender, EventArgs e)
         {
-            // Opens the user info dialog passing the active session's UserID by default
-            frmUserInfo frm = new frmUserInfo(clsGlobal.CurrentUser.UserID);
-            frm.ShowDialog();
+            using (frmUserInfo frm = new frmUserInfo(clsGlobal.CurrentUser.UserID))
+            {
+                frm.ShowDialog();
+            }
         }
 
 

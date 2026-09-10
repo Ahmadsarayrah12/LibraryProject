@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 using LibrarySystem.Business;
@@ -6,17 +6,20 @@ using LibrarySystem.Business;
 namespace LibrarySystem.UI
 {
     /// <summary>
-    /// Composite UserControl that encapsulates a search/filter toolbar over ctrlPersonCard.
-    /// Exposes custom event Action&lt;int&gt; OnPersonSelected for parent form notification.
-    /// Includes design-mode safety guards to avoid Visual Studio designer initialization crashes.
+    /// Composite UserControl encapsulating a search/filter toolbar over ctrlPersonCard.
+    /// Emits loose-coupled Action&lt;int&gt; events for parent form notification.
+    /// Incorporates DesignMode safety guards and input validation via ErrorProvider.
     /// </summary>
     public partial class ctrlPersonCardWithFilter : UserControl
     {
-        // Custom delegate event fired when a person is loaded or selected
+        /// <summary>
+        /// Custom event fired when a person is successfully located and selected.
+        /// Passes the selected PersonID to subscribers.
+        /// </summary>
         public event Action<int> OnPersonSelected;
 
         /// <summary>
-        /// Raises the OnPersonSelected event safely.
+        /// Safely raises the OnPersonSelected event.
         /// </summary>
         /// <param name="personID">The ID of the newly selected person.</param>
         protected virtual void PersonSelected(int personID)
@@ -28,23 +31,23 @@ namespace LibrarySystem.UI
             }
         }
 
-        private bool _FilterEnabled = true;
+        private bool _filterEnabled = true;
 
         /// <summary>
-        /// Controls whether the search toolbar is enabled or locked down.
+        /// Controls whether the search toolbar is enabled for user interaction.
         /// </summary>
         public bool FilterEnabled
         {
-            get { return _FilterEnabled; }
+            get { return _filterEnabled; }
             set
             {
-                _FilterEnabled = value;
-                gbFilter.Enabled = _FilterEnabled;
+                _filterEnabled = value;
+                gbFilter.Enabled = _filterEnabled;
             }
         }
 
         /// <summary>
-        /// Exposes the PersonID from the underlying ctrlPersonCard instance.
+        /// Exposes the PersonID from the embedded ctrlPersonCard instance.
         /// </summary>
         public int PersonID
         {
@@ -52,13 +55,16 @@ namespace LibrarySystem.UI
         }
 
         /// <summary>
-        /// Exposes the clsPerson entity from the underlying ctrlPersonCard instance.
+        /// Exposes the clsPerson entity from the embedded ctrlPersonCard instance.
         /// </summary>
         public clsPerson SelectedPersonInfo
         {
             get { return ctrlPersonCard1.PersonInfo; }
         }
 
+        /// <summary>
+        /// Initializes a new instance of ctrlPersonCardWithFilter.
+        /// </summary>
         public ctrlPersonCardWithFilter()
         {
             InitializeComponent();
@@ -66,11 +72,10 @@ namespace LibrarySystem.UI
 
         private void ctrlPersonCardWithFilter_Load(object sender, EventArgs e)
         {
-            // Guard: prevent designer runtime execution when rendering inside Visual Studio Form Designer
             if (this.DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Designtime)
                 return;
 
-            cbFilterBy.SelectedIndex = 0; // Default filter criterion to "Person ID"
+            cbFilterBy.SelectedIndex = 0; // Default filter to "Person ID"
             txtFilterValue.Focus();
         }
 
@@ -79,20 +84,26 @@ namespace LibrarySystem.UI
         /// </summary>
         private void _FindNow()
         {
-            if (string.IsNullOrWhiteSpace(txtFilterValue.Text.Trim()))
+            string query = txtFilterValue.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(query))
                 return;
 
             switch (cbFilterBy.Text)
             {
                 case "Person ID":
-                    if (int.TryParse(txtFilterValue.Text.Trim(), out int personID))
+                    if (int.TryParse(query, out int personID))
                     {
-                        ctrlPersonCard1.LoadPersonInfo(personID);
+                        if (!ctrlPersonCard1.LoadPersonInfo(personID))
+                        {
+                            MessageBox.Show($"Person with ID [{personID}] was not found.", "Not Found",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
                     }
                     break;
 
                 case "Phone":
-                    clsPerson person = clsPerson.FindPersonByPhone(txtFilterValue.Text.Trim());
+                    clsPerson person = clsPerson.FindByPhone(query);
                     if (person != null)
                     {
                         ctrlPersonCard1.LoadPersonInfo(person);
@@ -106,15 +117,14 @@ namespace LibrarySystem.UI
                     break;
             }
 
-            // Raise the selection event to notify parent containers
-            if (OnPersonSelected != null && ctrlPersonCard1.PersonID != -1)
+            if (ctrlPersonCard1.PersonID != -1)
             {
-                OnPersonSelected(ctrlPersonCard1.PersonID);
+                PersonSelected(ctrlPersonCard1.PersonID);
             }
         }
 
         /// <summary>
-        /// Programmatically loads a person by ID and updates the filter search textbox.
+        /// Programmatically loads a person by ID and updates the filter search controls.
         /// </summary>
         /// <param name="personID">Target person primary key ID.</param>
         public void LoadPersonInfo(int personID)
@@ -123,14 +133,14 @@ namespace LibrarySystem.UI
             txtFilterValue.Text = personID.ToString();
             ctrlPersonCard1.LoadPersonInfo(personID);
 
-            if (OnPersonSelected != null && ctrlPersonCard1.PersonID != -1)
+            if (ctrlPersonCard1.PersonID != -1)
             {
-                OnPersonSelected(ctrlPersonCard1.PersonID);
+                PersonSelected(ctrlPersonCard1.PersonID);
             }
         }
 
         /// <summary>
-        /// Focuses the search input textbox.
+        /// Sets focus to the filter query input textbox.
         /// </summary>
         public void FilterFocus()
         {
@@ -151,13 +161,11 @@ namespace LibrarySystem.UI
 
         private void txtFilterValue_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Trigger search when pressing Enter
             if (e.KeyChar == (char)13)
             {
                 btnFind.PerformClick();
             }
 
-            // Restrict input to digits only when searching by Person ID
             if (cbFilterBy.Text == "Person ID")
             {
                 e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);

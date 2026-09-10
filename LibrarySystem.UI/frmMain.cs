@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using LibrarySystem.Business;
 
@@ -10,6 +10,9 @@ namespace LibrarySystem.UI
     /// </summary>
     public partial class frmMain : Form
     {
+        /// <summary>
+        /// Initializes a new instance of the frmMain dashboard form.
+        /// </summary>
         public frmMain()
         {
             InitializeComponent();
@@ -26,8 +29,10 @@ namespace LibrarySystem.UI
         {
             if (clsGlobal.CurrentUser.CheckAccessPermission(clsUser.enPermissions.pManageUsers))
             {
-                frmUsers frm = new frmUsers();
-                frm.ShowDialog();
+                using (frmUsers frm = new frmUsers())
+                {
+                    frm.ShowDialog();
+                }
             }
             else
             {
@@ -38,15 +43,18 @@ namespace LibrarySystem.UI
 
         private void tsmiCurrentUserInfo_Click(object sender, EventArgs e)
         {
-            // Opens the user info dialog passing the active session's UserID
-            frmUserInfo frm = new frmUserInfo(clsGlobal.CurrentUser.UserID);
-            frm.ShowDialog();
+            using (frmUserInfo frm = new frmUserInfo(clsGlobal.CurrentUser.UserID))
+            {
+                frm.ShowDialog();
+            }
         }
 
         private void tsmiChangePassword_Click(object sender, EventArgs e)
         {
-            frmChangePassword frm = new frmChangePassword();
-            frm.ShowDialog();
+            using (frmChangePassword frm = new frmChangePassword())
+            {
+                frm.ShowDialog();
+            }
         }
 
         private void tsmiSignOut_Click(object sender, EventArgs e)
@@ -64,11 +72,12 @@ namespace LibrarySystem.UI
         /// </summary>
         private void tsmiManageMembers_Click(object sender, EventArgs e)
         {
-            // Permission check: ensure user has rights to view and manage members
             if (clsGlobal.CurrentUser.CheckAccessPermission(clsUser.enPermissions.pManageMembers))
             {
-                frmMembersList frm = new frmMembersList();
-                frm.ShowDialog();
+                using (frmMembersList frm = new frmMembersList())
+                {
+                    frm.ShowDialog();
+                }
             }
             else
             {
@@ -78,14 +87,16 @@ namespace LibrarySystem.UI
         }
 
         /// <summary>
-        /// Direct shortcut to enroll a new library member.
+        /// Direct shortcut to enroll a new library member with permission verification.
         /// </summary>
         private void tsmiAddNewMember_Click(object sender, EventArgs e)
         {
             if (clsGlobal.CurrentUser.CheckAccessPermission(clsUser.enPermissions.pManageMembers))
             {
-                frmAddUpdateMember frm = new frmAddUpdateMember();
-                frm.ShowDialog();
+                using (frmAddUpdateMember frm = new frmAddUpdateMember())
+                {
+                    frm.ShowDialog();
+                }
             }
             else
             {

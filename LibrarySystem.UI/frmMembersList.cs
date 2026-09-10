@@ -13,11 +13,17 @@ namespace LibrarySystem.UI
     {
         private DataTable _dtAllMembers;
 
+        /// <summary>
+        /// Initializes a new instance of frmMembersList.
+        /// </summary>
         public frmMembersList()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Retrieves the latest member records and binds them to the data grid view.
+        /// </summary>
         private void _RefreshMembersList()
         {
             _dtAllMembers = clsMember.GetAllMembers();
@@ -61,13 +67,13 @@ namespace LibrarySystem.UI
             {
                 if (_dtAllMembers != null)
                 {
-                    _dtAllMembers.DefaultView.RowFilter = "";
+                    _dtAllMembers.DefaultView.RowFilter = string.Empty;
                     lblRecordsCount.Text = "Count Of Records: " + dgvMembers.Rows.Count.ToString();
                 }
             }
             else
             {
-                txtFilterValue.Text = "";
+                txtFilterValue.Clear();
                 txtFilterValue.Focus();
             }
         }
@@ -77,7 +83,7 @@ namespace LibrarySystem.UI
             if (_dtAllMembers == null)
                 return;
 
-            string filterColumn = "";
+            string filterColumn = string.Empty;
 
             switch (cbFilterBy.Text)
             {
@@ -108,7 +114,7 @@ namespace LibrarySystem.UI
 
             if (string.IsNullOrWhiteSpace(txtFilterValue.Text) || filterColumn == "None")
             {
-                _dtAllMembers.DefaultView.RowFilter = "";
+                _dtAllMembers.DefaultView.RowFilter = string.Empty;
                 lblRecordsCount.Text = "Count Of Records: " + dgvMembers.Rows.Count.ToString();
                 return;
             }
@@ -145,8 +151,10 @@ namespace LibrarySystem.UI
 
         private void btnAddMember_Click(object sender, EventArgs e)
         {
-            frmAddUpdateMember frm = new frmAddUpdateMember();
-            frm.ShowDialog();
+            using (frmAddUpdateMember frm = new frmAddUpdateMember())
+            {
+                frm.ShowDialog();
+            }
             _RefreshMembersList();
         }
 
@@ -160,8 +168,10 @@ namespace LibrarySystem.UI
             if (dgvMembers.CurrentRow != null)
             {
                 int selectedMemberID = (int)dgvMembers.CurrentRow.Cells["MemberID"].Value;
-                frmAddUpdateMember frm = new frmAddUpdateMember(selectedMemberID);
-                frm.ShowDialog();
+                using (frmAddUpdateMember frm = new frmAddUpdateMember(selectedMemberID))
+                {
+                    frm.ShowDialog();
+                }
                 _RefreshMembersList();
             }
         }

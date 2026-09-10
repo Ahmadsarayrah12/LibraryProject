@@ -1,18 +1,18 @@
 using System;
+using System.Diagnostics;
 using Microsoft.Win32;
 using LibrarySystem.Business;
 
 namespace LibrarySystem.UI
 {
     /// <summary>
-    /// Provides global static access to runtime session data and system configuration.
-    /// Manages client-side credential caching using the Windows Registry for the "Remember Me" feature.
+    /// Provides global static access to runtime session context, active user credentials,
+    /// and local machine registry persistence for client configuration.
     /// </summary>
     public static class clsGlobal
     {
         /// <summary>
-        /// Holds the authenticated user entity in memory for the duration of the application lifecycle.
-        /// Consumed globally by UI components and business rules to verify permissions and track audits.
+        /// Holds the authenticated user entity in memory for the duration of the application session.
         /// </summary>
         public static clsUser CurrentUser { get; set; }
 
@@ -23,7 +23,6 @@ namespace LibrarySystem.UI
 
         /// <summary>
         /// Persists user credentials into the Windows Registry under the current user's hive.
-        /// Executed when the user successfully authenticates with the "Remember Me" option checked.
         /// </summary>
         /// <param name="username">The username to store.</param>
         /// <param name="password">The password to store.</param>
@@ -32,22 +31,20 @@ namespace LibrarySystem.UI
         {
             try
             {
-                // Registry.SetValue automatically creates the subkey if it does not already exist.
-                // We use RegistryValueKind.String to enforce explicit string data typing in the registry hive.
-                Registry.SetValue(RegistryKeyPath, "Username", username, RegistryValueKind.String);
-                Registry.SetValue(RegistryKeyPath, "Password", password, RegistryValueKind.String);
+                Registry.SetValue(RegistryKeyPath, "Username", username ?? string.Empty, RegistryValueKind.String);
+                Registry.SetValue(RegistryKeyPath, "Password", password ?? string.Empty, RegistryValueKind.String);
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // In production, log the exception details to the Windows Event Log or an audit file.
+                Trace.TraceError($"[REGISTRY ERROR] RememberUsernameAndPassword failed: {ex.Message}");
                 return false;
             }
         }
 
         /// <summary>
-        /// Retrieves previously cached credentials from the Windows Registry to pre-populate the login form.
+        /// Retrieves previously cached credentials from the Windows Registry to pre-populate login input.
         /// </summary>
         /// <param name="username">Output parameter receiving the retrieved username.</param>
         /// <param name="password">Output parameter receiving the retrieved password.</param>
@@ -56,36 +53,32 @@ namespace LibrarySystem.UI
         {
             try
             {
-                // Read stored values from the registry; returns null if the key or value does not exist.
                 username = Registry.GetValue(RegistryKeyPath, "Username", null) as string;
                 password = Registry.GetValue(RegistryKeyPath, "Password", null) as string;
 
-                // Validate that both retrieved fields contain meaningful data.
                 return !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Trace.TraceError($"[REGISTRY ERROR] GetStoredCredential failed: {ex.Message}");
                 return false;
             }
         }
 
         /// <summary>
-        /// Deletes stored credential values from the Windows Registry when the user unchecks "Remember Me".
+        /// Clears stored credential values from the Windows Registry when the user unchecks "Remember Me".
         /// </summary>
-        /// <returns>True if entries were successfully cleared or did not exist; otherwise, false.</returns>
+        /// <returns>True if entries were successfully cleared; otherwise, false.</returns>
         public static bool ClearStoredCredentials()
         {
             try
             {
-                // Open the base registry hive with default 32/64-bit view compatibility.
                 using (RegistryKey baseKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Default))
                 {
-                    // Open the target application subkey with write permissions (writable: true).
                     using (RegistryKey subKey = baseKey.OpenSubKey(@"SOFTWARE\LibrarySystem", true))
                     {
                         if (subKey != null)
                         {
-                            // Passing false as the second argument suppresses exceptions if the value does not exist.
                             subKey.DeleteValue("Username", false);
                             subKey.DeleteValue("Password", false);
                         }
@@ -94,8 +87,9 @@ namespace LibrarySystem.UI
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Trace.TraceError($"[REGISTRY ERROR] ClearStoredCredentials failed: {ex.Message}");
                 return false;
             }
         }

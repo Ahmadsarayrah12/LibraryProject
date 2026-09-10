@@ -1,27 +1,33 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 
 namespace LibrarySystem.DataAccess
 {
     /// <summary>
-    /// Provides low-level database operations against the People table in SQL Server.
-    /// Handles parameterized CRUD operations, search filters, and identity resolution.
+    /// Provides low-level, parameterized database operations against the People table in SQL Server.
+    /// Handles CRUD operations, unique phone lookups, and identity existence verification.
     /// </summary>
     public static class clsPersonDataAccess
     {
         /// <summary>
-        /// Retrieves personal identity data by primary key (PersonID).
+        /// Retrieves personal identity record from the database by PersonID.
         /// </summary>
+        /// <param name="personID">The unique identifier of the person.</param>
+        /// <param name="firstName">Output parameter receiving the first name.</param>
+        /// <param name="lastName">Output parameter receiving the last name.</param>
+        /// <param name="phone">Output parameter receiving the phone number.</param>
+        /// <param name="email">Output parameter receiving the email address.</param>
+        /// <returns>True if the record was found; otherwise, false.</returns>
         public static bool GetPersonInfoByID(int personID, ref string firstName, ref string lastName, ref string phone, ref string email)
         {
             bool isFound = false;
 
             using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
             {
-                string query = @"SELECT FirstName, LastName, Phone, Email 
-                                 FROM People 
-                                 WHERE PersonID = @PersonID;";
+                const string query = @"SELECT FirstName, LastName, Phone, Email 
+                                       FROM People 
+                                       WHERE PersonID = @PersonID;";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -35,16 +41,16 @@ namespace LibrarySystem.DataAccess
                             if (reader.Read())
                             {
                                 isFound = true;
-                                firstName = (string)reader["FirstName"];
-                                lastName = (string)reader["LastName"];
-                                phone = (reader["Phone"] != DBNull.Value) ? (string)reader["Phone"] : "";
-                                email = (reader["Email"] != DBNull.Value) ? (string)reader["Email"] : "";
+                                firstName = reader.SafeGetString("FirstName");
+                                lastName = reader.SafeGetString("LastName");
+                                phone = reader.SafeGetString("Phone");
+                                email = reader.SafeGetString("Email");
                             }
                         }
                     }
                     catch (Exception ex)
                     {
-                        // In production, log exception details to an audit logger or Event Viewer
+                        clsDataLogger.LogError(ex, nameof(GetPersonInfoByID));
                         isFound = false;
                     }
                 }
@@ -54,17 +60,23 @@ namespace LibrarySystem.DataAccess
         }
 
         /// <summary>
-        /// Retrieves personal identity data by phone number.
+        /// Retrieves personal identity record from the database by unique phone number.
         /// </summary>
+        /// <param name="phone">The phone number of the person.</param>
+        /// <param name="personID">Output parameter receiving the PersonID.</param>
+        /// <param name="firstName">Output parameter receiving the first name.</param>
+        /// <param name="lastName">Output parameter receiving the last name.</param>
+        /// <param name="email">Output parameter receiving the email address.</param>
+        /// <returns>True if the record was found; otherwise, false.</returns>
         public static bool GetPersonInfoByPhone(string phone, ref int personID, ref string firstName, ref string lastName, ref string email)
         {
             bool isFound = false;
 
             using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
             {
-                string query = @"SELECT PersonID, FirstName, LastName, Email 
-                                 FROM People 
-                                 WHERE Phone = @Phone;";
+                const string query = @"SELECT PersonID, FirstName, LastName, Email 
+                                       FROM People 
+                                       WHERE Phone = @Phone;";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -78,15 +90,16 @@ namespace LibrarySystem.DataAccess
                             if (reader.Read())
                             {
                                 isFound = true;
-                                personID = (int)reader["PersonID"];
-                                firstName = (string)reader["FirstName"];
-                                lastName = (string)reader["LastName"];
-                                email = (reader["Email"] != DBNull.Value) ? (string)reader["Email"] : "";
+                                personID = reader.SafeGetInt("PersonID");
+                                firstName = reader.SafeGetString("FirstName");
+                                lastName = reader.SafeGetString("LastName");
+                                email = reader.SafeGetString("Email");
                             }
                         }
                     }
                     catch (Exception ex)
                     {
+                        clsDataLogger.LogError(ex, nameof(GetPersonInfoByPhone));
                         isFound = false;
                     }
                 }
@@ -98,30 +111,27 @@ namespace LibrarySystem.DataAccess
         /// <summary>
         /// Inserts a new person record and returns the auto-generated PersonID.
         /// </summary>
+        /// <param name="firstName">First name of the person.</param>
+        /// <param name="lastName">Last name of the person.</param>
+        /// <param name="phone">Phone number of the person (nullable).</param>
+        /// <param name="email">Email address of the person (nullable).</param>
+        /// <returns>The newly generated PersonID upon success; otherwise, -1.</returns>
         public static int AddNewPerson(string firstName, string lastName, string phone, string email)
         {
             int personID = -1;
 
             using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
             {
-                string query = @"INSERT INTO People (FirstName, LastName, Phone, Email)
-                                 VALUES (@FirstName, @LastName, @Phone, @Email);
-                                 SELECT SCOPE_IDENTITY();";
+                const string query = @"INSERT INTO People (FirstName, LastName, Phone, Email)
+                                       VALUES (@FirstName, @LastName, @Phone, @Email);
+                                       SELECT SCOPE_IDENTITY();";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@FirstName", firstName);
                     command.Parameters.AddWithValue("@LastName", lastName);
-
-                    if (string.IsNullOrWhiteSpace(phone))
-                        command.Parameters.AddWithValue("@Phone", DBNull.Value);
-                    else
-                        command.Parameters.AddWithValue("@Phone", phone.Trim());
-
-                    if (string.IsNullOrWhiteSpace(email))
-                        command.Parameters.AddWithValue("@Email", DBNull.Value);
-                    else
-                        command.Parameters.AddWithValue("@Email", email.Trim());
+                    command.Parameters.AddWithNullableString("@Phone", phone);
+                    command.Parameters.AddWithNullableString("@Email", email);
 
                     try
                     {
@@ -135,6 +145,7 @@ namespace LibrarySystem.DataAccess
                     }
                     catch (Exception ex)
                     {
+                        clsDataLogger.LogError(ex, nameof(AddNewPerson));
                         personID = -1;
                     }
                 }
@@ -144,36 +155,34 @@ namespace LibrarySystem.DataAccess
         }
 
         /// <summary>
-        /// Updates an existing person record in the People table.
+        /// Updates an existing person record in the database.
         /// </summary>
+        /// <param name="personID">The primary key ID of the person.</param>
+        /// <param name="firstName">Updated first name.</param>
+        /// <param name="lastName">Updated last name.</param>
+        /// <param name="phone">Updated phone number.</param>
+        /// <param name="email">Updated email address.</param>
+        /// <returns>True if rows were affected; otherwise, false.</returns>
         public static bool UpdatePerson(int personID, string firstName, string lastName, string phone, string email)
         {
             int rowsAffected = 0;
 
             using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
             {
-                string query = @"UPDATE People 
-                                 SET FirstName = @FirstName,
-                                     LastName  = @LastName,
-                                     Phone     = @Phone,
-                                     Email     = @Email
-                                 WHERE PersonID = @PersonID;";
+                const string query = @"UPDATE People 
+                                       SET FirstName = @FirstName,
+                                           LastName  = @LastName,
+                                           Phone     = @Phone,
+                                           Email     = @Email
+                                       WHERE PersonID = @PersonID;";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@PersonID", personID);
                     command.Parameters.AddWithValue("@FirstName", firstName);
                     command.Parameters.AddWithValue("@LastName", lastName);
-
-                    if (string.IsNullOrWhiteSpace(phone))
-                        command.Parameters.AddWithValue("@Phone", DBNull.Value);
-                    else
-                        command.Parameters.AddWithValue("@Phone", phone.Trim());
-
-                    if (string.IsNullOrWhiteSpace(email))
-                        command.Parameters.AddWithValue("@Email", DBNull.Value);
-                    else
-                        command.Parameters.AddWithValue("@Email", email.Trim());
+                    command.Parameters.AddWithNullableString("@Phone", phone);
+                    command.Parameters.AddWithNullableString("@Email", email);
 
                     try
                     {
@@ -182,6 +191,7 @@ namespace LibrarySystem.DataAccess
                     }
                     catch (Exception ex)
                     {
+                        clsDataLogger.LogError(ex, nameof(UpdatePerson));
                         return false;
                     }
                 }
@@ -191,15 +201,17 @@ namespace LibrarySystem.DataAccess
         }
 
         /// <summary>
-        /// Deletes a person record by PersonID.
+        /// Deletes a person record from the database by PersonID.
         /// </summary>
+        /// <param name="personID">The primary key ID of the person to delete.</param>
+        /// <returns>True if deleted; otherwise, false.</returns>
         public static bool DeletePerson(int personID)
         {
             int rowsAffected = 0;
 
             using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
             {
-                string query = @"DELETE FROM People WHERE PersonID = @PersonID;";
+                const string query = @"DELETE FROM People WHERE PersonID = @PersonID;";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -212,7 +224,7 @@ namespace LibrarySystem.DataAccess
                     }
                     catch (Exception ex)
                     {
-                        // Will fail if restricted by Foreign Key constraints (e.g. Users, Members)
+                        clsDataLogger.LogError(ex, nameof(DeletePerson));
                         return false;
                     }
                 }
@@ -222,23 +234,18 @@ namespace LibrarySystem.DataAccess
         }
 
         /// <summary>
-        /// Retrieves all people records from the database ordered by PersonID descending.
+        /// Retrieves all people records ordered descending by PersonID.
         /// </summary>
+        /// <returns>A DataTable containing all people records.</returns>
         public static DataTable GetAllPeople()
         {
             DataTable dt = new DataTable();
 
             using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
             {
-                string query = @"SELECT 
-                                    PersonID,
-                                    FirstName,
-                                    LastName,
-                                    (FirstName + ' ' + LastName) AS FullName,
-                                    Phone,
-                                    Email
-                                 FROM People
-                                 ORDER BY PersonID DESC;";
+                const string query = @"SELECT PersonID, FirstName, LastName, Phone, Email 
+                                       FROM People 
+                                       ORDER BY PersonID DESC;";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -255,7 +262,7 @@ namespace LibrarySystem.DataAccess
                     }
                     catch (Exception ex)
                     {
-                        // Returns empty DataTable on error
+                        clsDataLogger.LogError(ex, nameof(GetAllPeople));
                     }
                 }
             }
@@ -264,15 +271,17 @@ namespace LibrarySystem.DataAccess
         }
 
         /// <summary>
-        /// Checks whether a person exists by PersonID.
+        /// Checks whether a person exists with the specified PersonID.
         /// </summary>
+        /// <param name="personID">The unique identifier of the person.</param>
+        /// <returns>True if the person exists; otherwise, false.</returns>
         public static bool IsPersonExist(int personID)
         {
             bool isFound = false;
 
             using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
             {
-                string query = @"SELECT 1 FROM People WHERE PersonID = @PersonID;";
+                const string query = @"SELECT 1 FROM People WHERE PersonID = @PersonID;";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -286,6 +295,7 @@ namespace LibrarySystem.DataAccess
                     }
                     catch (Exception ex)
                     {
+                        clsDataLogger.LogError(ex, nameof(IsPersonExist));
                         isFound = false;
                     }
                 }
@@ -295,15 +305,17 @@ namespace LibrarySystem.DataAccess
         }
 
         /// <summary>
-        /// Checks whether a person exists with a specific phone number.
+        /// Checks whether a person exists with the specified phone number.
         /// </summary>
+        /// <param name="phone">The phone number to search.</param>
+        /// <returns>True if a person exists with the given phone; otherwise, false.</returns>
         public static bool IsPersonExist(string phone)
         {
             bool isFound = false;
 
             using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
             {
-                string query = @"SELECT 1 FROM People WHERE Phone = @Phone;";
+                const string query = @"SELECT 1 FROM People WHERE Phone = @Phone;";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -317,6 +329,7 @@ namespace LibrarySystem.DataAccess
                     }
                     catch (Exception ex)
                     {
+                        clsDataLogger.LogError(ex, $"{nameof(IsPersonExist)}_Phone");
                         isFound = false;
                     }
                 }
