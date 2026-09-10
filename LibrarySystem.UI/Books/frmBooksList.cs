@@ -5,10 +5,6 @@ using LibrarySystem.Business;
 
 namespace LibrarySystem.UI
 {
-    /// <summary>
-    /// Management screen displaying the complete book catalog with live filtering,
-    /// copy provisioning, right-click auto selection, and contextual actions.
-    /// </summary>
     public partial class frmBooksList : Form
     {
         private DataTable _dtBooks;
@@ -32,62 +28,18 @@ namespace LibrarySystem.UI
         {
             if (dgvBooks.Columns.Count > 0)
             {
-                if (dgvBooks.Columns["ImagePath"] != null)
-                    dgvBooks.Columns["ImagePath"].Visible = false;
+                if (dgvBooks.Columns["ImagePath"] != null) dgvBooks.Columns["ImagePath"].Visible = false;
+                if (dgvBooks.Columns["AuthorID"] != null) dgvBooks.Columns["AuthorID"].Visible = false;
+                if (dgvBooks.Columns["GenreID"] != null) dgvBooks.Columns["GenreID"].Visible = false;
 
-                if (dgvBooks.Columns["AuthorID"] != null)
-                    dgvBooks.Columns["AuthorID"].Visible = false;
-
-                if (dgvBooks.Columns["GenreID"] != null)
-                    dgvBooks.Columns["GenreID"].Visible = false;
-
-                if (dgvBooks.Columns["BookID"] != null)
-                {
-                    dgvBooks.Columns["BookID"].HeaderText = "Book ID";
-                    dgvBooks.Columns["BookID"].Width = 80;
-                }
-
-                if (dgvBooks.Columns["Title"] != null)
-                {
-                    dgvBooks.Columns["Title"].HeaderText = "Title";
-                    dgvBooks.Columns["Title"].Width = 240;
-                }
-
-                if (dgvBooks.Columns["ISBN"] != null)
-                {
-                    dgvBooks.Columns["ISBN"].HeaderText = "ISBN";
-                    dgvBooks.Columns["ISBN"].Width = 120;
-                }
-
-                if (dgvBooks.Columns["PublicationYear"] != null)
-                {
-                    dgvBooks.Columns["PublicationYear"].HeaderText = "Year";
-                    dgvBooks.Columns["PublicationYear"].Width = 70;
-                }
-
-                if (dgvBooks.Columns["AuthorName"] != null)
-                {
-                    dgvBooks.Columns["AuthorName"].HeaderText = "Author";
-                    dgvBooks.Columns["AuthorName"].Width = 150;
-                }
-
-                if (dgvBooks.Columns["GenreName"] != null)
-                {
-                    dgvBooks.Columns["GenreName"].HeaderText = "Genre";
-                    dgvBooks.Columns["GenreName"].Width = 120;
-                }
-
-                if (dgvBooks.Columns["TotalCopies"] != null)
-                {
-                    dgvBooks.Columns["TotalCopies"].HeaderText = "Total Copies";
-                    dgvBooks.Columns["TotalCopies"].Width = 90;
-                }
-
-                if (dgvBooks.Columns["AvailableCopies"] != null)
-                {
-                    dgvBooks.Columns["AvailableCopies"].HeaderText = "Available";
-                    dgvBooks.Columns["AvailableCopies"].Width = 90;
-                }
+                if (dgvBooks.Columns["BookID"] != null) dgvBooks.Columns["BookID"].Width = 80;
+                if (dgvBooks.Columns["Title"] != null) dgvBooks.Columns["Title"].Width = 240;
+                if (dgvBooks.Columns["ISBN"] != null) dgvBooks.Columns["ISBN"].Width = 120;
+                if (dgvBooks.Columns["PublicationYear"] != null) dgvBooks.Columns["PublicationYear"].Width = 70;
+                if (dgvBooks.Columns["AuthorName"] != null) dgvBooks.Columns["AuthorName"].Width = 150;
+                if (dgvBooks.Columns["GenreName"] != null) dgvBooks.Columns["GenreName"].Width = 120;
+                if (dgvBooks.Columns["TotalCopies"] != null) dgvBooks.Columns["TotalCopies"].Width = 90;
+                if (dgvBooks.Columns["AvailableCopies"] != null) dgvBooks.Columns["AvailableCopies"].Width = 90;
             }
         }
 
@@ -95,7 +47,11 @@ namespace LibrarySystem.UI
         {
             _dtBooks = clsBook.GetAllBooks();
             dgvBooks.DataSource = _dtBooks;
-            lblRecordsCount.Text = $"# Records: {_dtBooks?.Rows.Count ?? 0}";
+            if (_dtBooks != null)
+                lblRecordsCount.Text = "# Records: " + _dtBooks.Rows.Count;
+            else
+                lblRecordsCount.Text = "# Records: 0";
+            
             _FormatGridColumns();
         }
 
@@ -107,20 +63,20 @@ namespace LibrarySystem.UI
 
         private void cbFilterBy_SelectedIndexChanged(object sender, EventArgs e)
         {
-            txtFilterValue.Visible = (cbFilterBy.Text != "None");
-
-            if (txtFilterValue.Visible)
+            if (cbFilterBy.Text == "None")
             {
-                txtFilterValue.Text = string.Empty;
-                txtFilterValue.Focus();
+                txtFilterValue.Visible = false;
+                if (_dtBooks != null)
+                {
+                    _dtBooks.DefaultView.RowFilter = "";
+                    lblRecordsCount.Text = "# Records: " + _dtBooks.DefaultView.Count;
+                }
             }
             else
             {
-                if (_dtBooks != null)
-                {
-                    _dtBooks.DefaultView.RowFilter = string.Empty;
-                    lblRecordsCount.Text = $"# Records: {_dtBooks.DefaultView.Count}";
-                }
+                txtFilterValue.Visible = true;
+                txtFilterValue.Text = "";
+                txtFilterValue.Focus();
             }
         }
 
@@ -128,33 +84,21 @@ namespace LibrarySystem.UI
         {
             if (_dtBooks == null) return;
 
-            string filterColumn = string.Empty;
+            string filterColumn = "";
             switch (cbFilterBy.Text)
             {
-                case "Book ID":
-                    filterColumn = "BookID";
-                    break;
-                case "Title":
-                    filterColumn = "Title";
-                    break;
-                case "ISBN":
-                    filterColumn = "ISBN";
-                    break;
-                case "Author":
-                    filterColumn = "AuthorName";
-                    break;
-                case "Genre":
-                    filterColumn = "GenreName";
-                    break;
-                default:
-                    filterColumn = "None";
-                    break;
+                case "Book ID": filterColumn = "BookID"; break;
+                case "Title": filterColumn = "Title"; break;
+                case "ISBN": filterColumn = "ISBN"; break;
+                case "Author": filterColumn = "AuthorName"; break;
+                case "Genre": filterColumn = "GenreName"; break;
+                default: filterColumn = "None"; break;
             }
 
-            if (string.IsNullOrWhiteSpace(txtFilterValue.Text) || filterColumn == "None")
+            if (txtFilterValue.Text.Trim() == "" || filterColumn == "None")
             {
-                _dtBooks.DefaultView.RowFilter = string.Empty;
-                lblRecordsCount.Text = $"# Records: {_dtBooks.DefaultView.Count}";
+                _dtBooks.DefaultView.RowFilter = "";
+                lblRecordsCount.Text = "# Records: " + _dtBooks.DefaultView.Count;
                 return;
             }
 
@@ -163,16 +107,16 @@ namespace LibrarySystem.UI
             if (filterColumn == "BookID")
             {
                 if (int.TryParse(filterVal, out int id))
-                    _dtBooks.DefaultView.RowFilter = $"[{filterColumn}] = {id}";
+                    _dtBooks.DefaultView.RowFilter = "[" + filterColumn + "] = " + id;
                 else
                     _dtBooks.DefaultView.RowFilter = "1 = 0";
             }
             else
             {
-                _dtBooks.DefaultView.RowFilter = $"[{filterColumn}] LIKE '%{filterVal}%'";
+                _dtBooks.DefaultView.RowFilter = "[" + filterColumn + "] LIKE '%" + filterVal + "%'";
             }
 
-            lblRecordsCount.Text = $"# Records: {_dtBooks.DefaultView.Count}";
+            lblRecordsCount.Text = "# Records: " + _dtBooks.DefaultView.Count;
         }
 
         private void txtFilterValue_KeyPress(object sender, KeyPressEventArgs e)
@@ -188,14 +132,9 @@ namespace LibrarySystem.UI
 
         private void btnAddBook_Click(object sender, EventArgs e)
         {
-            using (frmAddUpdateBook frm = new frmAddUpdateBook())
-            {
-                frm.DataBack += (bookID) =>
-                {
-                    _RefreshBooksList();
-                };
-                frm.ShowDialog();
-            }
+            frmAddUpdateBook frm = new frmAddUpdateBook();
+            frm.ShowDialog();
+            _RefreshBooksList();
         }
 
         private int _GetSelectedBookID()
@@ -220,11 +159,9 @@ namespace LibrarySystem.UI
             int bookID = _GetSelectedBookID();
             if (bookID <= 0) return;
 
-            using (frmBookDetails frm = new frmBookDetails(bookID))
-            {
-                frm.ShowDialog();
-                _RefreshBooksList();
-            }
+            frmBookDetails frm = new frmBookDetails(bookID);
+            frm.ShowDialog();
+            _RefreshBooksList();
         }
 
         private void bookDetailsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -232,11 +169,9 @@ namespace LibrarySystem.UI
             int bookID = _GetSelectedBookID();
             if (bookID <= 0) return;
 
-            using (frmBookDetails frm = new frmBookDetails(bookID))
-            {
-                frm.ShowDialog();
-                _RefreshBooksList();
-            }
+            frmBookDetails frm = new frmBookDetails(bookID);
+            frm.ShowDialog();
+            _RefreshBooksList();
         }
 
         private void editBookToolStripMenuItem_Click(object sender, EventArgs e)
@@ -244,14 +179,9 @@ namespace LibrarySystem.UI
             int bookID = _GetSelectedBookID();
             if (bookID <= 0) return;
 
-            using (frmAddUpdateBook frm = new frmAddUpdateBook(bookID))
-            {
-                frm.DataBack += (id) =>
-                {
-                    _RefreshBooksList();
-                };
-                frm.ShowDialog();
-            }
+            frmAddUpdateBook frm = new frmAddUpdateBook(bookID);
+            frm.ShowDialog();
+            _RefreshBooksList();
         }
 
         private void addCopiesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -259,11 +189,9 @@ namespace LibrarySystem.UI
             int bookID = _GetSelectedBookID();
             if (bookID <= 0) return;
 
-            using (frmBookDetails frm = new frmBookDetails(bookID))
-            {
-                frm.ShowDialog();
-                _RefreshBooksList();
-            }
+            frmBookDetails frm = new frmBookDetails(bookID);
+            frm.ShowDialog();
+            _RefreshBooksList();
         }
 
         private void deleteBookToolStripMenuItem_Click(object sender, EventArgs e)
@@ -271,30 +199,17 @@ namespace LibrarySystem.UI
             int bookID = _GetSelectedBookID();
             if (bookID <= 0) return;
 
-            if (MessageBox.Show($"Are you sure you want to delete Book [{bookID}]?", "Confirm Deletion",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
-            {
-                return;
-            }
-
-            try
+            if (MessageBox.Show("Are you sure you want to delete Book [" + bookID + "]?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 if (clsBook.DeleteBook(bookID))
                 {
-                    MessageBox.Show("Book and associated copies deleted successfully!", "Deleted",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Book and associated copies deleted successfully!", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     _RefreshBooksList();
                 }
                 else
                 {
-                    MessageBox.Show("Failed to delete book.\n\nThis usually happens because the book has active physical copies or borrowing history. You must delete all associated copies and resolve loans before deleting the book record.", "Deletion Blocked",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Failed to delete book.\n\nThis usually happens because the book has active physical copies or borrowing history.", "Deletion Blocked", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Deletion Blocked",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 

@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -7,26 +6,26 @@ using LibrarySystem.Business;
 
 namespace LibrarySystem.UI
 {
-    /// <summary>
-    /// Reusable presentation UserControl displaying catalog information and live inventory copy counts.
-    /// Equipped with DesignMode guards and decoupled data binding.
-    /// </summary>
     public partial class ctrlBookCard : UserControl
     {
         private int _bookID = -1;
         private clsBook _book;
 
-        public int BookID => _bookID;
-        public clsBook SelectedBook => _book;
+        public int BookID
+        {
+            get { return _bookID; }
+        }
+
+        public clsBook SelectedBook
+        {
+            get { return _book; }
+        }
 
         public ctrlBookCard()
         {
             InitializeComponent();
         }
 
-        /// <summary>
-        /// Resets all visual labels and picture box to default placeholder states.
-        /// </summary>
         public void ResetBookInfo()
         {
             _bookID = -1;
@@ -41,11 +40,7 @@ namespace LibrarySystem.UI
             lblTotalCopies.Text = "[???]";
             lblAvailableCopies.Text = "[???]";
 
-            if (pbCover.Image != null)
-            {
-                pbCover.Image.Dispose();
-                pbCover.Image = null;
-            }
+            pbCover.Image = null;
         }
 
         private void _LoadBookData()
@@ -54,85 +49,69 @@ namespace LibrarySystem.UI
 
             lblBookID.Text = _book.BookID.ToString();
             lblTitle.Text = _book.Title;
-            lblAuthor.Text = _book.AuthorInfo?.FullName ?? $"Author #{_book.AuthorID}";
-            lblGenre.Text = _book.GenreInfo?.GenreName ?? $"Genre #{_book.GenreID}";
             lblISBN.Text = _book.ISBN;
             lblPublicationYear.Text = _book.PublicationYear.ToString();
             lblTotalCopies.Text = _book.TotalCopies.ToString();
             lblAvailableCopies.Text = _book.AvailableCopies.ToString();
+
+            if (_book.AuthorInfo != null)
+                lblAuthor.Text = _book.AuthorInfo.FullName;
+            else
+                lblAuthor.Text = "Unknown";
+
+            if (_book.GenreInfo != null)
+                lblGenre.Text = _book.GenreInfo.GenreName;
+            else
+                lblGenre.Text = "Unknown";
 
             _LoadCoverImage();
         }
 
         private void _LoadCoverImage()
         {
-            if (pbCover.Image != null)
+            if (_book.ImagePath != "")
             {
-                pbCover.Image.Dispose();
-                pbCover.Image = null;
-            }
-
-            if (!string.IsNullOrWhiteSpace(_book.ImagePath))
-            {
-                string resolvedPath = Path.IsPathRooted(_book.ImagePath)
-                    ? _book.ImagePath
-                    : Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _book.ImagePath);
-
-                if (File.Exists(resolvedPath))
+                if (File.Exists(_book.ImagePath))
                 {
-                    try
-                    {
-                        using (var bmp = new Bitmap(resolvedPath))
-                        {
-                            pbCover.Image = new Bitmap(bmp);
-                        }
-                    }
-                    catch
-                    {
-                        pbCover.Image = null;
-                    }
+                    pbCover.Load(_book.ImagePath);
                 }
+                else
+                {
+                    pbCover.Image = null; // Can put a default image here
+                }
+            }
+            else
+            {
+                pbCover.Image = null;
             }
         }
 
-        /// <summary>
-        /// Loads book metadata by BookID primary key.
-        /// </summary>
-        public bool LoadBookInfo(int bookID)
+        public void LoadBookInfo(int bookID)
         {
-            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
-                return false;
-
             _book = clsBook.Find(bookID);
 
             if (_book == null)
             {
                 ResetBookInfo();
-                return false;
+                MessageBox.Show("No Book with BookID = " + bookID, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
             _LoadBookData();
-            return true;
         }
 
-        /// <summary>
-        /// Loads book metadata by ISBN.
-        /// </summary>
-        public bool LoadBookInfo(string isbn)
+        public void LoadBookInfo(string isbn)
         {
-            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
-                return false;
-
             _book = clsBook.FindByISBN(isbn);
 
             if (_book == null)
             {
                 ResetBookInfo();
-                return false;
+                MessageBox.Show("No Book with ISBN = " + isbn, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
             _LoadBookData();
-            return true;
         }
     }
 }

@@ -244,7 +244,7 @@ namespace LibrarySystem.UI
             this.txtISBN.Name = "txtISBN";
             this.txtISBN.Size = new System.Drawing.Size(240, 22);
             this.txtISBN.TabIndex = 5;
-            this.txtISBN.Validating += new System.ComponentModel.CancelEventHandler(this.txtISBN_Validating);
+            
             // 
             // label3
             // 
@@ -262,7 +262,7 @@ namespace LibrarySystem.UI
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.Size = new System.Drawing.Size(275, 22);
             this.txtTitle.TabIndex = 3;
-            this.txtTitle.Validating += new System.ComponentModel.CancelEventHandler(this.txtTitle_Validating);
+            
             // 
             // label2
             // 

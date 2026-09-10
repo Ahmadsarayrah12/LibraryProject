@@ -161,7 +161,7 @@ namespace LibrarySystem.UI
             this.txtFullName.Name = "txtFullName";
             this.txtFullName.Size = new System.Drawing.Size(425, 22);
             this.txtFullName.TabIndex = 1;
-            this.txtFullName.Validating += new System.ComponentModel.CancelEventHandler(this.txtFullName_Validating);
+            
             // 
             // label1
             // 

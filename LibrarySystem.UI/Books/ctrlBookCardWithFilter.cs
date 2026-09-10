@@ -1,32 +1,29 @@
 using System;
-using System.ComponentModel;
 using System.Windows.Forms;
 using LibrarySystem.Business;
 
 namespace LibrarySystem.UI
 {
-    /// <summary>
-    /// Composite UserControl coupling real-time lookup filters with ctrlBookCard.
-    /// Exposes decoupled OnBookSelected event for integration into loan and return forms.
-    /// </summary>
     public partial class ctrlBookCardWithFilter : UserControl
     {
-        public event Action<int> OnBookSelected;
-
-        private bool _filterEnabled = true;
+        public delegate void BookSelectedEventHandler(int bookID);
+        public event BookSelectedEventHandler OnBookSelected;
 
         public bool FilterEnabled
         {
-            get => _filterEnabled;
-            set
-            {
-                _filterEnabled = value;
-                gbFilter.Enabled = _filterEnabled;
-            }
+            get { return gbFilter.Enabled; }
+            set { gbFilter.Enabled = value; }
         }
 
-        public int BookID => ctrlBookCard1.BookID;
-        public clsBook SelectedBook => ctrlBookCard1.SelectedBook;
+        public int BookID
+        {
+            get { return ctrlBookCard1.BookID; }
+        }
+
+        public clsBook SelectedBook
+        {
+            get { return ctrlBookCard1.SelectedBook; }
+        }
 
         public ctrlBookCardWithFilter()
         {
@@ -35,10 +32,7 @@ namespace LibrarySystem.UI
 
         private void ctrlBookCardWithFilter_Load(object sender, EventArgs e)
         {
-            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
-                return;
-
-            cbFilterBy.SelectedIndex = 0; // Default: Book ID
+            cbFilterBy.SelectedIndex = 0; // Book ID
             txtFilterValue.Focus();
         }
 
@@ -47,9 +41,6 @@ namespace LibrarySystem.UI
             txtFilterValue.Focus();
         }
 
-        /// <summary>
-        /// Loads book information by ID into the inner card and raises OnBookSelected.
-        /// </summary>
         public void LoadBookInfo(int bookID)
         {
             cbFilterBy.SelectedIndex = 0;
@@ -57,9 +48,6 @@ namespace LibrarySystem.UI
             _FindNow();
         }
 
-        /// <summary>
-        /// Loads book information by ISBN into the inner card and raises OnBookSelected.
-        /// </summary>
         public void LoadBookInfo(string isbn)
         {
             cbFilterBy.SelectedIndex = 1;
@@ -71,93 +59,74 @@ namespace LibrarySystem.UI
         {
             string filterText = txtFilterValue.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(filterText))
-                return;
-
-            bool found = false;
-
-            if (cbFilterBy.SelectedIndex == 0) // Book ID
+            if (filterText == "")
             {
-                if (int.TryParse(filterText, out int bookID))
+                MessageBox.Show("Please enter a value to search.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (cbFilterBy.SelectedIndex == 0)
+            {
+                if (!int.TryParse(filterText, out int bookID))
                 {
-                    found = ctrlBookCard1.LoadBookInfo(bookID);
+                    MessageBox.Show("Please enter a valid numeric Book ID.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                ctrlBookCard1.LoadBookInfo(bookID);
+            }
+            else
+            {
+                ctrlBookCard1.LoadBookInfo(filterText);
+            }
+
+            // Raise the event if a book was actually selected
+            if (ctrlBookCard1.BookID != -1)
+            {
+                if (OnBookSelected != null)
+                {
+                    OnBookSelected(ctrlBookCard1.BookID);
                 }
             }
-            else // ISBN
-            {
-                found = ctrlBookCard1.LoadBookInfo(filterText);
-            }
-
-            if (!found)
-            {
-                MessageBox.Show("No book found with the specified search criteria.", "Not Found",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
-            OnBookSelected?.Invoke(ctrlBookCard1.BookID);
         }
 
         private void btnFind_Click(object sender, EventArgs e)
         {
-            if (!this.ValidateChildren())
-            {
-                MessageBox.Show("Please correct validation errors before searching.", "Validation Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
             _FindNow();
         }
 
         private void btnAddNewBook_Click(object sender, EventArgs e)
         {
-            using (frmAddUpdateBook frm = new frmAddUpdateBook())
+            frmAddUpdateBook frm = new frmAddUpdateBook();
+            frm.ShowDialog();
+            // In a simple pattern, we don't automatically load the added book. 
+            // The user can type the ID and search it if they want, 
+            // or we could add a public property in frmAddUpdateBook to get the saved ID.
+            if (frm.SavedBookID != -1)
             {
-                frm.DataBack += (bookID) =>
-                {
-                    if (bookID > 0)
-                    {
-                        LoadBookInfo(bookID);
-                    }
-                };
-                frm.ShowDialog();
+                LoadBookInfo(frm.SavedBookID);
             }
         }
 
         private void cbFilterBy_SelectedIndexChanged(object sender, EventArgs e)
         {
             txtFilterValue.Clear();
-            errorProvider1.SetError(txtFilterValue, "");
             txtFilterValue.Focus();
         }
 
         private void txtFilterValue_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == (char)13) // Enter key
+            if (e.KeyChar == (char)13)
             {
                 btnFind.PerformClick();
-                return;
+                e.Handled = true;
             }
 
-            if (cbFilterBy.SelectedIndex == 0) // Book ID must be numeric
+            if (cbFilterBy.SelectedIndex == 0)
             {
                 if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
                 {
                     e.Handled = true;
                 }
-            }
-        }
-
-        private void txtFilterValue_Validating(object sender, CancelEventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtFilterValue.Text))
-            {
-                errorProvider1.SetError(txtFilterValue, "Filter value cannot be empty.");
-            }
-            else
-            {
-                errorProvider1.SetError(txtFilterValue, "");
             }
         }
     }

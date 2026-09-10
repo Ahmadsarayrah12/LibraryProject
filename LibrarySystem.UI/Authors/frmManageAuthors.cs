@@ -1,20 +1,12 @@
 using System;
-using System.ComponentModel;
 using System.Data;
 using System.Windows.Forms;
 using LibrarySystem.Business;
 
 namespace LibrarySystem.UI
 {
-    /// <summary>
-    /// Management form for viewing, searching, adding, and editing authors in the library system.
-    /// Exposes DataBack delegate event to automatically return newly created or selected authors.
-    /// </summary>
     public partial class frmManageAuthors : Form
     {
-        public delegate void DataBackHandler(int authorID, string fullName);
-        public event DataBackHandler DataBack;
-
         private DataTable _dtAuthors;
         private int _editingAuthorID = -1;
 
@@ -27,27 +19,11 @@ namespace LibrarySystem.UI
         {
             _dtAuthors = clsAuthor.GetAllAuthors();
             dgvAuthors.DataSource = _dtAuthors;
-            lblRecordsCount.Text = $"# Records: {_dtAuthors?.Rows.Count ?? 0}";
 
-            if (dgvAuthors.Columns.Count > 0)
-            {
-                if (dgvAuthors.Columns["AuthorID"] != null)
-                {
-                    dgvAuthors.Columns["AuthorID"].HeaderText = "Author ID";
-                    dgvAuthors.Columns["AuthorID"].Width = 80;
-                }
-
-                if (dgvAuthors.Columns["FullName"] != null)
-                {
-                    dgvAuthors.Columns["FullName"].HeaderText = "Full Name";
-                    dgvAuthors.Columns["FullName"].Width = 220;
-                }
-
-                if (dgvAuthors.Columns["Biography"] != null)
-                {
-                    dgvAuthors.Columns["Biography"].HeaderText = "Biography";
-                }
-            }
+            if (_dtAuthors != null)
+                lblRecordsCount.Text = "# Records: " + _dtAuthors.Rows.Count;
+            else
+                lblRecordsCount.Text = "# Records: 0";
         }
 
         private void _ResetForm()
@@ -58,7 +34,6 @@ namespace LibrarySystem.UI
             gbAddAuthor.Text = "Add New Author";
             btnSave.Text = "Save Author";
             btnCancel.Visible = false;
-            errorProvider1.SetError(txtFullName, "");
         }
 
         private void frmManageAuthors_Load(object sender, EventArgs e)
@@ -68,10 +43,9 @@ namespace LibrarySystem.UI
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (!this.ValidateChildren())
+            if (txtFullName.Text.Trim() == "")
             {
-                MessageBox.Show("Please fill required fields before saving.", "Validation Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please fill the full name before saving.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -97,21 +71,17 @@ namespace LibrarySystem.UI
 
             if (author.Save())
             {
-                string message = _editingAuthorID > 0 ? "Author updated successfully!" : "Author added successfully!";
-                MessageBox.Show(message, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                int savedID = author.AuthorID;
-                string savedName = author.FullName;
+                if (_editingAuthorID > 0)
+                    MessageBox.Show("Author updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show("Author added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 _ResetForm();
                 _RefreshAuthorsList();
-
-                DataBack?.Invoke(savedID, savedName);
             }
             else
             {
-                MessageBox.Show("Failed to save author. Please try again.", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Failed to save author. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -128,14 +98,14 @@ namespace LibrarySystem.UI
             clsAuthor author = clsAuthor.Find(authorID);
             if (author == null)
             {
-                MessageBox.Show($"Author [{authorID}] not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Author [" + authorID + "] not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             _editingAuthorID = author.AuthorID;
             txtFullName.Text = author.FullName;
             txtBiography.Text = author.Biography;
-            gbAddAuthor.Text = $"Update Author [ID: {author.AuthorID}]";
+            gbAddAuthor.Text = "Update Author [ID: " + author.AuthorID + "]";
             btnSave.Text = "Update";
             btnCancel.Visible = true;
             txtFullName.Focus();
@@ -149,53 +119,22 @@ namespace LibrarySystem.UI
             _StartEditingAuthor(authorID);
         }
 
-        private void dgvAuthors_DoubleClick(object sender, EventArgs e)
-        {
-            int authorID = _GetSelectedAuthorID();
-            if (authorID <= 0) return;
-
-            _StartEditingAuthor(authorID);
-        }
-
         private void deleteAuthorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int authorID = _GetSelectedAuthorID();
             if (authorID <= 0) return;
 
-            if (MessageBox.Show($"Are you sure you want to delete Author [{authorID}]?", "Confirm Deletion",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
-            {
-                return;
-            }
-
-            try
+            if (MessageBox.Show("Are you sure you want to delete Author [" + authorID + "]?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 if (clsAuthor.Delete(authorID))
                 {
-                    MessageBox.Show("Author deleted successfully.", "Deleted",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    if (_editingAuthorID == authorID)
-                        _ResetForm();
+                    MessageBox.Show("Author deleted successfully!", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     _RefreshAuthorsList();
                 }
                 else
                 {
-                    MessageBox.Show("Cannot delete author. This author is referenced by books in the catalog.",
-                        "Deletion Blocked", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Failed to delete author. They might be linked to books.", "Deletion Blocked", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void dgvAuthors_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
-            {
-                dgvAuthors.ClearSelection();
-                dgvAuthors.Rows[e.RowIndex].Selected = true;
             }
         }
 
@@ -209,15 +148,21 @@ namespace LibrarySystem.UI
             this.Close();
         }
 
-        private void txtFullName_Validating(object sender, CancelEventArgs e)
+        private void dgvAuthors_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtFullName.Text))
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
             {
-                errorProvider1.SetError(txtFullName, "Author full name is required.");
+                dgvAuthors.ClearSelection();
+                dgvAuthors.Rows[e.RowIndex].Selected = true;
             }
-            else
+        }
+
+        private void dgvAuthors_DoubleClick(object sender, EventArgs e)
+        {
+            int authorID = _GetSelectedAuthorID();
+            if (authorID > 0)
             {
-                errorProvider1.SetError(txtFullName, "");
+                _StartEditingAuthor(authorID);
             }
         }
     }

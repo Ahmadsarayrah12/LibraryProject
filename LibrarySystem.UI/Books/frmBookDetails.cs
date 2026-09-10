@@ -26,7 +26,7 @@ namespace LibrarySystem.UI
 
         private void frmBookDetails_Load(object sender, EventArgs e)
         {
-            if (!ctrlBookCard1.LoadBookInfo(_bookID))
+            ctrlBookCard1.LoadBookInfo(_bookID); if (ctrlBookCard1.SelectedBook == null)
             {
                 MessageBox.Show($"Book with ID [{_bookID}] was not found.", "Not Found",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
