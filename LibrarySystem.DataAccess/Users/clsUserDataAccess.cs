@@ -240,17 +240,14 @@ namespace LibrarySystem.DataAccess
             DataTable dt = new DataTable();
 
             SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
-            string query = "SELECT * FROM Users_View";
+            string query = "SELECT Users.UserID, Users.PersonID, (People.FirstName + ' ' + People.LastName) as FullName, Users.Username, Users.Permissions, Users.IsActive, People.Phone, People.Email FROM Users INNER JOIN People ON Users.PersonID = People.PersonID";
             SqlCommand command = new SqlCommand(query, connection);
 
             try
             {
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    dt.Load(reader);
-                }
+                dt.Load(reader);
                 reader.Close();
             }
             catch (Exception ex)
@@ -387,3 +384,4 @@ namespace LibrarySystem.DataAccess
         }
     }
 }
+

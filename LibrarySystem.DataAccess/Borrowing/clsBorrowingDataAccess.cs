@@ -351,10 +351,7 @@ namespace LibrarySystem.DataAccess
             {
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    dt.Load(reader);
-                }
+                dt.Load(reader);
                 reader.Close();
             }
             catch (Exception ex)
@@ -380,10 +377,7 @@ namespace LibrarySystem.DataAccess
             {
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    dt.Load(reader);
-                }
+                dt.Load(reader);
                 reader.Close();
             }
             catch (Exception ex)
@@ -409,10 +403,7 @@ namespace LibrarySystem.DataAccess
             {
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    dt.Load(reader);
-                }
+                dt.Load(reader);
                 reader.Close();
             }
             catch (Exception ex)
@@ -453,3 +444,4 @@ namespace LibrarySystem.DataAccess
         }
     }
 }
+

@@ -76,6 +76,7 @@ namespace LibrarySystem.UI
             this.dgvUsers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvUsers.Size = new System.Drawing.Size(1028, 410);
             this.dgvUsers.TabIndex = 0;
+            this.dgvUsers.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsers_CellContentClick);
             this.dgvUsers.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvUsers_CellMouseDown);
             this.dgvUsers.DoubleClick += new System.EventHandler(this.dgvUsers_DoubleClick);
             // 
@@ -115,7 +116,7 @@ namespace LibrarySystem.UI
             this.lblRecordsCount.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRecordsCount.Location = new System.Drawing.Point(33, 612);
             this.lblRecordsCount.Name = "lblRecordsCount";
-            this.lblRecordsCount.Size = new System.Drawing.Size(161, 18);
+            this.lblRecordsCount.Size = new System.Drawing.Size(157, 18);
             this.lblRecordsCount.TabIndex = 1;
             this.lblRecordsCount.Text = "Count Of Records: 0";
             // 
@@ -126,7 +127,7 @@ namespace LibrarySystem.UI
             this.label1.ForeColor = System.Drawing.Color.MidnightBlue;
             this.label1.Location = new System.Drawing.Point(463, 20);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(183, 33);
+            this.label1.Size = new System.Drawing.Size(177, 33);
             this.label1.TabIndex = 2;
             this.label1.Text = "User Screen";
             // 

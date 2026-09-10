@@ -343,5 +343,10 @@ namespace LibrarySystem.UI
                 frm.ShowDialog();
             }
         }
+
+        private void dgvUsers_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
