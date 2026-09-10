@@ -11,7 +11,7 @@ namespace LibrarySystem.UI
     /// </summary>
     public partial class frmReturnBook : Form
     {
-        public Action<int> DataBack;
+        
 
         private int _initialBorrowingID = -1;
         private clsBorrowingRecord _currentBorrowing = null;
@@ -255,7 +255,7 @@ namespace LibrarySystem.UI
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
 
-                    DataBack?.Invoke(_currentBorrowing.BorrowingID);
+                    
                     _DisplayBorrowingDetails();
                 }
                 else
@@ -277,3 +277,4 @@ namespace LibrarySystem.UI
         }
     }
 }
+

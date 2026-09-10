@@ -457,10 +457,7 @@ namespace LibrarySystem.UI
 
             using (frmReturnBook frm = borrowingID > 0 ? new frmReturnBook(borrowingID) : new frmReturnBook())
             {
-                frm.DataBack += (retId) =>
-                {
-                    _RefreshBorrowingsList();
-                };
+                
                 frm.ShowDialog();
                 _RefreshBorrowingsList();
             }
@@ -477,10 +474,7 @@ namespace LibrarySystem.UI
 
             using (frmBorrowBook frm = new frmBorrowBook())
             {
-                frm.DataBack += (borrowId) =>
-                {
-                    _RefreshBorrowingsList();
-                };
+                
                 frm.ShowDialog();
                 _RefreshBorrowingsList();
             }
@@ -551,3 +545,4 @@ namespace LibrarySystem.UI
         #endregion
     }
 }
+

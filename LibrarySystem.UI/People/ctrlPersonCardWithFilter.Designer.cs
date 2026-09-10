@@ -1,4 +1,4 @@
-﻿namespace LibrarySystem.UI
+namespace LibrarySystem.UI
 {
     partial class ctrlPersonCardWithFilter
     {
@@ -65,7 +65,7 @@
             this.txtFilterValue.Size = new System.Drawing.Size(185, 23);
             this.txtFilterValue.TabIndex = 2;
             this.txtFilterValue.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilterValue_KeyPress);
-            this.txtFilterValue.Validating += new System.ComponentModel.CancelEventHandler(this.txtFilterValue_Validating);
+            
             // 
             // cbFilterBy
             // 

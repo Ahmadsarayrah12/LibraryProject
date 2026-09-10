@@ -13,7 +13,7 @@ namespace LibrarySystem.UI
     /// </summary>
     public partial class frmBorrowBook : Form
     {
-        public Action<int> DataBack;
+        
 
         private clsMember _selectedMember = null;
         private int _preselectedBookID = -1;
@@ -254,7 +254,7 @@ namespace LibrarySystem.UI
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
 
-                    DataBack?.Invoke(borrowing.BorrowingID);
+                    
 
                     // Refresh book and member view
                     ctrlBookCardWithFilter1.LoadBookInfo(ctrlBookCardWithFilter1.BookID);
@@ -280,3 +280,4 @@ namespace LibrarySystem.UI
         }
     }
 }
+

@@ -4,10 +4,6 @@ using LibrarySystem.Business;
 
 namespace LibrarySystem.UI
 {
-    /// <summary>
-    /// User interface dialog for enrolling new library members or updating active subscriptions.
-    /// Embeds ctrlPersonCardWithFilter to ensure decoupled identity management and validation.
-    /// </summary>
     public partial class frmAddUpdateMember : Form
     {
         public enum enMode { AddNew = 0, Update = 1 };
@@ -16,7 +12,6 @@ namespace LibrarySystem.UI
         private int _MemberID = -1;
         private clsMember _Member;
         private clsPerson _Person;
-        private bool _isSaved = false;
 
         public frmAddUpdateMember()
         {
@@ -61,8 +56,7 @@ namespace LibrarySystem.UI
 
             if (_Member == null)
             {
-                MessageBox.Show($"Member with ID [{_MemberID}] was not found!", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Member with ID [" + _MemberID + "] was not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
                 return;
             }
@@ -92,10 +86,9 @@ namespace LibrarySystem.UI
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (!this.ValidateChildren())
+            if (txtFirstName.Text.Trim() == "" || txtLastName.Text.Trim() == "")
             {
-                MessageBox.Show("Please fill all required fields correctly.", "Validation Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("First name and last name cannot be empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -106,65 +99,31 @@ namespace LibrarySystem.UI
 
             if (!_Person.Save())
             {
-                MessageBox.Show("Failed to save Person details.", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Failed to save Person details.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            // At this point, we have a valid PersonID
             _Member.PersonID = _Person.PersonID;
             _Member.SubscriptionDate = dtpSubscriptionDate.Value;
 
             if (_Member.Save())
             {
                 lblMemberID.Text = _Member.MemberID.ToString();
-
                 _Mode = enMode.Update;
                 lblTitle.Text = "Update Member";
                 this.Text = "Update Member";
-                _isSaved = true;
 
-                MessageBox.Show("Member details saved successfully!", "Success",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Member details saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show("Failed to save member details into the database.", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Failed to save member details.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            base.OnFormClosing(e);
-            
-            if (!_isSaved && (!string.IsNullOrWhiteSpace(txtFirstName.Text) || !string.IsNullOrWhiteSpace(txtLastName.Text)))
-            {
-                if (MessageBox.Show("You have unsaved changes. Are you sure you want to close this window?", 
-                    "Unsaved Changes", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
-                {
-                    e.Cancel = true;
-                }
-            }
-        }
-
-        private void txtRequiredField_Validating(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            TextBox tb = (TextBox)sender;
-            if (string.IsNullOrWhiteSpace(tb.Text))
-            {
-                e.Cancel = true;
-                errorProvider1.SetError(tb, "This field is required.");
-            }
-            else
-            {
-                errorProvider1.SetError(tb, "");
-            }
         }
     }
 }

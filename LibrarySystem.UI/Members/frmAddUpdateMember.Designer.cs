@@ -86,7 +86,7 @@ namespace LibrarySystem.UI
             this.txtPhone.Name = "txtPhone";
             this.txtPhone.Size = new System.Drawing.Size(240, 22);
             this.txtPhone.TabIndex = 5;
-            this.txtPhone.Validating += new System.ComponentModel.CancelEventHandler(this.txtRequiredField_Validating);
+
             
             // txtLastName
             this.txtLastName.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -94,7 +94,7 @@ namespace LibrarySystem.UI
             this.txtLastName.Name = "txtLastName";
             this.txtLastName.Size = new System.Drawing.Size(240, 22);
             this.txtLastName.TabIndex = 3;
-            this.txtLastName.Validating += new System.ComponentModel.CancelEventHandler(this.txtRequiredField_Validating);
+
             
             // txtFirstName
             this.txtFirstName.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -102,7 +102,7 @@ namespace LibrarySystem.UI
             this.txtFirstName.Name = "txtFirstName";
             this.txtFirstName.Size = new System.Drawing.Size(240, 22);
             this.txtFirstName.TabIndex = 1;
-            this.txtFirstName.Validating += new System.ComponentModel.CancelEventHandler(this.txtRequiredField_Validating);
+
             
             // label7
             this.label7.AutoSize = true;
