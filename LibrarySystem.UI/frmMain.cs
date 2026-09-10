@@ -58,5 +58,12 @@ namespace LibrarySystem.UI
 
 
         }
+
+        private void tsmiCurrentUserInfo_Click(object sender, EventArgs e)
+        {
+            // Opens the user info dialog passing the active session's UserID by default
+            frmUserInfo frm = new frmUserInfo(clsGlobal.CurrentUser.UserID);
+            frm.ShowDialog();
+        }
     }
 }
