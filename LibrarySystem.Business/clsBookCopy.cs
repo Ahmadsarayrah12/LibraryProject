@@ -75,6 +75,14 @@ namespace LibrarySystem.Business
         }
 
         /// <summary>
+        /// Inserts multiple copies in a single high-speed database roundtrip.
+        /// </summary>
+        public static bool AddCopies(int bookID, int count, enCopyStatus status = enCopyStatus.Available)
+        {
+            return clsBookCopyDataAccess.AddCopies(bookID, count, (byte)status);
+        }
+
+        /// <summary>
         /// Directly updates the status of an existing copy.
         /// </summary>
         public static bool UpdateStatus(int copyID, enCopyStatus newStatus)

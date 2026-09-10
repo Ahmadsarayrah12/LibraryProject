@@ -72,23 +72,26 @@ namespace LibrarySystem.UI
                 pbCover.Image = null;
             }
 
-            if (!string.IsNullOrWhiteSpace(_book.ImagePath) && File.Exists(_book.ImagePath))
+            if (!string.IsNullOrWhiteSpace(_book.ImagePath))
             {
-                try
+                string resolvedPath = Path.IsPathRooted(_book.ImagePath)
+                    ? _book.ImagePath
+                    : Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _book.ImagePath);
+
+                if (File.Exists(resolvedPath))
                 {
-                    using (var stream = new FileStream(_book.ImagePath, FileMode.Open, FileAccess.Read))
+                    try
                     {
-                        pbCover.Image = Image.FromStream(stream);
+                        using (var bmp = new Bitmap(resolvedPath))
+                        {
+                            pbCover.Image = new Bitmap(bmp);
+                        }
+                    }
+                    catch
+                    {
+                        pbCover.Image = null;
                     }
                 }
-                catch
-                {
-                    pbCover.Image = null;
-                }
-            }
-            else
-            {
-                pbCover.Image = null;
             }
         }
 

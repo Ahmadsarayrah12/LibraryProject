@@ -7,7 +7,7 @@ namespace LibrarySystem.UI
 {
     /// <summary>
     /// Management screen displaying the complete book catalog with live filtering,
-    /// copy provisioning, and contextual actions.
+    /// copy provisioning, right-click auto selection, and contextual actions.
     /// </summary>
     public partial class frmBooksList : Form
     {
@@ -18,13 +18,9 @@ namespace LibrarySystem.UI
             InitializeComponent();
         }
 
-        private void _RefreshBooksList()
+        private void _FormatGridColumns()
         {
-            _dtBooks = clsBook.GetAllBooks();
-            dgvBooks.DataSource = _dtBooks;
-            lblRecordsCount.Text = $"# Records: {_dtBooks.Rows.Count}";
-
-            if (dgvBooks.Rows.Count > 0)
+            if (dgvBooks.Columns.Count > 0)
             {
                 if (dgvBooks.Columns["ImagePath"] != null)
                     dgvBooks.Columns["ImagePath"].Visible = false;
@@ -35,30 +31,62 @@ namespace LibrarySystem.UI
                 if (dgvBooks.Columns["GenreID"] != null)
                     dgvBooks.Columns["GenreID"].Visible = false;
 
-                dgvBooks.Columns["BookID"].HeaderText = "Book ID";
-                dgvBooks.Columns["BookID"].Width = 80;
+                if (dgvBooks.Columns["BookID"] != null)
+                {
+                    dgvBooks.Columns["BookID"].HeaderText = "Book ID";
+                    dgvBooks.Columns["BookID"].Width = 80;
+                }
 
-                dgvBooks.Columns["Title"].HeaderText = "Title";
-                dgvBooks.Columns["Title"].Width = 240;
+                if (dgvBooks.Columns["Title"] != null)
+                {
+                    dgvBooks.Columns["Title"].HeaderText = "Title";
+                    dgvBooks.Columns["Title"].Width = 240;
+                }
 
-                dgvBooks.Columns["ISBN"].HeaderText = "ISBN";
-                dgvBooks.Columns["ISBN"].Width = 120;
+                if (dgvBooks.Columns["ISBN"] != null)
+                {
+                    dgvBooks.Columns["ISBN"].HeaderText = "ISBN";
+                    dgvBooks.Columns["ISBN"].Width = 120;
+                }
 
-                dgvBooks.Columns["PublicationYear"].HeaderText = "Year";
-                dgvBooks.Columns["PublicationYear"].Width = 70;
+                if (dgvBooks.Columns["PublicationYear"] != null)
+                {
+                    dgvBooks.Columns["PublicationYear"].HeaderText = "Year";
+                    dgvBooks.Columns["PublicationYear"].Width = 70;
+                }
 
-                dgvBooks.Columns["AuthorName"].HeaderText = "Author";
-                dgvBooks.Columns["AuthorName"].Width = 150;
+                if (dgvBooks.Columns["AuthorName"] != null)
+                {
+                    dgvBooks.Columns["AuthorName"].HeaderText = "Author";
+                    dgvBooks.Columns["AuthorName"].Width = 150;
+                }
 
-                dgvBooks.Columns["GenreName"].HeaderText = "Genre";
-                dgvBooks.Columns["GenreName"].Width = 120;
+                if (dgvBooks.Columns["GenreName"] != null)
+                {
+                    dgvBooks.Columns["GenreName"].HeaderText = "Genre";
+                    dgvBooks.Columns["GenreName"].Width = 120;
+                }
 
-                dgvBooks.Columns["TotalCopies"].HeaderText = "Total Copies";
-                dgvBooks.Columns["TotalCopies"].Width = 90;
+                if (dgvBooks.Columns["TotalCopies"] != null)
+                {
+                    dgvBooks.Columns["TotalCopies"].HeaderText = "Total Copies";
+                    dgvBooks.Columns["TotalCopies"].Width = 90;
+                }
 
-                dgvBooks.Columns["AvailableCopies"].HeaderText = "Available";
-                dgvBooks.Columns["AvailableCopies"].Width = 90;
+                if (dgvBooks.Columns["AvailableCopies"] != null)
+                {
+                    dgvBooks.Columns["AvailableCopies"].HeaderText = "Available";
+                    dgvBooks.Columns["AvailableCopies"].Width = 90;
+                }
             }
+        }
+
+        private void _RefreshBooksList()
+        {
+            _dtBooks = clsBook.GetAllBooks();
+            dgvBooks.DataSource = _dtBooks;
+            lblRecordsCount.Text = $"# Records: {_dtBooks?.Rows.Count ?? 0}";
+            _FormatGridColumns();
         }
 
         private void frmBooksList_Load(object sender, EventArgs e)
@@ -166,6 +194,27 @@ namespace LibrarySystem.UI
                 return -1;
 
             return (int)dgvBooks.SelectedRows[0].Cells["BookID"].Value;
+        }
+
+        private void dgvBooks_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+            {
+                dgvBooks.ClearSelection();
+                dgvBooks.Rows[e.RowIndex].Selected = true;
+            }
+        }
+
+        private void dgvBooks_DoubleClick(object sender, EventArgs e)
+        {
+            int bookID = _GetSelectedBookID();
+            if (bookID <= 0) return;
+
+            using (frmBookDetails frm = new frmBookDetails(bookID))
+            {
+                frm.ShowDialog();
+                _RefreshBooksList();
+            }
         }
 
         private void bookDetailsToolStripMenuItem_Click(object sender, EventArgs e)

@@ -304,6 +304,28 @@ namespace LibrarySystem.UI
         }
 
 
+        private void dgvUsers_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+            {
+                dgvUsers.ClearSelection();
+                dgvUsers.Rows[e.RowIndex].Selected = true;
+            }
+        }
+
+        private void dgvUsers_DoubleClick(object sender, EventArgs e)
+        {
+            if (dgvUsers.CurrentRow != null)
+            {
+                int selectedUserID = (int)dgvUsers.CurrentRow.Cells["UserID"].Value;
+                using (frmAddUpdateUser frm = new frmAddUpdateUser(selectedUserID))
+                {
+                    frm.ShowDialog();
+                }
+                _RefreshUsersList();
+            }
+        }
+
         private void tsmiCurrentUserInfo_Click(object sender, EventArgs e)
         {
             using (frmUserInfo frm = new frmUserInfo(clsGlobal.CurrentUser.UserID))
@@ -311,8 +333,5 @@ namespace LibrarySystem.UI
                 frm.ShowDialog();
             }
         }
-
-
-
     }
 }

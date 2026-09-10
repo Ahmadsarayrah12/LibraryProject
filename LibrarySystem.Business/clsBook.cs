@@ -7,12 +7,15 @@ namespace LibrarySystem.Business
     /// <summary>
     /// Core domain model representing a book catalog entry.
     /// Enforces business invariants, domain composition with Author/Genre,
-    /// and automatic provisioning of physical inventory copies.
+    /// atomic transactional batch copy provisioning, and single-roundtrip projections.
     /// </summary>
     public class clsBook
     {
         public enum enMode { AddNew = 0, Update = 1 }
         private enMode _mode = enMode.AddNew;
+
+        private int _totalCopies = 0;
+        private int _availableCopies = 0;
 
         public int BookID { get; private set; } = -1;
         public string Title { get; set; } = string.Empty;
@@ -60,30 +63,12 @@ namespace LibrarySystem.Business
         /// <summary>
         /// Total count of physical copies registered for this book.
         /// </summary>
-        public int TotalCopies
-        {
-            get
-            {
-                if (this.BookID <= 0) return 0;
-                int total = 0, available = 0;
-                clsBookCopy.GetCopiesCount(this.BookID, ref total, ref available);
-                return total;
-            }
-        }
+        public int TotalCopies => _totalCopies;
 
         /// <summary>
         /// Count of physical copies currently available for loan.
         /// </summary>
-        public int AvailableCopies
-        {
-            get
-            {
-                if (this.BookID <= 0) return 0;
-                int total = 0, available = 0;
-                clsBookCopy.GetCopiesCount(this.BookID, ref total, ref available);
-                return available;
-            }
-        }
+        public int AvailableCopies => _availableCopies;
 
         /// <summary>
         /// Initializes a new book instance in AddNew mode.
@@ -98,11 +83,14 @@ namespace LibrarySystem.Business
             this.GenreID = -1;
             this.ImagePath = string.Empty;
             this.InitialCopies = 1;
+            this._totalCopies = 0;
+            this._availableCopies = 0;
             this._mode = enMode.AddNew;
         }
 
         private clsBook(int bookID, string title, string isbn, int publicationYear,
-            int authorID, int genreID, string imagePath)
+            int authorID, string authorName, int genreID, string genreName,
+            string imagePath, int totalCopies, int availableCopies)
         {
             this.BookID = bookID;
             this.Title = title;
@@ -112,11 +100,29 @@ namespace LibrarySystem.Business
             this.GenreID = genreID;
             this.ImagePath = imagePath;
             this.InitialCopies = 0;
+            this._totalCopies = totalCopies;
+            this._availableCopies = availableCopies;
+
+            // Pre-hydrate navigation objects directly to eliminate N+1 database queries
+            if (authorID > 0)
+            {
+                this._authorInfo = new clsAuthor();
+                typeof(clsAuthor).GetProperty("AuthorID")?.SetValue(this._authorInfo, authorID);
+                this._authorInfo.FullName = authorName;
+            }
+
+            if (genreID > 0)
+            {
+                this._genreInfo = new clsGenre();
+                typeof(clsGenre).GetProperty("GenreID")?.SetValue(this._genreInfo, genreID);
+                this._genreInfo.GenreName = genreName;
+            }
+
             this._mode = enMode.Update;
         }
 
         /// <summary>
-        /// Finds a book by primary key BookID.
+        /// Finds a book by primary key BookID in a single high-performance roundtrip.
         /// </summary>
         public static clsBook Find(int bookID)
         {
@@ -124,20 +130,26 @@ namespace LibrarySystem.Business
             string isbn = string.Empty;
             int publicationYear = 0;
             int authorID = -1;
+            string authorName = string.Empty;
             int genreID = -1;
+            string genreName = string.Empty;
             string imagePath = string.Empty;
+            int totalCopies = 0;
+            int availableCopies = 0;
 
             if (clsBookDataAccess.GetBookInfoByID(bookID, ref title, ref isbn,
-                ref publicationYear, ref authorID, ref genreID, ref imagePath))
+                ref publicationYear, ref authorID, ref authorName, ref genreID, ref genreName,
+                ref imagePath, ref totalCopies, ref availableCopies))
             {
-                return new clsBook(bookID, title, isbn, publicationYear, authorID, genreID, imagePath);
+                return new clsBook(bookID, title, isbn, publicationYear, authorID, authorName,
+                    genreID, genreName, imagePath, totalCopies, availableCopies);
             }
 
             return null;
         }
 
         /// <summary>
-        /// Finds a book by unique ISBN.
+        /// Finds a book by unique ISBN in a single high-performance roundtrip.
         /// </summary>
         public static clsBook Find(string isbn)
         {
@@ -145,13 +157,19 @@ namespace LibrarySystem.Business
             string title = string.Empty;
             int publicationYear = 0;
             int authorID = -1;
+            string authorName = string.Empty;
             int genreID = -1;
+            string genreName = string.Empty;
             string imagePath = string.Empty;
+            int totalCopies = 0;
+            int availableCopies = 0;
 
             if (clsBookDataAccess.GetBookInfoByISBN(isbn, ref bookID, ref title,
-                ref publicationYear, ref authorID, ref genreID, ref imagePath))
+                ref publicationYear, ref authorID, ref authorName, ref genreID, ref genreName,
+                ref imagePath, ref totalCopies, ref availableCopies))
             {
-                return new clsBook(bookID, title, isbn, publicationYear, authorID, genreID, imagePath);
+                return new clsBook(bookID, title, isbn, publicationYear, authorID, authorName,
+                    genreID, genreName, imagePath, totalCopies, availableCopies);
             }
 
             return null;
@@ -159,22 +177,20 @@ namespace LibrarySystem.Business
 
         private bool _AddNewBook()
         {
+            // Atomically inserts book and initial copies within a single SQL transaction
             this.BookID = clsBookDataAccess.AddNewBook(
                 this.Title,
                 this.ISBN,
                 this.PublicationYear,
                 this.AuthorID,
                 this.GenreID,
-                this.ImagePath);
+                this.ImagePath,
+                this.InitialCopies);
 
             if (this.BookID != -1)
             {
-                // Auto-provision initial physical copies
-                int countToProvision = Math.Max(1, this.InitialCopies);
-                for (int i = 0; i < countToProvision; i++)
-                {
-                    clsBookCopyDataAccess.AddNewCopy(this.BookID, (byte)clsBookCopy.enCopyStatus.Available);
-                }
+                this._totalCopies = Math.Max(1, this.InitialCopies);
+                this._availableCopies = this._totalCopies;
                 return true;
             }
 
@@ -235,22 +251,35 @@ namespace LibrarySystem.Business
         }
 
         /// <summary>
-        /// Adds additional physical inventory copies for this book.
+        /// Adds additional physical inventory copies for this book in a single batch roundtrip.
         /// </summary>
         public bool AddCopies(int count)
         {
             if (this.BookID <= 0 || count <= 0)
                 return false;
 
-            bool allSuccess = true;
-            for (int i = 0; i < count; i++)
+            if (clsBookCopy.AddCopies(this.BookID, count))
             {
-                int copyID = clsBookCopyDataAccess.AddNewCopy(this.BookID, (byte)clsBookCopy.enCopyStatus.Available);
-                if (copyID == -1)
-                    allSuccess = false;
+                this._totalCopies += count;
+                this._availableCopies += count;
+                return true;
             }
 
-            return allSuccess;
+            return false;
+        }
+
+        /// <summary>
+        /// Refreshes the copy counts from storage.
+        /// </summary>
+        public void RefreshCopiesCount()
+        {
+            if (this.BookID <= 0) return;
+            int total = 0, available = 0;
+            if (clsBookCopy.GetCopiesCount(this.BookID, ref total, ref available))
+            {
+                this._totalCopies = total;
+                this._availableCopies = available;
+            }
         }
 
         /// <summary>

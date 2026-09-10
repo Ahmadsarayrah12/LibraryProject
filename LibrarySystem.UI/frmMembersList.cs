@@ -200,6 +200,28 @@ namespace LibrarySystem.UI
             }
         }
 
+        private void dgvMembers_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+            {
+                dgvMembers.ClearSelection();
+                dgvMembers.Rows[e.RowIndex].Selected = true;
+            }
+        }
+
+        private void dgvMembers_DoubleClick(object sender, EventArgs e)
+        {
+            if (dgvMembers.CurrentRow != null)
+            {
+                int selectedMemberID = (int)dgvMembers.CurrentRow.Cells["MemberID"].Value;
+                using (frmAddUpdateMember frm = new frmAddUpdateMember(selectedMemberID))
+                {
+                    frm.ShowDialog();
+                }
+                _RefreshMembersList();
+            }
+        }
+
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();

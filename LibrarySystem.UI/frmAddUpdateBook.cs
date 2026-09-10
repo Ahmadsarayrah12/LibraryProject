@@ -10,7 +10,7 @@ namespace LibrarySystem.UI
 {
     /// <summary>
     /// User interface dialog for adding a new book catalog entry or updating an existing one.
-    /// Handles cover image persistence to local storage and auto-provisions initial copies.
+    /// Handles cover image persistence with deferred disk commits and atomic copy provisioning.
     /// </summary>
     public partial class frmAddUpdateBook : Form
     {
@@ -22,7 +22,8 @@ namespace LibrarySystem.UI
 
         private int _bookID = -1;
         private clsBook _book;
-        private string _selectedImagePath = string.Empty;
+        private string _tempSourceImagePath = null;
+        private bool _imageRemoved = false;
 
         public frmAddUpdateBook()
         {
@@ -79,8 +80,14 @@ namespace LibrarySystem.UI
                 nudInitialCopies.Value = 1;
                 nudInitialCopies.Visible = true;
                 lblInitialCopies.Visible = true;
-                _selectedImagePath = string.Empty;
-                pbCover.Image = null;
+                _tempSourceImagePath = null;
+                _imageRemoved = false;
+
+                if (pbCover.Image != null)
+                {
+                    pbCover.Image.Dispose();
+                    pbCover.Image = null;
+                }
             }
             else
             {
@@ -106,17 +113,15 @@ namespace LibrarySystem.UI
             lblBookID.Text = _book.BookID.ToString();
             txtTitle.Text = _book.Title;
             txtISBN.Text = _book.ISBN;
-            nudPublicationYear.Value = _book.PublicationYear;
+            nudPublicationYear.Value = Math.Min(Math.Max(_book.PublicationYear, nudPublicationYear.Minimum), nudPublicationYear.Maximum);
 
             cbAuthors.SelectedValue = _book.AuthorID;
             cbGenres.SelectedValue = _book.GenreID;
 
-            _selectedImagePath = _book.ImagePath;
-
-            _LoadCoverImage();
+            _LoadCoverImage(_book.ImagePath);
         }
 
-        private void _LoadCoverImage()
+        private void _LoadCoverImage(string imagePath)
         {
             if (pbCover.Image != null)
             {
@@ -124,19 +129,19 @@ namespace LibrarySystem.UI
                 pbCover.Image = null;
             }
 
-            if (!string.IsNullOrWhiteSpace(_selectedImagePath))
+            if (!string.IsNullOrWhiteSpace(imagePath))
             {
-                string resolvedPath = Path.IsPathRooted(_selectedImagePath)
-                    ? _selectedImagePath
-                    : Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _selectedImagePath);
+                string resolvedPath = Path.IsPathRooted(imagePath)
+                    ? imagePath
+                    : Path.Combine(AppDomain.CurrentDomain.BaseDirectory, imagePath);
 
                 if (File.Exists(resolvedPath))
                 {
                     try
                     {
-                        using (var stream = new FileStream(resolvedPath, FileMode.Open, FileAccess.Read))
+                        using (var bmp = new Bitmap(resolvedPath))
                         {
-                            pbCover.Image = Image.FromStream(stream);
+                            pbCover.Image = new Bitmap(bmp);
                         }
                     }
                     catch
@@ -159,29 +164,29 @@ namespace LibrarySystem.UI
 
         private void btnSetImage_Click(object sender, EventArgs e)
         {
+            openFileDialog1.RestoreDirectory = true;
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
                     string sourceFile = openFileDialog1.FileName;
-                    string destDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Library_Images", "Books");
 
-                    if (!Directory.Exists(destDirectory))
-                        Directory.CreateDirectory(destDirectory);
+                    // Display preview safely without locking file
+                    using (var bmp = new Bitmap(sourceFile))
+                    {
+                        if (pbCover.Image != null)
+                        {
+                            pbCover.Image.Dispose();
+                        }
+                        pbCover.Image = new Bitmap(bmp);
+                    }
 
-                    string fileExt = Path.GetExtension(sourceFile);
-                    string targetFileName = Guid.NewGuid().ToString() + fileExt;
-                    string destFile = Path.Combine(destDirectory, targetFileName);
-
-                    File.Copy(sourceFile, destFile, true);
-
-                    // Store relative path
-                    _selectedImagePath = Path.Combine("Library_Images", "Books", targetFileName);
-                    _LoadCoverImage();
+                    _tempSourceImagePath = sourceFile;
+                    _imageRemoved = false;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Failed to copy image: {ex.Message}", "Image Error",
+                    MessageBox.Show($"Failed to load image preview: {ex.Message}", "Image Error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -194,7 +199,8 @@ namespace LibrarySystem.UI
                 pbCover.Image.Dispose();
                 pbCover.Image = null;
             }
-            _selectedImagePath = string.Empty;
+            _tempSourceImagePath = null;
+            _imageRemoved = true;
         }
 
         private void btnAddAuthor_Click(object sender, EventArgs e)
@@ -210,6 +216,69 @@ namespace LibrarySystem.UI
             }
         }
 
+        private bool _ProcessImageStorage(ref string finalImagePath)
+        {
+            if (_imageRemoved)
+            {
+                // If previous image exists on disk, clean it up
+                if (!string.IsNullOrWhiteSpace(_book.ImagePath))
+                {
+                    string oldPath = Path.IsPathRooted(_book.ImagePath)
+                        ? _book.ImagePath
+                        : Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _book.ImagePath);
+
+                    if (File.Exists(oldPath))
+                    {
+                        try { File.Delete(oldPath); } catch { }
+                    }
+                }
+                finalImagePath = string.Empty;
+                return true;
+            }
+
+            // If a new image was chosen, copy to persistent directory
+            if (!string.IsNullOrWhiteSpace(_tempSourceImagePath) && File.Exists(_tempSourceImagePath))
+            {
+                try
+                {
+                    string destDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Library_Images", "Books");
+                    if (!Directory.Exists(destDirectory))
+                        Directory.CreateDirectory(destDirectory);
+
+                    string fileExt = Path.GetExtension(_tempSourceImagePath);
+                    string targetFileName = Guid.NewGuid().ToString() + fileExt;
+                    string destFile = Path.Combine(destDirectory, targetFileName);
+
+                    File.Copy(_tempSourceImagePath, destFile, true);
+
+                    // If replacing an existing old image, delete the old file
+                    if (!string.IsNullOrWhiteSpace(_book.ImagePath))
+                    {
+                        string oldPath = Path.IsPathRooted(_book.ImagePath)
+                            ? _book.ImagePath
+                            : Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _book.ImagePath);
+
+                        if (File.Exists(oldPath) && !string.Equals(oldPath, destFile, StringComparison.OrdinalIgnoreCase))
+                        {
+                            try { File.Delete(oldPath); } catch { }
+                        }
+                    }
+
+                    finalImagePath = Path.Combine("Library_Images", "Books", targetFileName);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to save image file: {ex.Message}", "Disk Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            }
+
+            finalImagePath = _book.ImagePath;
+            return true;
+        }
+
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (!this.ValidateChildren())
@@ -219,12 +288,30 @@ namespace LibrarySystem.UI
                 return;
             }
 
+            if (cbAuthors.SelectedValue == null || !int.TryParse(cbAuthors.SelectedValue.ToString(), out int authorID))
+            {
+                MessageBox.Show("Please select an author.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbAuthors.Focus();
+                return;
+            }
+
+            if (cbGenres.SelectedValue == null || !int.TryParse(cbGenres.SelectedValue.ToString(), out int genreID))
+            {
+                MessageBox.Show("Please select a genre.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbGenres.Focus();
+                return;
+            }
+
+            string savedImagePath = string.Empty;
+            if (!_ProcessImageStorage(ref savedImagePath))
+                return;
+
             _book.Title = txtTitle.Text.Trim();
             _book.ISBN = txtISBN.Text.Trim();
-            _book.AuthorID = (int)cbAuthors.SelectedValue;
-            _book.GenreID = (int)cbGenres.SelectedValue;
+            _book.AuthorID = authorID;
+            _book.GenreID = genreID;
             _book.PublicationYear = (int)nudPublicationYear.Value;
-            _book.ImagePath = _selectedImagePath;
+            _book.ImagePath = savedImagePath;
 
             if (_mode == enMode.AddNew)
             {
@@ -241,6 +328,8 @@ namespace LibrarySystem.UI
                     _mode = enMode.Update;
                     nudInitialCopies.Visible = false;
                     lblInitialCopies.Visible = false;
+                    _tempSourceImagePath = null;
+                    _imageRemoved = false;
 
                     MessageBox.Show("Book saved successfully!", "Success",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -286,7 +375,7 @@ namespace LibrarySystem.UI
                 return;
             }
 
-            if (_mode == enMode.AddNew || (_mode == enMode.Update && _book.ISBN != isbn))
+            if (_mode == enMode.AddNew || (_mode == enMode.Update && _book != null && _book.ISBN != isbn))
             {
                 if (clsBook.IsBookExist(isbn))
                 {

@@ -6,21 +6,27 @@ namespace LibrarySystem.DataAccess
 {
     /// <summary>
     /// Pure ADO.NET Data Access Layer for Books table operations.
-    /// Manages core catalog metadata with parameterized queries and safe DBNull conversions.
+    /// Manages core catalog metadata with parameterized queries, single-roundtrip projections,
+    /// and transactional batch copy provisioning for enterprise-grade performance.
     /// </summary>
     public static class clsBookDataAccess
     {
         /// <summary>
-        /// Retrieves a book record by its primary key.
+        /// Retrieves complete aggregated book metadata (including AuthorName, GenreName, and live copy counts)
+        /// in a single database roundtrip.
         /// </summary>
         public static bool GetBookInfoByID(int bookID, ref string title, ref string isbn,
-            ref int publicationYear, ref int authorID, ref int genreID, ref string imagePath)
+            ref int publicationYear, ref int authorID, ref string authorName,
+            ref int genreID, ref string genreName, ref string imagePath,
+            ref int totalCopies, ref int availableCopies)
         {
             bool isFound = false;
 
             const string query = @"
-                SELECT Title, ISBN, PublicationYear, AuthorID, GenreID, ImagePath
-                FROM Books
+                SELECT 
+                    Title, ISBN, PublicationYear, AuthorID, AuthorName,
+                    GenreID, GenreName, ImagePath, TotalCopies, AvailableCopies
+                FROM v_BooksInfo
                 WHERE BookID = @BookID;";
 
             try
@@ -40,8 +46,12 @@ namespace LibrarySystem.DataAccess
                             isbn = reader.SafeGetString("ISBN");
                             publicationYear = reader.SafeGetInt("PublicationYear");
                             authorID = reader.SafeGetInt("AuthorID");
+                            authorName = reader.SafeGetString("AuthorName");
                             genreID = reader.SafeGetInt("GenreID");
+                            genreName = reader.SafeGetString("GenreName");
                             imagePath = reader.SafeGetString("ImagePath");
+                            totalCopies = reader.SafeGetInt("TotalCopies");
+                            availableCopies = reader.SafeGetInt("AvailableCopies");
                         }
                     }
                 }
@@ -55,16 +65,35 @@ namespace LibrarySystem.DataAccess
         }
 
         /// <summary>
-        /// Retrieves a book record by its unique ISBN.
+        /// Backward-compatible overload for retrieving core book columns.
+        /// </summary>
+        public static bool GetBookInfoByID(int bookID, ref string title, ref string isbn,
+            ref int publicationYear, ref int authorID, ref int genreID, ref string imagePath)
+        {
+            string authorName = string.Empty;
+            string genreName = string.Empty;
+            int total = 0, available = 0;
+
+            return GetBookInfoByID(bookID, ref title, ref isbn, ref publicationYear,
+                ref authorID, ref authorName, ref genreID, ref genreName, ref imagePath,
+                ref total, ref available);
+        }
+
+        /// <summary>
+        /// Retrieves complete aggregated book metadata by unique ISBN in a single database roundtrip.
         /// </summary>
         public static bool GetBookInfoByISBN(string isbn, ref int bookID, ref string title,
-            ref int publicationYear, ref int authorID, ref int genreID, ref string imagePath)
+            ref int publicationYear, ref int authorID, ref string authorName,
+            ref int genreID, ref string genreName, ref string imagePath,
+            ref int totalCopies, ref int availableCopies)
         {
             bool isFound = false;
 
             const string query = @"
-                SELECT BookID, Title, PublicationYear, AuthorID, GenreID, ImagePath
-                FROM Books
+                SELECT 
+                    BookID, Title, PublicationYear, AuthorID, AuthorName,
+                    GenreID, GenreName, ImagePath, TotalCopies, AvailableCopies
+                FROM v_BooksInfo
                 WHERE ISBN = @ISBN;";
 
             try
@@ -84,8 +113,12 @@ namespace LibrarySystem.DataAccess
                             title = reader.SafeGetString("Title");
                             publicationYear = reader.SafeGetInt("PublicationYear");
                             authorID = reader.SafeGetInt("AuthorID");
+                            authorName = reader.SafeGetString("AuthorName");
                             genreID = reader.SafeGetInt("GenreID");
+                            genreName = reader.SafeGetString("GenreName");
                             imagePath = reader.SafeGetString("ImagePath");
+                            totalCopies = reader.SafeGetInt("TotalCopies");
+                            availableCopies = reader.SafeGetInt("AvailableCopies");
                         }
                     }
                 }
@@ -99,17 +132,42 @@ namespace LibrarySystem.DataAccess
         }
 
         /// <summary>
-        /// Inserts a new book into the database and returns the generated BookID.
+        /// Backward-compatible overload for retrieving book by ISBN.
+        /// </summary>
+        public static bool GetBookInfoByISBN(string isbn, ref int bookID, ref string title,
+            ref int publicationYear, ref int authorID, ref int genreID, ref string imagePath)
+        {
+            string authorName = string.Empty;
+            string genreName = string.Empty;
+            int total = 0, available = 0;
+
+            return GetBookInfoByISBN(isbn, ref bookID, ref title, ref publicationYear,
+                ref authorID, ref authorName, ref genreID, ref genreName, ref imagePath,
+                ref total, ref available);
+        }
+
+        /// <summary>
+        /// Inserts a new book into the database and provisions initial copies atomically inside a single transaction.
         /// </summary>
         public static int AddNewBook(string title, string isbn, int publicationYear,
-            int authorID, int genreID, string imagePath)
+            int authorID, int genreID, string imagePath, int initialCopies = 1)
         {
             int bookID = -1;
 
             const string query = @"
+                BEGIN TRANSACTION;
                 INSERT INTO Books (Title, ISBN, PublicationYear, AuthorID, GenreID, ImagePath)
                 VALUES (@Title, @ISBN, @PublicationYear, @AuthorID, @GenreID, @ImagePath);
-                SELECT SCOPE_IDENTITY();";
+                DECLARE @NewBookID INT = SCOPE_IDENTITY();
+
+                DECLARE @i INT = 0;
+                WHILE @i < @InitialCopies
+                BEGIN
+                    INSERT INTO BookCopies (BookID, Status) VALUES (@NewBookID, 1);
+                    SET @i = @i + 1;
+                END;
+                COMMIT TRANSACTION;
+                SELECT @NewBookID;";
 
             try
             {
@@ -122,6 +180,7 @@ namespace LibrarySystem.DataAccess
                     command.Parameters.Add("@AuthorID", SqlDbType.Int).Value = authorID;
                     command.Parameters.Add("@GenreID", SqlDbType.Int).Value = genreID;
                     command.Parameters.AddWithNullableString("@ImagePath", imagePath);
+                    command.Parameters.Add("@InitialCopies", SqlDbType.Int).Value = Math.Max(1, initialCopies);
 
                     connection.Open();
                     object result = command.ExecuteScalar();

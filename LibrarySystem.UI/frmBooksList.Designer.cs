@@ -88,6 +88,8 @@ namespace LibrarySystem.UI
             this.dgvBooks.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvBooks.Size = new System.Drawing.Size(960, 420);
             this.dgvBooks.TabIndex = 1;
+            this.dgvBooks.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvBooks_CellMouseDown);
+            this.dgvBooks.DoubleClick += new System.EventHandler(this.dgvBooks_DoubleClick);
             // 
             // cmsBooks
             // 

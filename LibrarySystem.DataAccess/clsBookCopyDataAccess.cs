@@ -48,6 +48,45 @@ namespace LibrarySystem.DataAccess
         }
 
         /// <summary>
+        /// Inserts multiple copies in a single high-speed database roundtrip.
+        /// </summary>
+        public static bool AddCopies(int bookID, int count, byte status = 1)
+        {
+            if (bookID <= 0 || count <= 0)
+                return false;
+
+            int rowsAffected = 0;
+
+            const string query = @"
+                DECLARE @i INT = 0;
+                WHILE @i < @Count
+                BEGIN
+                    INSERT INTO BookCopies (BookID, Status) VALUES (@BookID, @Status);
+                    SET @i = @i + 1;
+                END;";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.Add("@BookID", SqlDbType.Int).Value = bookID;
+                    command.Parameters.Add("@Count", SqlDbType.Int).Value = count;
+                    command.Parameters.Add("@Status", SqlDbType.TinyInt).Value = status;
+
+                    connection.Open();
+                    rowsAffected = command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                clsDataLogger.LogError(ex, nameof(AddCopies));
+            }
+
+            return rowsAffected > 0;
+        }
+
+        /// <summary>
         /// Updates the status of a specific book copy.
         /// </summary>
         public static bool UpdateCopyStatus(int copyID, byte newStatus)

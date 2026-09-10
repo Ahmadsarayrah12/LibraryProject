@@ -20,7 +20,11 @@ namespace LibrarySystem.UI
             this.components = new System.ComponentModel.Container();
             this.lblTitle = new System.Windows.Forms.Label();
             this.dgvAuthors = new System.Windows.Forms.DataGridView();
+            this.cmsAuthors = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editAuthorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteAuthorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gbAddAuthor = new System.Windows.Forms.GroupBox();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.txtBiography = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -30,6 +34,7 @@ namespace LibrarySystem.UI
             this.lblRecordsCount = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAuthors)).BeginInit();
+            this.cmsAuthors.SuspendLayout();
             this.gbAddAuthor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
@@ -52,6 +57,7 @@ namespace LibrarySystem.UI
             this.dgvAuthors.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvAuthors.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dgvAuthors.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAuthors.ContextMenuStrip = this.cmsAuthors;
             this.dgvAuthors.Location = new System.Drawing.Point(20, 60);
             this.dgvAuthors.MultiSelect = false;
             this.dgvAuthors.Name = "dgvAuthors";
@@ -59,9 +65,34 @@ namespace LibrarySystem.UI
             this.dgvAuthors.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvAuthors.Size = new System.Drawing.Size(650, 220);
             this.dgvAuthors.TabIndex = 1;
+            this.dgvAuthors.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvAuthors_CellMouseDown);
+            this.dgvAuthors.DoubleClick += new System.EventHandler(this.dgvAuthors_DoubleClick);
+            // 
+            // cmsAuthors
+            // 
+            this.cmsAuthors.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editAuthorToolStripMenuItem,
+            this.deleteAuthorToolStripMenuItem});
+            this.cmsAuthors.Name = "cmsAuthors";
+            this.cmsAuthors.Size = new System.Drawing.Size(147, 48);
+            // 
+            // editAuthorToolStripMenuItem
+            // 
+            this.editAuthorToolStripMenuItem.Name = "editAuthorToolStripMenuItem";
+            this.editAuthorToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.editAuthorToolStripMenuItem.Text = "Edit Author";
+            this.editAuthorToolStripMenuItem.Click += new System.EventHandler(this.editAuthorToolStripMenuItem_Click);
+            // 
+            // deleteAuthorToolStripMenuItem
+            // 
+            this.deleteAuthorToolStripMenuItem.Name = "deleteAuthorToolStripMenuItem";
+            this.deleteAuthorToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.deleteAuthorToolStripMenuItem.Text = "Delete Author";
+            this.deleteAuthorToolStripMenuItem.Click += new System.EventHandler(this.deleteAuthorToolStripMenuItem_Click);
             // 
             // gbAddAuthor
             // 
+            this.gbAddAuthor.Controls.Add(this.btnCancel);
             this.gbAddAuthor.Controls.Add(this.btnSave);
             this.gbAddAuthor.Controls.Add(this.txtBiography);
             this.gbAddAuthor.Controls.Add(this.label2);
@@ -74,6 +105,21 @@ namespace LibrarySystem.UI
             this.gbAddAuthor.TabIndex = 2;
             this.gbAddAuthor.TabStop = false;
             this.gbAddAuthor.Text = "Add New Author";
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.BackColor = System.Drawing.Color.Gray;
+            this.btnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancel.ForeColor = System.Drawing.Color.White;
+            this.btnCancel.Location = new System.Drawing.Point(540, 65);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(95, 30);
+            this.btnCancel.TabIndex = 5;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = false;
+            this.btnCancel.Visible = false;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnSave
             // 
@@ -174,6 +220,7 @@ namespace LibrarySystem.UI
             this.Text = "Manage Authors";
             this.Load += new System.EventHandler(this.frmManageAuthors_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAuthors)).EndInit();
+            this.cmsAuthors.ResumeLayout(false);
             this.gbAddAuthor.ResumeLayout(false);
             this.gbAddAuthor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
@@ -186,7 +233,11 @@ namespace LibrarySystem.UI
 
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.DataGridView dgvAuthors;
+        private System.Windows.Forms.ContextMenuStrip cmsAuthors;
+        private System.Windows.Forms.ToolStripMenuItem editAuthorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteAuthorToolStripMenuItem;
         private System.Windows.Forms.GroupBox gbAddAuthor;
+        private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.TextBox txtBiography;
         private System.Windows.Forms.Label label2;
