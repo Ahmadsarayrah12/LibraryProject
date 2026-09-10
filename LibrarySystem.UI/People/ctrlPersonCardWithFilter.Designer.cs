@@ -96,7 +96,7 @@ namespace LibrarySystem.UI
             // 
             // ctrlPersonCard1
             // 
-            this.ctrlPersonCard1.BackColor = System.Drawing.Color.Transparent;
+            this.ctrlPersonCard1.BackColor = System.Drawing.SystemColors.Control;
             this.ctrlPersonCard1.Location = new System.Drawing.Point(3, 76);
             this.ctrlPersonCard1.Name = "ctrlPersonCard1";
             this.ctrlPersonCard1.Size = new System.Drawing.Size(650, 130);
@@ -106,7 +106,7 @@ namespace LibrarySystem.UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Transparent;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.Controls.Add(this.ctrlPersonCard1);
             this.Controls.Add(this.gbFilter);
             this.Name = "ctrlPersonCardWithFilter";
@@ -130,3 +130,4 @@ namespace LibrarySystem.UI
         private ctrlPersonCard ctrlPersonCard1;
     }
 }
+

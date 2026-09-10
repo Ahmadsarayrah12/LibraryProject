@@ -208,7 +208,7 @@ namespace LibrarySystem.UI
             this.ClientSize = new System.Drawing.Size(984, 561);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.msMainMenu);
-            this.IsMdiContainer = false;
+            this.IsMdiContainer = true;
             this.MainMenuStrip = this.msMainMenu;
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

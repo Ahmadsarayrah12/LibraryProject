@@ -50,55 +50,64 @@ namespace LibrarySystem.UI
         private void tsmiManageBooks_Click(object sender, EventArgs e)
         {
             frmBooksList frm = new frmBooksList();
-            frm.ShowDialog();
+            frm.MdiParent = this;
+            frm.Show();
         }
 
         private void tsmiAddNewBook_Click(object sender, EventArgs e)
         {
             frmAddUpdateBook frm = new frmAddUpdateBook();
-            frm.ShowDialog();
+            frm.MdiParent = this;
+            frm.Show();
         }
 
         private void tsmiManageAuthors_Click(object sender, EventArgs e)
         {
             frmManageAuthors frm = new frmManageAuthors();
-            frm.ShowDialog();
+            frm.MdiParent = this;
+            frm.Show();
         }
 
         private void tsmiManageMembers_Click(object sender, EventArgs e)
         {
             frmMembersList frm = new frmMembersList();
-            frm.ShowDialog();
+            frm.MdiParent = this;
+            frm.Show();
         }
 
         private void tsmiAddNewMember_Click(object sender, EventArgs e)
         {
             frmAddUpdateMember frm = new frmAddUpdateMember();
-            frm.ShowDialog();
+            frm.MdiParent = this;
+            frm.Show();
         }
 
         private void tsmiManageBorrowings_Click(object sender, EventArgs e)
         {
             frmManageBorrowings frm = new frmManageBorrowings();
-            frm.ShowDialog();
+            frm.MdiParent = this;
+            frm.Show();
         }
 
         private void tsmiBorrowBook_Click(object sender, EventArgs e)
         {
             frmBorrowBook frm = new frmBorrowBook();
-            frm.ShowDialog();
+            frm.MdiParent = this;
+            frm.Show();
         }
 
         private void tsmiReturnBook_Click(object sender, EventArgs e)
         {
             frmReturnBook frm = new frmReturnBook();
-            frm.ShowDialog();
+            frm.MdiParent = this;
+            frm.Show();
         }
 
         private void tsmiManageUsers_Click(object sender, EventArgs e)
         {
             frmUsers frm = new frmUsers();
-            frm.ShowDialog();
+            frm.MdiParent = this;
+            frm.Show();
         }
 
         private void tsmiCurrentUserInfo_Click(object sender, EventArgs e)
@@ -106,7 +115,8 @@ namespace LibrarySystem.UI
             if (clsGlobal.CurrentUser != null)
             {
                 frmUserInfo frm = new frmUserInfo(clsGlobal.CurrentUser.UserID);
-                frm.ShowDialog();
+                frm.MdiParent = this;
+            frm.Show();
             }
         }
 
@@ -115,7 +125,8 @@ namespace LibrarySystem.UI
             if (clsGlobal.CurrentUser != null)
             {
                 frmChangePassword frm = new frmChangePassword(clsGlobal.CurrentUser.UserID);
-                frm.ShowDialog();
+                frm.MdiParent = this;
+            frm.Show();
             }
         }
 

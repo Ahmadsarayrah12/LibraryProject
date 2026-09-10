@@ -112,7 +112,7 @@ namespace LibrarySystem.UI
             // 
             // ctrlBookCard1
             // 
-            this.ctrlBookCard1.BackColor = System.Drawing.Color.Transparent;
+            this.ctrlBookCard1.BackColor = System.Drawing.SystemColors.Control;
             this.ctrlBookCard1.Location = new System.Drawing.Point(3, 72);
             this.ctrlBookCard1.Name = "ctrlBookCard1";
             this.ctrlBookCard1.Size = new System.Drawing.Size(650, 240);
@@ -146,3 +146,4 @@ namespace LibrarySystem.UI
         private ctrlBookCard ctrlBookCard1;
     }
 }
+
