@@ -107,8 +107,62 @@
     <Compile Include="frmUsers.Designer.cs">
       <DependentUpon>frmUsers.cs</DependentUpon>
     </Compile>
+    <Compile Include="ctrlBookCard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ctrlBookCard.Designer.cs">
+      <DependentUpon>ctrlBookCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ctrlBookCardWithFilter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ctrlBookCardWithFilter.Designer.cs">
+      <DependentUpon>ctrlBookCardWithFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmManageAuthors.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmManageAuthors.Designer.cs">
+      <DependentUpon>frmManageAuthors.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAddUpdateBook.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddUpdateBook.Designer.cs">
+      <DependentUpon>frmAddUpdateBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBookDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBookDetails.Designer.cs">
+      <DependentUpon>frmBookDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmBooksList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBooksList.Designer.cs">
+      <DependentUpon>frmBooksList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ctrlBookCard.resx">
+      <DependentUpon>ctrlBookCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ctrlBookCardWithFilter.resx">
+      <DependentUpon>ctrlBookCardWithFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmManageAuthors.resx">
+      <DependentUpon>frmManageAuthors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAddUpdateBook.resx">
+      <DependentUpon>frmAddUpdateBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBookDetails.resx">
+      <DependentUpon>frmBookDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBooksList.resx">
+      <DependentUpon>frmBooksList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ctrlPersonCard.resx">
       <DependentUpon>ctrlPersonCard.cs</DependentUpon>
     </EmbeddedResource>

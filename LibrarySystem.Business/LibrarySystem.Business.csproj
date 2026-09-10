@@ -44,6 +44,10 @@
     <Compile Include="clsMember.cs" />
     <Compile Include="clsPerson.cs" />
     <Compile Include="clsUser.cs" />
+    <Compile Include="clsAuthor.cs" />
+    <Compile Include="clsGenre.cs" />
+    <Compile Include="clsBookCopy.cs" />
+    <Compile Include="clsBook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

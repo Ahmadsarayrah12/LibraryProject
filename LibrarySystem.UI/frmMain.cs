@@ -106,5 +106,66 @@ namespace LibrarySystem.UI
         }
 
         #endregion
+
+        #region Books Management
+
+        /// <summary>
+        /// Handles opening the Books List / Management screen with permission verification.
+        /// </summary>
+        private void tsmiManageBooks_Click(object sender, EventArgs e)
+        {
+            if (clsGlobal.CurrentUser == null || clsGlobal.CurrentUser.CheckAccessPermission(clsUser.enPermissions.pManageBooks))
+            {
+                using (frmBooksList frm = new frmBooksList())
+                {
+                    frm.ShowDialog();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Access Denied! You do not have permission to manage books.",
+                    "Permission Denied", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+        }
+
+        /// <summary>
+        /// Direct shortcut to create a new book catalog entry with permission verification.
+        /// </summary>
+        private void tsmiAddNewBook_Click(object sender, EventArgs e)
+        {
+            if (clsGlobal.CurrentUser == null || clsGlobal.CurrentUser.CheckAccessPermission(clsUser.enPermissions.pManageBooks))
+            {
+                using (frmAddUpdateBook frm = new frmAddUpdateBook())
+                {
+                    frm.ShowDialog();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Access Denied! You do not have permission to add books.",
+                    "Permission Denied", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+        }
+
+        /// <summary>
+        /// Handles opening the Authors management screen with permission verification.
+        /// </summary>
+        private void tsmiManageAuthors_Click(object sender, EventArgs e)
+        {
+            if (clsGlobal.CurrentUser == null || clsGlobal.CurrentUser.CheckAccessPermission(clsUser.enPermissions.pManageBooks))
+            {
+                using (frmManageAuthors frm = new frmManageAuthors())
+                {
+                    frm.ShowDialog();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Access Denied! You do not have permission to manage authors.",
+                    "Permission Denied", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+        }
+
+        #endregion
     }
 }

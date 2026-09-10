@@ -47,6 +47,10 @@
     <Compile Include="clsPersonDataAccess.cs" />
     <Compile Include="clsUserDataAccess.cs" />
     <Compile Include="clsMemberDataAccess.cs" />
+    <Compile Include="clsAuthorDataAccess.cs" />
+    <Compile Include="clsGenreDataAccess.cs" />
+    <Compile Include="clsBookDataAccess.cs" />
+    <Compile Include="clsBookCopyDataAccess.cs" />
     <Compile Include="clsDataAccessSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

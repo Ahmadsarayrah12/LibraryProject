@@ -1,4 +1,4 @@
-﻿namespace LibrarySystem.UI
+namespace LibrarySystem.UI
 {
     partial class frmMain
     {
@@ -18,6 +18,10 @@
         private void InitializeComponent()
         {
             this.msMainMenu = new System.Windows.Forms.MenuStrip();
+            this.tsmiBooks = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiManageBooks = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiAddNewBook = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiManageAuthors = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiMembers = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiManageMembers = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiAddNewMember = new System.Windows.Forms.ToolStripMenuItem();
@@ -37,6 +41,7 @@
             // 
             this.msMainMenu.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.msMainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiBooks,
             this.tsmiMembers,
             this.tsmiUsers});
             this.msMainMenu.Location = new System.Drawing.Point(0, 0);
@@ -44,6 +49,37 @@
             this.msMainMenu.Size = new System.Drawing.Size(984, 25);
             this.msMainMenu.TabIndex = 0;
             this.msMainMenu.Text = "menuStrip1";
+            // 
+            // tsmiBooks
+            // 
+            this.tsmiBooks.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiManageBooks,
+            this.tsmiAddNewBook,
+            this.tsmiManageAuthors});
+            this.tsmiBooks.Name = "tsmiBooks";
+            this.tsmiBooks.Size = new System.Drawing.Size(56, 21);
+            this.tsmiBooks.Text = "Books";
+            // 
+            // tsmiManageBooks
+            // 
+            this.tsmiManageBooks.Name = "tsmiManageBooks";
+            this.tsmiManageBooks.Size = new System.Drawing.Size(180, 22);
+            this.tsmiManageBooks.Text = "Manage Books";
+            this.tsmiManageBooks.Click += new System.EventHandler(this.tsmiManageBooks_Click);
+            // 
+            // tsmiAddNewBook
+            // 
+            this.tsmiAddNewBook.Name = "tsmiAddNewBook";
+            this.tsmiAddNewBook.Size = new System.Drawing.Size(180, 22);
+            this.tsmiAddNewBook.Text = "Add New Book";
+            this.tsmiAddNewBook.Click += new System.EventHandler(this.tsmiAddNewBook_Click);
+            // 
+            // tsmiManageAuthors
+            // 
+            this.tsmiManageAuthors.Name = "tsmiManageAuthors";
+            this.tsmiManageAuthors.Size = new System.Drawing.Size(180, 22);
+            this.tsmiManageAuthors.Text = "Manage Authors";
+            this.tsmiManageAuthors.Click += new System.EventHandler(this.tsmiManageAuthors_Click);
             // 
             // tsmiMembers
             // 
@@ -157,6 +193,10 @@
         #endregion
 
         private System.Windows.Forms.MenuStrip msMainMenu;
+        private System.Windows.Forms.ToolStripMenuItem tsmiBooks;
+        private System.Windows.Forms.ToolStripMenuItem tsmiManageBooks;
+        private System.Windows.Forms.ToolStripMenuItem tsmiAddNewBook;
+        private System.Windows.Forms.ToolStripMenuItem tsmiManageAuthors;
         private System.Windows.Forms.ToolStripMenuItem tsmiMembers;
         private System.Windows.Forms.ToolStripMenuItem tsmiManageMembers;
         private System.Windows.Forms.ToolStripMenuItem tsmiAddNewMember;
