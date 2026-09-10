@@ -77,6 +77,8 @@ namespace LibrarySystem.UI
 
             cbFilterBy.SelectedIndex = 0; // Default filter to "Person ID"
             txtFilterValue.Focus();
+
+            _SetupAddPersonButton();
         }
 
         /// <summary>
@@ -142,9 +144,35 @@ namespace LibrarySystem.UI
         /// <summary>
         /// Sets focus to the filter query input textbox.
         /// </summary>
+        private Button btnAddPerson;
+
         public void FilterFocus()
         {
             txtFilterValue.Focus();
+        }
+
+        private void _SetupAddPersonButton()
+        {
+            btnAddPerson = new Button();
+            btnAddPerson.Text = "Add New Person";
+            btnAddPerson.BackColor = System.Drawing.Color.Teal;
+            btnAddPerson.ForeColor = System.Drawing.Color.White;
+            btnAddPerson.FlatStyle = FlatStyle.Flat;
+            btnAddPerson.Size = new System.Drawing.Size(120, 28);
+            btnAddPerson.Location = new System.Drawing.Point(525, 23);
+            btnAddPerson.Cursor = Cursors.Hand;
+            btnAddPerson.Click += BtnAddPerson_Click;
+            gbFilter.Controls.Add(btnAddPerson);
+        }
+
+        private void BtnAddPerson_Click(object sender, EventArgs e)
+        {
+            frmAddUpdatePerson frm = new frmAddUpdatePerson();
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                // Load the newly created person automatically
+                LoadPersonInfo(frm.PersonID);
+            }
         }
 
         private void btnFind_Click(object sender, EventArgs e)
