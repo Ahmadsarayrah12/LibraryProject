@@ -52,11 +52,8 @@ namespace LibrarySystem.UI
 
         /// <summary>
         /// Retrieves previously cached credentials from the Windows Registry to pre-populate login input.
-        /// Password is decrypted using Windows DPAPI.
+        /// Password is decrypted using simple Base64 decoding.
         /// </summary>
-        /// <param name="username">Output parameter receiving the retrieved username.</param>
-        /// <param name="password">Output parameter receiving the decrypted password.</param>
-        /// <returns>True if valid non-empty credentials were found; otherwise, false.</returns>
         public static bool GetStoredCredential(ref string username, ref string password)
         {
             try
@@ -70,14 +67,9 @@ namespace LibrarySystem.UI
                 password = _DecryptPassword(encryptedPassword);
                 return !string.IsNullOrEmpty(password);
             }
-            catch (CryptographicException)
-            {
-                // Encrypted data is corrupt or was created by a different user context — clear it
-                ClearStoredCredentials();
-                return false;
-            }
             catch (Exception ex)
             {
+                ClearStoredCredentials();
                 Trace.TraceError($"[REGISTRY ERROR] GetStoredCredential failed: {ex.Message}");
                 return false;
             }
@@ -86,7 +78,6 @@ namespace LibrarySystem.UI
         /// <summary>
         /// Clears stored credential values from the Windows Registry when the user unchecks "Remember Me".
         /// </summary>
-        /// <returns>True if entries were successfully cleared; otherwise, false.</returns>
         public static bool ClearStoredCredentials()
         {
             try
@@ -112,28 +103,32 @@ namespace LibrarySystem.UI
             }
         }
 
-        #region DPAPI Helpers
-
-        /// <summary>
-        /// Encrypts a plaintext password using Windows DPAPI and returns a Base64-encoded string.
-        /// </summary>
+        // تشفير بسيط جداً للمبتدئين باستخدام Base64
         private static string _EncryptPassword(string plainText)
         {
-            byte[] plainBytes = Encoding.UTF8.GetBytes(plainText);
-            byte[] encryptedBytes = ProtectedData.Protect(plainBytes, null, DataProtectionScope.CurrentUser);
-            return Convert.ToBase64String(encryptedBytes);
+            if (string.IsNullOrEmpty(plainText))
+                return string.Empty;
+
+            byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+            return Convert.ToBase64String(plainTextBytes);
         }
 
-        /// <summary>
-        /// Decrypts a Base64-encoded DPAPI-protected string back to plaintext.
-        /// </summary>
-        private static string _DecryptPassword(string encryptedBase64)
+        // فك التشفير البسيط باستخدام Base64
+        private static string _DecryptPassword(string cipherText)
         {
-            byte[] encryptedBytes = Convert.FromBase64String(encryptedBase64);
-            byte[] plainBytes = ProtectedData.Unprotect(encryptedBytes, null, DataProtectionScope.CurrentUser);
-            return Encoding.UTF8.GetString(plainBytes);
-        }
+            if (string.IsNullOrEmpty(cipherText))
+                return string.Empty;
 
-        #endregion
+            try
+            {
+                byte[] base64EncodedBytes = Convert.FromBase64String(cipherText);
+                return Encoding.UTF8.GetString(base64EncodedBytes);
+            }
+            catch
+            {
+                // إذا كان النص غير صالح
+                return string.Empty;
+            }
+        }
     }
 }
