@@ -43,16 +43,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="clsSqlHelper.cs" />
-    <Compile Include="clsPersonDataAccess.cs" />
-    <Compile Include="clsUserDataAccess.cs" />
-    <Compile Include="clsMemberDataAccess.cs" />
-    <Compile Include="clsAuthorDataAccess.cs" />
-    <Compile Include="clsGenreDataAccess.cs" />
-    <Compile Include="clsBookDataAccess.cs" />
-    <Compile Include="clsBookCopyDataAccess.cs" />
-    <Compile Include="clsBorrowingDataAccess.cs" />
-    <Compile Include="clsDataAccessSettings.cs" />
+    <Compile Include="Settings\clsSqlHelper.cs" />
+    <Compile Include="People\clsPersonDataAccess.cs" />
+    <Compile Include="Users\clsUserDataAccess.cs" />
+    <Compile Include="Members\clsMemberDataAccess.cs" />
+    <Compile Include="Authors\clsAuthorDataAccess.cs" />
+    <Compile Include="Books\clsGenreDataAccess.cs" />
+    <Compile Include="Books\clsBookDataAccess.cs" />
+    <Compile Include="Books\clsBookCopyDataAccess.cs" />
+    <Compile Include="Borrowing\clsBorrowingDataAccess.cs" />
+    <Compile Include="Settings\clsDataAccessSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

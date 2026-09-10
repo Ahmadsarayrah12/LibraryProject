@@ -47,184 +47,184 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="clsGlobal.cs" />
-    <Compile Include="ctrlPersonCard.cs">
+    <Compile Include="Global\clsGlobal.cs" />
+    <Compile Include="People\ctrlPersonCard.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ctrlPersonCard.Designer.cs">
+    <Compile Include="People\ctrlPersonCard.Designer.cs">
       <DependentUpon>ctrlPersonCard.cs</DependentUpon>
     </Compile>
-    <Compile Include="ctrlPersonCardWithFilter.cs">
+    <Compile Include="People\ctrlPersonCardWithFilter.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ctrlPersonCardWithFilter.Designer.cs">
+    <Compile Include="People\ctrlPersonCardWithFilter.Designer.cs">
       <DependentUpon>ctrlPersonCardWithFilter.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmAddUpdateMember.cs">
+    <Compile Include="Members\frmAddUpdateMember.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAddUpdateMember.Designer.cs">
+    <Compile Include="Members\frmAddUpdateMember.Designer.cs">
       <DependentUpon>frmAddUpdateMember.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmMembersList.cs">
+    <Compile Include="Members\frmMembersList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmMembersList.Designer.cs">
+    <Compile Include="Members\frmMembersList.Designer.cs">
       <DependentUpon>frmMembersList.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmAddUpdatePerson.cs">
+    <Compile Include="People\frmAddUpdatePerson.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAddUpdatePerson.Designer.cs">
+    <Compile Include="People\frmAddUpdatePerson.Designer.cs">
       <DependentUpon>frmAddUpdatePerson.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmAddUpdateUser.cs">
+    <Compile Include="Users\frmAddUpdateUser.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAddUpdateUser.Designer.cs">
+    <Compile Include="Users\frmAddUpdateUser.Designer.cs">
       <DependentUpon>frmAddUpdateUser.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmChangePassword.cs">
+    <Compile Include="Users\frmChangePassword.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmChangePassword.Designer.cs">
+    <Compile Include="Users\frmChangePassword.Designer.cs">
       <DependentUpon>frmChangePassword.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmLogin.cs">
+    <Compile Include="Login\frmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmLogin.Designer.cs">
+    <Compile Include="Login\frmLogin.Designer.cs">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmMain.cs">
+    <Compile Include="Main\frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmMain.Designer.cs">
+    <Compile Include="Main\frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmUserInfo.cs">
+    <Compile Include="Users\frmUserInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmUserInfo.Designer.cs">
+    <Compile Include="Users\frmUserInfo.Designer.cs">
       <DependentUpon>frmUserInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmUsers.cs">
+    <Compile Include="Users\frmUsers.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmUsers.Designer.cs">
+    <Compile Include="Users\frmUsers.Designer.cs">
       <DependentUpon>frmUsers.cs</DependentUpon>
     </Compile>
-    <Compile Include="ctrlBookCard.cs">
+    <Compile Include="Books\ctrlBookCard.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ctrlBookCard.Designer.cs">
+    <Compile Include="Books\ctrlBookCard.Designer.cs">
       <DependentUpon>ctrlBookCard.cs</DependentUpon>
     </Compile>
-    <Compile Include="ctrlBookCardWithFilter.cs">
+    <Compile Include="Books\ctrlBookCardWithFilter.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ctrlBookCardWithFilter.Designer.cs">
+    <Compile Include="Books\ctrlBookCardWithFilter.Designer.cs">
       <DependentUpon>ctrlBookCardWithFilter.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmManageAuthors.cs">
+    <Compile Include="Authors\frmManageAuthors.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmManageAuthors.Designer.cs">
+    <Compile Include="Authors\frmManageAuthors.Designer.cs">
       <DependentUpon>frmManageAuthors.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmAddUpdateBook.cs">
+    <Compile Include="Books\frmAddUpdateBook.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAddUpdateBook.Designer.cs">
+    <Compile Include="Books\frmAddUpdateBook.Designer.cs">
       <DependentUpon>frmAddUpdateBook.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmBookDetails.cs">
+    <Compile Include="Books\frmBookDetails.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmBookDetails.Designer.cs">
+    <Compile Include="Books\frmBookDetails.Designer.cs">
       <DependentUpon>frmBookDetails.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmBooksList.cs">
+    <Compile Include="Books\frmBooksList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmBooksList.Designer.cs">
+    <Compile Include="Books\frmBooksList.Designer.cs">
       <DependentUpon>frmBooksList.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmBorrowBook.cs">
+    <Compile Include="Borrowing\frmBorrowBook.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmBorrowBook.Designer.cs">
+    <Compile Include="Borrowing\frmBorrowBook.Designer.cs">
       <DependentUpon>frmBorrowBook.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmReturnBook.cs">
+    <Compile Include="Borrowing\frmReturnBook.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmReturnBook.Designer.cs">
+    <Compile Include="Borrowing\frmReturnBook.Designer.cs">
       <DependentUpon>frmReturnBook.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmManageBorrowings.cs">
+    <Compile Include="Borrowing\frmManageBorrowings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmManageBorrowings.Designer.cs">
+    <Compile Include="Borrowing\frmManageBorrowings.Designer.cs">
       <DependentUpon>frmManageBorrowings.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ctrlBookCard.resx">
+    <EmbeddedResource Include="Books\ctrlBookCard.resx">
       <DependentUpon>ctrlBookCard.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ctrlBookCardWithFilter.resx">
+    <EmbeddedResource Include="Books\ctrlBookCardWithFilter.resx">
       <DependentUpon>ctrlBookCardWithFilter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmManageAuthors.resx">
+    <EmbeddedResource Include="Authors\frmManageAuthors.resx">
       <DependentUpon>frmManageAuthors.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmAddUpdateBook.resx">
+    <EmbeddedResource Include="Books\frmAddUpdateBook.resx">
       <DependentUpon>frmAddUpdateBook.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmBookDetails.resx">
+    <EmbeddedResource Include="Books\frmBookDetails.resx">
       <DependentUpon>frmBookDetails.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmBooksList.resx">
+    <EmbeddedResource Include="Books\frmBooksList.resx">
       <DependentUpon>frmBooksList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmBorrowBook.resx">
+    <EmbeddedResource Include="Borrowing\frmBorrowBook.resx">
       <DependentUpon>frmBorrowBook.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmReturnBook.resx">
+    <EmbeddedResource Include="Borrowing\frmReturnBook.resx">
       <DependentUpon>frmReturnBook.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmManageBorrowings.resx">
+    <EmbeddedResource Include="Borrowing\frmManageBorrowings.resx">
       <DependentUpon>frmManageBorrowings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ctrlPersonCard.resx">
+    <EmbeddedResource Include="People\ctrlPersonCard.resx">
       <DependentUpon>ctrlPersonCard.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ctrlPersonCardWithFilter.resx">
+    <EmbeddedResource Include="People\ctrlPersonCardWithFilter.resx">
       <DependentUpon>ctrlPersonCardWithFilter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmAddUpdateMember.resx">
+    <EmbeddedResource Include="Members\frmAddUpdateMember.resx">
       <DependentUpon>frmAddUpdateMember.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmMembersList.resx">
+    <EmbeddedResource Include="Members\frmMembersList.resx">
       <DependentUpon>frmMembersList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmAddUpdateUser.resx">
+    <EmbeddedResource Include="Users\frmAddUpdateUser.resx">
       <DependentUpon>frmAddUpdateUser.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmChangePassword.resx">
+    <EmbeddedResource Include="Users\frmChangePassword.resx">
       <DependentUpon>frmChangePassword.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmLogin.resx">
+    <EmbeddedResource Include="Login\frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmMain.resx">
+    <EmbeddedResource Include="Main\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmUserInfo.resx">
+    <EmbeddedResource Include="Users\frmUserInfo.resx">
       <DependentUpon>frmUserInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmUsers.resx">
+    <EmbeddedResource Include="Users\frmUsers.resx">
       <DependentUpon>frmUsers.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -41,14 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="clsMember.cs" />
-    <Compile Include="clsPerson.cs" />
-    <Compile Include="clsUser.cs" />
-    <Compile Include="clsAuthor.cs" />
-    <Compile Include="clsGenre.cs" />
-    <Compile Include="clsBookCopy.cs" />
-    <Compile Include="clsBook.cs" />
-    <Compile Include="clsBorrowingRecord.cs" />
+    <Compile Include="Members\clsMember.cs" />
+    <Compile Include="People\clsPerson.cs" />
+    <Compile Include="Users\clsUser.cs" />
+    <Compile Include="Authors\clsAuthor.cs" />
+    <Compile Include="Books\clsGenre.cs" />
+    <Compile Include="Books\clsBookCopy.cs" />
+    <Compile Include="Books\clsBook.cs" />
+    <Compile Include="Borrowing\clsBorrowingRecord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
