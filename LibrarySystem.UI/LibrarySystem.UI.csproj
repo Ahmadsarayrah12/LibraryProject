@@ -168,6 +168,12 @@
     <Compile Include="Borrowing\frmManageBorrowings.Designer.cs">
       <DependentUpon>frmManageBorrowings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Fines\frmManageFines.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fines\frmManageFines.Designer.cs">
+      <DependentUpon>frmManageFines.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Books\ctrlBookCard.resx">
@@ -196,6 +202,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Borrowing\frmManageBorrowings.resx">
       <DependentUpon>frmManageBorrowings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fines\frmManageFines.resx">
+      <DependentUpon>frmManageFines.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="People\ctrlPersonCard.resx">
       <DependentUpon>ctrlPersonCard.cs</DependentUpon>

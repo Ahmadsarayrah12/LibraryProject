@@ -43,6 +43,9 @@ namespace LibrarySystem.UI
             tsmiBorrowBook.Enabled = canManageBorrowing;
             tsmiReturnBook.Enabled = canManageBorrowing;
 
+            bool canManageFines = clsGlobal.CurrentUser.CheckAccessPermission(clsUser.enPermissions.pFines);
+            tsmiManageFines.Enabled = canManageFines;
+
             bool canManageUsers = clsGlobal.CurrentUser.CheckAccessPermission(clsUser.enPermissions.pManageUsers);
             tsmiManageUsers.Enabled = canManageUsers;
         }
@@ -79,6 +82,7 @@ namespace LibrarySystem.UI
         {
             frmAddUpdateMember frm = new frmAddUpdateMember();
             frm.MdiParent = this;
+            frm.MdiParent = this;
             frm.Show();
         }
 
@@ -99,6 +103,13 @@ namespace LibrarySystem.UI
         private void tsmiReturnBook_Click(object sender, EventArgs e)
         {
             frmReturnBook frm = new frmReturnBook();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void tsmiManageFines_Click(object sender, EventArgs e)
+        {
+            Fines.frmManageFines frm = new Fines.frmManageFines();
             frm.MdiParent = this;
             frm.Show();
         }

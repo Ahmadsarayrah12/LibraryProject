@@ -29,6 +29,7 @@ namespace LibrarySystem.UI
             this.tsmiManageBorrowings = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiBorrowBook = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiReturnBook = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiManageFines = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiUsers = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiManageUsers = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiCurrentUserInfo = new System.Windows.Forms.ToolStripMenuItem();
@@ -114,10 +115,19 @@ namespace LibrarySystem.UI
             this.tsmiCirculation.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiManageBorrowings,
             this.tsmiBorrowBook,
-            this.tsmiReturnBook});
+            this.tsmiReturnBook,
+            this.tsmiManageFines});
+            this.tsmiCirculation.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tsmiCirculation.Name = "tsmiCirculation";
-            this.tsmiCirculation.Size = new System.Drawing.Size(84, 21);
+            this.tsmiCirculation.Size = new System.Drawing.Size(107, 25);
             this.tsmiCirculation.Text = "Circulation";
+            // 
+            // tsmiManageFines
+            // 
+            this.tsmiManageFines.Name = "tsmiManageFines";
+            this.tsmiManageFines.Size = new System.Drawing.Size(225, 26);
+            this.tsmiManageFines.Text = "Manage Fines";
+            this.tsmiManageFines.Click += new System.EventHandler(this.tsmiManageFines_Click);
             // 
             // tsmiManageBorrowings
             // 
@@ -238,6 +248,7 @@ namespace LibrarySystem.UI
         private System.Windows.Forms.ToolStripMenuItem tsmiManageBorrowings;
         private System.Windows.Forms.ToolStripMenuItem tsmiBorrowBook;
         private System.Windows.Forms.ToolStripMenuItem tsmiReturnBook;
+        private System.Windows.Forms.ToolStripMenuItem tsmiManageFines;
         private System.Windows.Forms.ToolStripMenuItem tsmiUsers;
         private System.Windows.Forms.ToolStripMenuItem tsmiManageUsers;
         private System.Windows.Forms.ToolStripMenuItem tsmiCurrentUserInfo;
