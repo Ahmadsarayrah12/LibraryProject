@@ -119,7 +119,7 @@ namespace LibrarySystem.UI
             "Book Copy ID"});
             this.cbSearchBy.Location = new System.Drawing.Point(95, 26);
             this.cbSearchBy.Name = "cbSearchBy";
-            this.cbSearchBy.Size = new System.Drawing.Size(150, 24);
+            this.cbSearchBy.Size = new System.Drawing.Size(150, 25);
             this.cbSearchBy.TabIndex = 1;
             // 
             // label1
@@ -129,7 +129,7 @@ namespace LibrarySystem.UI
             this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(15, 29);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(73, 17);
+            this.label1.Size = new System.Drawing.Size(71, 17);
             this.label1.TabIndex = 0;
             this.label1.Text = "Search By:";
             // 
@@ -169,7 +169,7 @@ namespace LibrarySystem.UI
             this.lblStatus.ForeColor = System.Drawing.Color.Gray;
             this.lblStatus.Location = new System.Drawing.Point(440, 190);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(39, 19);
+            this.lblStatus.Size = new System.Drawing.Size(37, 19);
             this.lblStatus.TabIndex = 17;
             this.lblStatus.Text = "[???]";
             // 
@@ -180,7 +180,7 @@ namespace LibrarySystem.UI
             this.label11.ForeColor = System.Drawing.Color.Black;
             this.label11.Location = new System.Drawing.Point(340, 192);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(83, 17);
+            this.label11.Size = new System.Drawing.Size(84, 17);
             this.label11.TabIndex = 16;
             this.label11.Text = "Loan Status:";
             // 
@@ -191,7 +191,7 @@ namespace LibrarySystem.UI
             this.lblDueDate.ForeColor = System.Drawing.Color.MidnightBlue;
             this.lblDueDate.Location = new System.Drawing.Point(440, 150);
             this.lblDueDate.Name = "lblDueDate";
-            this.lblDueDate.Size = new System.Drawing.Size(35, 17);
+            this.lblDueDate.Size = new System.Drawing.Size(36, 17);
             this.lblDueDate.TabIndex = 15;
             this.lblDueDate.Text = "[???]";
             // 
@@ -202,7 +202,7 @@ namespace LibrarySystem.UI
             this.label9.ForeColor = System.Drawing.Color.Black;
             this.label9.Location = new System.Drawing.Point(340, 150);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(69, 17);
+            this.label9.Size = new System.Drawing.Size(70, 17);
             this.label9.TabIndex = 14;
             this.label9.Text = "Due Date:";
             // 
@@ -213,7 +213,7 @@ namespace LibrarySystem.UI
             this.lblBorrowDate.ForeColor = System.Drawing.Color.MidnightBlue;
             this.lblBorrowDate.Location = new System.Drawing.Point(440, 110);
             this.lblBorrowDate.Name = "lblBorrowDate";
-            this.lblBorrowDate.Size = new System.Drawing.Size(35, 17);
+            this.lblBorrowDate.Size = new System.Drawing.Size(36, 17);
             this.lblBorrowDate.TabIndex = 13;
             this.lblBorrowDate.Text = "[???]";
             // 
@@ -235,7 +235,7 @@ namespace LibrarySystem.UI
             this.lblMemberName.ForeColor = System.Drawing.Color.MidnightBlue;
             this.lblMemberName.Location = new System.Drawing.Point(440, 70);
             this.lblMemberName.Name = "lblMemberName";
-            this.lblMemberName.Size = new System.Drawing.Size(35, 17);
+            this.lblMemberName.Size = new System.Drawing.Size(36, 17);
             this.lblMemberName.TabIndex = 11;
             this.lblMemberName.Text = "[???]";
             // 
@@ -257,7 +257,7 @@ namespace LibrarySystem.UI
             this.lblMemberID.ForeColor = System.Drawing.Color.MidnightBlue;
             this.lblMemberID.Location = new System.Drawing.Point(440, 30);
             this.lblMemberID.Name = "lblMemberID";
-            this.lblMemberID.Size = new System.Drawing.Size(35, 17);
+            this.lblMemberID.Size = new System.Drawing.Size(36, 17);
             this.lblMemberID.TabIndex = 9;
             this.lblMemberID.Text = "[???]";
             // 
@@ -279,7 +279,7 @@ namespace LibrarySystem.UI
             this.lblCopyID.ForeColor = System.Drawing.Color.MidnightBlue;
             this.lblCopyID.Location = new System.Drawing.Point(120, 150);
             this.lblCopyID.Name = "lblCopyID";
-            this.lblCopyID.Size = new System.Drawing.Size(35, 17);
+            this.lblCopyID.Size = new System.Drawing.Size(36, 17);
             this.lblCopyID.TabIndex = 7;
             this.lblCopyID.Text = "[???]";
             // 
@@ -301,7 +301,7 @@ namespace LibrarySystem.UI
             this.lblISBN.ForeColor = System.Drawing.Color.MidnightBlue;
             this.lblISBN.Location = new System.Drawing.Point(120, 110);
             this.lblISBN.Name = "lblISBN";
-            this.lblISBN.Size = new System.Drawing.Size(35, 17);
+            this.lblISBN.Size = new System.Drawing.Size(36, 17);
             this.lblISBN.TabIndex = 5;
             this.lblISBN.Text = "[???]";
             // 
@@ -312,7 +312,7 @@ namespace LibrarySystem.UI
             this.label4.ForeColor = System.Drawing.Color.Black;
             this.label4.Location = new System.Drawing.Point(15, 110);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(42, 17);
+            this.label4.Size = new System.Drawing.Size(41, 17);
             this.label4.TabIndex = 4;
             this.label4.Text = "ISBN:";
             // 
@@ -344,7 +344,7 @@ namespace LibrarySystem.UI
             this.lblBorrowingID.ForeColor = System.Drawing.Color.MidnightBlue;
             this.lblBorrowingID.Location = new System.Drawing.Point(120, 30);
             this.lblBorrowingID.Name = "lblBorrowingID";
-            this.lblBorrowingID.Size = new System.Drawing.Size(35, 17);
+            this.lblBorrowingID.Size = new System.Drawing.Size(36, 17);
             this.lblBorrowingID.TabIndex = 1;
             this.lblBorrowingID.Text = "[???]";
             // 
@@ -355,7 +355,7 @@ namespace LibrarySystem.UI
             this.label2.ForeColor = System.Drawing.Color.Black;
             this.label2.Location = new System.Drawing.Point(15, 30);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(93, 17);
+            this.label2.Size = new System.Drawing.Size(94, 17);
             this.label2.TabIndex = 0;
             this.label2.Text = "Borrowing ID:";
             // 
@@ -394,7 +394,7 @@ namespace LibrarySystem.UI
             this.label14.ForeColor = System.Drawing.Color.Black;
             this.label14.Location = new System.Drawing.Point(445, 30);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(89, 17);
+            this.label14.Size = new System.Drawing.Size(91, 17);
             this.label14.TabIndex = 4;
             this.label14.Text = "Accrued Fine:";
             // 
@@ -416,7 +416,7 @@ namespace LibrarySystem.UI
             this.label13.ForeColor = System.Drawing.Color.Black;
             this.label13.Location = new System.Drawing.Point(220, 30);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(99, 17);
+            this.label13.Size = new System.Drawing.Size(97, 17);
             this.label13.TabIndex = 2;
             this.label13.Text = "Late Duration:";
             // 
@@ -427,7 +427,7 @@ namespace LibrarySystem.UI
             this.lblReturnDate.ForeColor = System.Drawing.Color.MidnightBlue;
             this.lblReturnDate.Location = new System.Drawing.Point(105, 30);
             this.lblReturnDate.Name = "lblReturnDate";
-            this.lblReturnDate.Size = new System.Drawing.Size(78, 17);
+            this.lblReturnDate.Size = new System.Drawing.Size(76, 17);
             this.lblReturnDate.TabIndex = 1;
             this.lblReturnDate.Text = "01/01/2026";
             // 
@@ -438,7 +438,7 @@ namespace LibrarySystem.UI
             this.label12.ForeColor = System.Drawing.Color.Black;
             this.label12.Location = new System.Drawing.Point(15, 30);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(85, 17);
+            this.label12.Size = new System.Drawing.Size(86, 17);
             this.label12.TabIndex = 0;
             this.label12.Text = "Return Date:";
             // 
@@ -484,7 +484,7 @@ namespace LibrarySystem.UI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(674, 530);
+            this.ClientSize = new System.Drawing.Size(686, 530);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnReturn);
             this.Controls.Add(this.gbReturnInfo);
@@ -492,7 +492,6 @@ namespace LibrarySystem.UI
             this.Controls.Add(this.gbSearch);
             this.Controls.Add(this.lblHeaderTitle);
             this.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmReturnBook";

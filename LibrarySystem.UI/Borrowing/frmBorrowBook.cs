@@ -278,6 +278,16 @@ namespace LibrarySystem.UI
         {
             this.Close();
         }
+
+        private void tpBookAndLoan_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ctrlBookCardWithFilter1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

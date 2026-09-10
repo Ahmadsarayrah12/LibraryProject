@@ -16,10 +16,7 @@ namespace LibrarySystem.UI
         private int _initialBorrowingID = -1;
         private clsBorrowingRecord _currentBorrowing = null;
 
-        /// <summary>
-        /// Daily fine rate in dollars for overdue loans.
-        /// </summary>
-        public const decimal DailyFineRate = 1.00m;
+        // Using clsFine.DefaultFinePerDay for fine calculation
 
         public frmReturnBook()
         {
@@ -183,7 +180,7 @@ namespace LibrarySystem.UI
 
             if (lateDays > 0)
             {
-                decimal fine = lateDays * DailyFineRate;
+                decimal fine = lateDays * LibrarySystem.Business.clsFine.DefaultFinePerDay;
                 lblOverdueDays.Text = $"{lateDays} day(s) OVERDUE";
                 lblOverdueDays.ForeColor = Color.Crimson;
 
@@ -233,7 +230,7 @@ namespace LibrarySystem.UI
 
             int lateDays = _currentBorrowing.OverdueDays;
             string lateNotice = lateDays > 0
-                ? $"\n\nWARNING: This loan is {lateDays} day(s) overdue! Estimated fine: ${(lateDays * DailyFineRate):F2}."
+                ? $"\n\nWARNING: This loan is {lateDays} day(s) overdue! Estimated fine: ${(lateDays * LibrarySystem.Business.clsFine.DefaultFinePerDay):F2}."
                 : "";
 
             DialogResult confirm = MessageBox.Show(
@@ -249,13 +246,17 @@ namespace LibrarySystem.UI
             {
                 if (_currentBorrowing.ReturnBook(DateTime.Now))
                 {
+                    string fineMsg = lateDays > 0 
+                        ? $"\n\nA fine of ${(lateDays * LibrarySystem.Business.clsFine.DefaultFinePerDay):F2} has been added to the member's account." 
+                        : "";
+
                     MessageBox.Show(
-                        $"Book successfully returned!\n\nInventory for Copy ID [{_currentBorrowing.BookCopyID}] restored to Available.",
+                        $"Book successfully returned!\n\nInventory for Copy ID [{_currentBorrowing.BookCopyID}] restored to Available." + fineMsg,
                         "Return Success",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
 
-                    
+                    // Refresh
                     _DisplayBorrowingDetails();
                 }
                 else

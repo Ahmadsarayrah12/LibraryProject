@@ -59,11 +59,11 @@ namespace LibrarySystem.UI
             // 
             this.lblHeaderTitle.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblHeaderTitle.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.lblHeaderTitle.Location = new System.Drawing.Point(12, 9);
+            this.lblHeaderTitle.Location = new System.Drawing.Point(77, 9);
             this.lblHeaderTitle.Name = "lblHeaderTitle";
             this.lblHeaderTitle.Size = new System.Drawing.Size(700, 38);
             this.lblHeaderTitle.TabIndex = 0;
-            this.lblHeaderTitle.Text = "Issue Book Loan / تسجيل إعارة كتاب";
+            this.lblHeaderTitle.Text = "Issue Book Loan ";
             this.lblHeaderTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tcBorrow
@@ -71,10 +71,10 @@ namespace LibrarySystem.UI
             this.tcBorrow.Controls.Add(this.tpMember);
             this.tcBorrow.Controls.Add(this.tpBookAndLoan);
             this.tcBorrow.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tcBorrow.Location = new System.Drawing.Point(12, 50);
+            this.tcBorrow.Location = new System.Drawing.Point(12, 75);
             this.tcBorrow.Name = "tcBorrow";
             this.tcBorrow.SelectedIndex = 0;
-            this.tcBorrow.Size = new System.Drawing.Size(700, 535);
+            this.tcBorrow.Size = new System.Drawing.Size(846, 568);
             this.tcBorrow.TabIndex = 1;
             // 
             // tpMember
@@ -85,7 +85,7 @@ namespace LibrarySystem.UI
             this.tpMember.Location = new System.Drawing.Point(4, 26);
             this.tpMember.Name = "tpMember";
             this.tpMember.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMember.Size = new System.Drawing.Size(692, 505);
+            this.tpMember.Size = new System.Drawing.Size(838, 538);
             this.tpMember.TabIndex = 0;
             this.tpMember.Text = "1. Member Info (بيانات العضو)";
             this.tpMember.UseVisualStyleBackColor = true;
@@ -119,7 +119,7 @@ namespace LibrarySystem.UI
             this.gbMemberStatus.ForeColor = System.Drawing.Color.DarkSlateBlue;
             this.gbMemberStatus.Location = new System.Drawing.Point(10, 375);
             this.gbMemberStatus.Name = "gbMemberStatus";
-            this.gbMemberStatus.Size = new System.Drawing.Size(672, 75);
+            this.gbMemberStatus.Size = new System.Drawing.Size(822, 75);
             this.gbMemberStatus.TabIndex = 1;
             this.gbMemberStatus.TabStop = false;
             this.gbMemberStatus.Text = "Membership & Circulation Status";
@@ -131,7 +131,7 @@ namespace LibrarySystem.UI
             this.lblEligibility.ForeColor = System.Drawing.Color.Gray;
             this.lblEligibility.Location = new System.Drawing.Point(520, 30);
             this.lblEligibility.Name = "lblEligibility";
-            this.lblEligibility.Size = new System.Drawing.Size(126, 17);
+            this.lblEligibility.Size = new System.Drawing.Size(121, 17);
             this.lblEligibility.TabIndex = 7;
             this.lblEligibility.Text = "Select a member...";
             // 
@@ -142,7 +142,7 @@ namespace LibrarySystem.UI
             this.label6.ForeColor = System.Drawing.Color.Black;
             this.label6.Location = new System.Drawing.Point(445, 30);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(74, 17);
+            this.label6.Size = new System.Drawing.Size(71, 17);
             this.label6.TabIndex = 6;
             this.label6.Text = "Eligibility:";
             // 
@@ -153,7 +153,7 @@ namespace LibrarySystem.UI
             this.lblActiveLoans.ForeColor = System.Drawing.Color.MidnightBlue;
             this.lblActiveLoans.Location = new System.Drawing.Point(380, 30);
             this.lblActiveLoans.Name = "lblActiveLoans";
-            this.lblActiveLoans.Size = new System.Drawing.Size(35, 17);
+            this.lblActiveLoans.Size = new System.Drawing.Size(36, 17);
             this.lblActiveLoans.TabIndex = 5;
             this.lblActiveLoans.Text = "[???]";
             // 
@@ -175,7 +175,7 @@ namespace LibrarySystem.UI
             this.lblSubscriptionDate.ForeColor = System.Drawing.Color.MidnightBlue;
             this.lblSubscriptionDate.Location = new System.Drawing.Point(195, 30);
             this.lblSubscriptionDate.Name = "lblSubscriptionDate";
-            this.lblSubscriptionDate.Size = new System.Drawing.Size(35, 17);
+            this.lblSubscriptionDate.Size = new System.Drawing.Size(36, 17);
             this.lblSubscriptionDate.TabIndex = 3;
             this.lblSubscriptionDate.Text = "[???]";
             // 
@@ -186,7 +186,7 @@ namespace LibrarySystem.UI
             this.label3.ForeColor = System.Drawing.Color.Black;
             this.label3.Location = new System.Drawing.Point(145, 30);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(46, 17);
+            this.label3.Size = new System.Drawing.Size(44, 17);
             this.label3.TabIndex = 2;
             this.label3.Text = "Since:";
             // 
@@ -197,7 +197,7 @@ namespace LibrarySystem.UI
             this.lblMemberID.ForeColor = System.Drawing.Color.MidnightBlue;
             this.lblMemberID.Location = new System.Drawing.Point(90, 30);
             this.lblMemberID.Name = "lblMemberID";
-            this.lblMemberID.Size = new System.Drawing.Size(35, 17);
+            this.lblMemberID.Size = new System.Drawing.Size(36, 17);
             this.lblMemberID.TabIndex = 1;
             this.lblMemberID.Text = "[???]";
             // 
@@ -214,16 +214,18 @@ namespace LibrarySystem.UI
             // 
             // ctrlPersonCardWithFilter1
             // 
+            this.ctrlPersonCardWithFilter1.BackColor = System.Drawing.SystemColors.Control;
             this.ctrlPersonCardWithFilter1.FilterEnabled = true;
             this.ctrlPersonCardWithFilter1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ctrlPersonCardWithFilter1.Location = new System.Drawing.Point(10, 6);
             this.ctrlPersonCardWithFilter1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ctrlPersonCardWithFilter1.Name = "ctrlPersonCardWithFilter1";
-            this.ctrlPersonCardWithFilter1.Size = new System.Drawing.Size(672, 365);
+            this.ctrlPersonCardWithFilter1.Size = new System.Drawing.Size(822, 365);
             this.ctrlPersonCardWithFilter1.TabIndex = 0;
             // 
             // tpBookAndLoan
             // 
+            this.tpBookAndLoan.Controls.Add(this.btnClose);
             this.tpBookAndLoan.Controls.Add(this.btnBorrow);
             this.tpBookAndLoan.Controls.Add(this.btnBackToMember);
             this.tpBookAndLoan.Controls.Add(this.gbLoanDetails);
@@ -231,10 +233,11 @@ namespace LibrarySystem.UI
             this.tpBookAndLoan.Location = new System.Drawing.Point(4, 26);
             this.tpBookAndLoan.Name = "tpBookAndLoan";
             this.tpBookAndLoan.Padding = new System.Windows.Forms.Padding(3);
-            this.tpBookAndLoan.Size = new System.Drawing.Size(692, 505);
+            this.tpBookAndLoan.Size = new System.Drawing.Size(838, 538);
             this.tpBookAndLoan.TabIndex = 1;
             this.tpBookAndLoan.Text = "2. Book & Loan Terms (الكتاب وتفاصيل الإعارة)";
             this.tpBookAndLoan.UseVisualStyleBackColor = true;
+            this.tpBookAndLoan.Click += new System.EventHandler(this.tpBookAndLoan_Click);
             // 
             // btnBorrow
             // 
@@ -248,7 +251,7 @@ namespace LibrarySystem.UI
             this.btnBorrow.Name = "btnBorrow";
             this.btnBorrow.Size = new System.Drawing.Size(170, 36);
             this.btnBorrow.TabIndex = 3;
-            this.btnBorrow.Text = "Issue Loan / استعارة";
+            this.btnBorrow.Text = "Issue Loan";
             this.btnBorrow.UseVisualStyleBackColor = false;
             this.btnBorrow.Click += new System.EventHandler(this.btnBorrow_Click);
             // 
@@ -259,7 +262,7 @@ namespace LibrarySystem.UI
             this.btnBackToMember.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBackToMember.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnBackToMember.ForeColor = System.Drawing.Color.White;
-            this.btnBackToMember.Location = new System.Drawing.Point(10, 458);
+            this.btnBackToMember.Location = new System.Drawing.Point(67, 476);
             this.btnBackToMember.Name = "btnBackToMember";
             this.btnBackToMember.Size = new System.Drawing.Size(140, 36);
             this.btnBackToMember.TabIndex = 2;
@@ -279,9 +282,9 @@ namespace LibrarySystem.UI
             this.gbLoanDetails.Controls.Add(this.label5);
             this.gbLoanDetails.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
             this.gbLoanDetails.ForeColor = System.Drawing.Color.DarkSlateBlue;
-            this.gbLoanDetails.Location = new System.Drawing.Point(10, 375);
+            this.gbLoanDetails.Location = new System.Drawing.Point(67, 377);
             this.gbLoanDetails.Name = "gbLoanDetails";
-            this.gbLoanDetails.Size = new System.Drawing.Size(672, 75);
+            this.gbLoanDetails.Size = new System.Drawing.Size(747, 75);
             this.gbLoanDetails.TabIndex = 1;
             this.gbLoanDetails.TabStop = false;
             this.gbLoanDetails.Text = "Circulation Parameters";
@@ -293,7 +296,7 @@ namespace LibrarySystem.UI
             this.lblCreatedBy.ForeColor = System.Drawing.Color.MidnightBlue;
             this.lblCreatedBy.Location = new System.Drawing.Point(585, 30);
             this.lblCreatedBy.Name = "lblCreatedBy";
-            this.lblCreatedBy.Size = new System.Drawing.Size(35, 17);
+            this.lblCreatedBy.Size = new System.Drawing.Size(36, 17);
             this.lblCreatedBy.TabIndex = 7;
             this.lblCreatedBy.Text = "[???]";
             // 
@@ -302,9 +305,9 @@ namespace LibrarySystem.UI
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
             this.label9.ForeColor = System.Drawing.Color.Black;
-            this.label9.Location = new System.Drawing.Point(515, 30);
+            this.label9.Location = new System.Drawing.Point(518, 30);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(69, 17);
+            this.label9.Size = new System.Drawing.Size(70, 17);
             this.label9.TabIndex = 6;
             this.label9.Text = "Issued By:";
             // 
@@ -325,7 +328,7 @@ namespace LibrarySystem.UI
             this.label8.ForeColor = System.Drawing.Color.Black;
             this.label8.Location = new System.Drawing.Point(325, 30);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(69, 17);
+            this.label8.Size = new System.Drawing.Size(70, 17);
             this.label8.TabIndex = 4;
             this.label8.Text = "Due Date:";
             // 
@@ -336,7 +339,7 @@ namespace LibrarySystem.UI
             this.lblBorrowDate.ForeColor = System.Drawing.Color.MidnightBlue;
             this.lblBorrowDate.Location = new System.Drawing.Point(235, 30);
             this.lblBorrowDate.Name = "lblBorrowDate";
-            this.lblBorrowDate.Size = new System.Drawing.Size(78, 17);
+            this.lblBorrowDate.Size = new System.Drawing.Size(76, 17);
             this.lblBorrowDate.TabIndex = 3;
             this.lblBorrowDate.Text = "01/01/2026";
             // 
@@ -347,7 +350,7 @@ namespace LibrarySystem.UI
             this.label7.ForeColor = System.Drawing.Color.Black;
             this.label7.Location = new System.Drawing.Point(175, 30);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(60, 17);
+            this.label7.Size = new System.Drawing.Size(57, 17);
             this.label7.TabIndex = 2;
             this.label7.Text = "Loaned:";
             // 
@@ -358,7 +361,7 @@ namespace LibrarySystem.UI
             this.cbAvailableCopies.FormattingEnabled = true;
             this.cbAvailableCopies.Location = new System.Drawing.Point(75, 27);
             this.cbAvailableCopies.Name = "cbAvailableCopies";
-            this.cbAvailableCopies.Size = new System.Drawing.Size(90, 24);
+            this.cbAvailableCopies.Size = new System.Drawing.Size(90, 25);
             this.cbAvailableCopies.TabIndex = 1;
             // 
             // label5
@@ -376,11 +379,12 @@ namespace LibrarySystem.UI
             // 
             this.ctrlBookCardWithFilter1.FilterEnabled = true;
             this.ctrlBookCardWithFilter1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctrlBookCardWithFilter1.Location = new System.Drawing.Point(10, 6);
+            this.ctrlBookCardWithFilter1.Location = new System.Drawing.Point(50, 7);
             this.ctrlBookCardWithFilter1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ctrlBookCardWithFilter1.Name = "ctrlBookCardWithFilter1";
-            this.ctrlBookCardWithFilter1.Size = new System.Drawing.Size(672, 365);
+            this.ctrlBookCardWithFilter1.Size = new System.Drawing.Size(764, 361);
             this.ctrlBookCardWithFilter1.TabIndex = 0;
+            this.ctrlBookCardWithFilter1.Load += new System.EventHandler(this.ctrlBookCardWithFilter1_Load);
             // 
             // btnClose
             // 
@@ -390,7 +394,7 @@ namespace LibrarySystem.UI
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnClose.ForeColor = System.Drawing.Color.White;
-            this.btnClose.Location = new System.Drawing.Point(582, 591);
+            this.btnClose.Location = new System.Drawing.Point(688, 458);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(126, 36);
             this.btnClose.TabIndex = 2;
@@ -408,12 +412,10 @@ namespace LibrarySystem.UI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(724, 636);
-            this.Controls.Add(this.btnClose);
+            this.ClientSize = new System.Drawing.Size(870, 693);
             this.Controls.Add(this.tcBorrow);
             this.Controls.Add(this.lblHeaderTitle);
             this.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmBorrowBook";

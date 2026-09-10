@@ -131,6 +131,11 @@ namespace LibrarySystem.Business
                 reason = "Member has reached the maximum allowed concurrent loans.";
                 return false;
             }
+            if (clsFine.HasUnpaidFines(memberID))
+            {
+                reason = "Member has unpaid fines and cannot borrow new books.";
+                return false;
+            }
             return true;
         }
 
@@ -175,6 +180,21 @@ namespace LibrarySystem.Business
             if (this.Mode == enMode.AddNew || !this.IsActive) return false;
 
             this.ActualReturnDate = returnDate.Date;
+
+            // Generate Fine if Overdue
+            if (this.ActualReturnDate.Value > this.DueDate)
+            {
+                int lateDays = (int)(this.ActualReturnDate.Value - this.DueDate).TotalDays;
+                clsFine fine = new clsFine();
+                fine.MemberID = this.MemberID;
+                fine.BorrowingID = this.BorrowingID;
+                fine.NumberOfLateDays = lateDays;
+                fine.FineAmount = lateDays * clsFine.DefaultFinePerDay;
+                fine.PaymentStatus = false;
+                fine.CreatedByUserID = this.CreatedByUserID; 
+                fine.Save();
+            }
+
             return clsBorrowingDataAccess.ReturnBook(this.BorrowingID, this.ActualReturnDate.Value);
         }
 

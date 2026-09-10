@@ -18,7 +18,7 @@ namespace LibrarySystem.Business
         public DateTime? PaymentDate { get; set; }
         public int CreatedByUserID { get; set; }
 
-        public decimal DefaultFinePerDay { get { return 0.5m; } }
+        public static decimal DefaultFinePerDay { get { return 0.5m; } }
 
         public clsFine()
         {
