@@ -95,7 +95,7 @@ namespace LibrarySystem.Business
             return null;
         }
 
-        public static clsUser FindByUserNameAndPassword(string username, string password)
+        public static clsUser FindByUsernameAndPassword(string username, string password)
         {
             int userID = -1;
             int personID = -1;
