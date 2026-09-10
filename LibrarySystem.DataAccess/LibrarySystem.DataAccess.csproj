@@ -52,6 +52,7 @@
     <Compile Include="Books\clsBookDataAccess.cs" />
     <Compile Include="Books\clsBookCopyDataAccess.cs" />
     <Compile Include="Fines\clsFineDataAccess.cs" />
+    <Compile Include="Dashboard\clsDashboardDataAccess.cs" />
     <Compile Include="Borrowing\clsBorrowingDataAccess.cs" />
     <Compile Include="Settings\clsDataAccessSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

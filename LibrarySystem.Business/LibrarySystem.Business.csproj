@@ -49,6 +49,7 @@
     <Compile Include="Books\clsBookCopy.cs" />
     <Compile Include="Books\clsBook.cs" />
     <Compile Include="Fines\clsFine.cs" />
+    <Compile Include="Dashboard\clsDashboard.cs" />
     <Compile Include="Borrowing\clsBorrowingRecord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
