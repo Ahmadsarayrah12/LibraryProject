@@ -1,131 +1,172 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 using LibrarySystem.DataAccess;
+
 namespace LibrarySystem.Business
 {
+    /// <summary>
+    /// Represents a person domain entity in the library system.
+    /// Encapsulates identity attributes, persistence workflows (AddNew / Update),
+    /// and queries against the underlying People data storage.
+    /// </summary>
     public class clsPerson
     {
+        public enum enMode { AddNew = 0, Update = 1 }
+        public enMode Mode = enMode.AddNew;
 
-        enum enMode { AddNew=1, Update=2}
-
-        public int PersonID {  get; private set; }
+        public int PersonID { get; private set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-
-        public string Phone {  get; set; }
+        public string Phone { get; set; }
         public string Email { get; set; }
 
-        enMode _Mode = enMode.AddNew;
+        /// <summary>
+        /// Computed property returning the concatenated full name.
+        /// </summary>
+        public string FullName
+        {
+            get { return $"{FirstName} {LastName}".Trim(); }
+        }
 
+        /// <summary>
+        /// Default constructor initializing a blank person object in AddNew mode.
+        /// </summary>
         public clsPerson()
         {
-
             this.PersonID = -1;
-            this.FirstName = "";
-            this.LastName = "";
-            this.Phone = "";
-            this.Email = "";
-            this._Mode =enMode.AddNew;
+            this.FirstName = string.Empty;
+            this.LastName = string.Empty;
+            this.Phone = string.Empty;
+            this.Email = string.Empty;
+
+            this.Mode = enMode.AddNew;
         }
 
-        private clsPerson(int PersonID,string FirstName,string LastName,string Phone,string Email)
+        /// <summary>
+        /// Parameterized constructor initializing a person instance in Update mode.
+        /// </summary>
+        private clsPerson(int personID, string firstName, string lastName, string phone, string email)
         {
+            this.PersonID = personID;
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.Phone = phone;
+            this.Email = email;
 
-            this.PersonID = PersonID;
-            this.FirstName = FirstName;
-            this.LastName = LastName;
-            this.Phone = Phone;
-            this.Email = Email;
-            this._Mode = enMode.Update;
-
+            this.Mode = enMode.Update;
         }
 
-
-        public static clsPerson FindPerson(int PersonID)
+        /// <summary>
+        /// Persists a new person record to the database via DAL.
+        /// </summary>
+        private bool _AddNewPerson()
         {
-            string FirstName="";
-            string LastName = "";
-            string Phone = "";
-            string Email = "";
+            this.PersonID = clsPersonDataAccess.AddNewPerson(this.FirstName, this.LastName, this.Phone, this.Email);
+            return (this.PersonID != -1);
+        }
 
-            bool isExist = clsDataAccessLayerPeople. GetPersonInfoByID(PersonID, ref FirstName,
-            ref LastName, ref Phone, ref Email);
+        /// <summary>
+        /// Updates the current person details in the database via DAL.
+        /// </summary>
+        private bool _UpdatePerson()
+        {
+            return clsPersonDataAccess.UpdatePerson(this.PersonID, this.FirstName, this.LastName, this.Phone, this.Email);
+        }
 
-            if (isExist)
+        /// <summary>
+        /// Finds and instantiates a clsPerson entity by primary key (PersonID).
+        /// </summary>
+        /// <param name="personID">The ID of the target person.</param>
+        /// <returns>A clsPerson instance if found; otherwise, null.</returns>
+        public static clsPerson FindPerson(int personID)
+        {
+            string firstName = string.Empty;
+            string lastName = string.Empty;
+            string phone = string.Empty;
+            string email = string.Empty;
+
+            if (clsPersonDataAccess.GetPersonInfoByID(personID, ref firstName, ref lastName, ref phone, ref email))
             {
-                
-                return new clsPerson(PersonID,FirstName,LastName,Phone,Email);
-
+                return new clsPerson(personID, firstName, lastName, phone, email);
             }
-            
+
             return null;
-    
-        } 
-
-        private bool _AddPerson()
-        {
-
-              this.PersonID = clsDataAccessLayerPeople.AddNewPerson(this.FirstName,this.LastName,this.Phone ,this.Email);
-
-            return  (this.PersonID >0);
         }
 
-        private bool _Update()
+        /// <summary>
+        /// Finds and instantiates a clsPerson entity by unique phone number.
+        /// </summary>
+        /// <param name="phone">The phone number of the target person.</param>
+        /// <returns>A clsPerson instance if found; otherwise, null.</returns>
+        public static clsPerson FindPersonByPhone(string phone)
         {
-         return   clsDataAccessLayerPeople.UpdatePerson(PersonID,FirstName,LastName,Phone,Email);
+            int personID = -1;
+            string firstName = string.Empty;
+            string lastName = string.Empty;
+            string email = string.Empty;
 
+            if (clsPersonDataAccess.GetPersonInfoByPhone(phone, ref personID, ref firstName, ref lastName, ref email))
+            {
+                return new clsPerson(personID, firstName, lastName, phone, email);
+            }
+
+            return null;
         }
 
+        /// <summary>
+        /// Saves the entity state by delegating to AddNew or Update based on the active Mode.
+        /// </summary>
+        /// <returns>True if persistence succeeded; otherwise, false.</returns>
         public bool Save()
         {
-
-            switch(this._Mode) 
+            switch (this.Mode)
             {
-            
                 case enMode.AddNew:
-
-                     
-                    if (_AddPerson())
+                    if (_AddNewPerson())
                     {
-                        this._Mode = enMode.Update;
+                        this.Mode = enMode.Update;
                         return true;
-
                     }
                     return false;
 
                 case enMode.Update:
-                    return _Update();
-
-
+                    return _UpdatePerson();
 
                 default:
-
                     return false;
-            
-            
             }
-
         }
 
+        /// <summary>
+        /// Deletes a person record by primary key.
+        /// </summary>
         public static bool Delete(int personID)
         {
-            return clsDataAccessLayerPeople.DeletePerson(personID);
+            return clsPersonDataAccess.DeletePerson(personID);
         }
 
+        /// <summary>
+        /// Retrieves all people records as a DataTable for grid binding.
+        /// </summary>
         public static DataTable GetAllPeople()
         {
-            return clsDataAccessLayerPeople.GetAllPeople();
+            return clsPersonDataAccess.GetAllPeople();
         }
 
+        /// <summary>
+        /// Checks if a person exists with the specified PersonID.
+        /// </summary>
         public static bool IsPersonExist(int personID)
         {
-            return clsDataAccessLayerPeople.IsPersonExist(personID);
+            return clsPersonDataAccess.IsPersonExist(personID);
         }
 
+        /// <summary>
+        /// Checks if a person exists with the specified Phone number.
+        /// </summary>
+        public static bool IsPersonExist(string phone)
+        {
+            return clsPersonDataAccess.IsPersonExist(phone);
+        }
     }
 }

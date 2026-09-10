@@ -43,9 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="clsDataAccessLayerPeople.cs" />
-    <Compile Include="clsDataAccessLayerUsers.cs" />
-    <Compile Include="clsSettingsDataAccessLayer.cs" />
+    <Compile Include="clsPersonDataAccess.cs" />
+    <Compile Include="clsUserDataAccess.cs" />
+    <Compile Include="clsMemberDataAccess.cs" />
+    <Compile Include="clsDataAccessSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

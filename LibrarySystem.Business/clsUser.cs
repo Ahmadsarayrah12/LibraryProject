@@ -65,7 +65,7 @@ namespace LibrarySystem.Business
             bool isActive = false;
             int permissions = -1;
 
-            bool isFound = clsDataAccessLayerUsers.GetUserByID(
+            bool isFound = clsUserDataAccess.GetUserByID(
                 userID, ref personID, ref username, ref password, ref isActive, ref permissions);
 
             if (isFound)
@@ -84,7 +84,7 @@ namespace LibrarySystem.Business
             bool isActive = false;
             int permissions = -1;
 
-            bool isFound = clsDataAccessLayerUsers.GetUserInfoByPersonID(
+            bool isFound = clsUserDataAccess.GetUserInfoByPersonID(
                 personID, ref userID, ref username, ref password, ref isActive, ref permissions);
 
             if (isFound)
@@ -102,7 +102,7 @@ namespace LibrarySystem.Business
             bool isActive = false;
             int permissions = -1;
 
-            bool isFound = clsDataAccessLayerUsers.GetUserInfoByUsernameAndPassword(
+            bool isFound = clsUserDataAccess.GetUserInfoByUsernameAndPassword(
                 username, password, ref userID, ref personID, ref isActive, ref permissions);
 
             if (isFound)
@@ -115,7 +115,7 @@ namespace LibrarySystem.Business
 
         private bool _AddNewUser()
         {
-            this.UserID = clsDataAccessLayerUsers.AddNewUser(
+            this.UserID = clsUserDataAccess.AddNewUser(
                 this.PersonID, this.Username, this.Password, this.IsActive, this.Permissions);
 
             return (this.UserID > 0);
@@ -123,7 +123,7 @@ namespace LibrarySystem.Business
 
         private bool _UpdateUser()
         {
-            return clsDataAccessLayerUsers.UpdateUser(
+            return clsUserDataAccess.UpdateUser(
                 this.UserID, this.Username, this.Password, this.IsActive, this.Permissions);
         }
 
@@ -149,7 +149,7 @@ namespace LibrarySystem.Business
 
         public bool ChangePassword(string newPassword)
         {
-            bool isUpdated = clsDataAccessLayerUsers.ChangePassword(this.UserID, newPassword);
+            bool isUpdated = clsUserDataAccess.ChangePassword(this.UserID, newPassword);
 
             if (isUpdated)
             {
@@ -170,32 +170,32 @@ namespace LibrarySystem.Business
 
         public static bool Delete(int userID)
         {
-            return clsDataAccessLayerUsers.DeleteUser(userID);
+            return clsUserDataAccess.DeleteUser(userID);
         }
 
         public static bool Deactivate(int userID)
         {
-            return clsDataAccessLayerUsers.DeactivateUser(userID);
+            return clsUserDataAccess.DeactivateUser(userID);
         }
 
         public static DataTable GetAllUsers()
         {
-            return clsDataAccessLayerUsers.GetAllUsers();
+            return clsUserDataAccess.GetAllUsers();
         }
 
         public static bool IsUserExist(int userID)
         {
-            return clsDataAccessLayerUsers.IsUserExist(userID);
+            return clsUserDataAccess.IsUserExist(userID);
         }
 
         public static bool IsUserExist(string username)
         {
-            return clsDataAccessLayerUsers.IsUserExist(username);
+            return clsUserDataAccess.IsUserExist(username);
         }
 
         public static bool IsUserExistForPersonID(int personID)
         {
-            return clsDataAccessLayerUsers.IsUserExistForPersonID(personID);
+            return clsUserDataAccess.IsUserExistForPersonID(personID);
         }
     }
 }

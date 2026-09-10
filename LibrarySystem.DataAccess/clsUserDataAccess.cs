@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 
 namespace LibrarySystem.DataAccess
 {
-    public class clsDataAccessLayerUsers
+    public class clsUserDataAccess
     {
         // 1. Read / Authentication
         public static bool GetUserInfoByUsernameAndPassword(string username, string password,
@@ -16,7 +16,7 @@ namespace LibrarySystem.DataAccess
                              FROM Users 
                              WHERE Username = @Username AND Password = @Password;";
 
-            using (SqlConnection connection = new SqlConnection(clsSettingsDataAccessLayer.ConnectionString))
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
             using (SqlCommand command = new SqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@Username", username);
@@ -56,7 +56,7 @@ namespace LibrarySystem.DataAccess
                              FROM Users 
                              WHERE UserID = @UserID;";
 
-            using (SqlConnection connection = new SqlConnection(clsSettingsDataAccessLayer.ConnectionString))
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
             using (SqlCommand command = new SqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@UserID", userID);
@@ -96,7 +96,7 @@ namespace LibrarySystem.DataAccess
                              FROM Users 
                              WHERE PersonID = @PersonID;";
 
-            using (SqlConnection connection = new SqlConnection(clsSettingsDataAccessLayer.ConnectionString))
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
             using (SqlCommand command = new SqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@PersonID", personID);
@@ -135,7 +135,7 @@ namespace LibrarySystem.DataAccess
                              VALUES (@PersonID, @Username, @Password, @IsActive, @Permissions);
                              SELECT SCOPE_IDENTITY();";
 
-            using (SqlConnection connection = new SqlConnection(clsSettingsDataAccessLayer.ConnectionString))
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
             using (SqlCommand command = new SqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@PersonID", personID);
@@ -175,7 +175,7 @@ namespace LibrarySystem.DataAccess
                                  Permissions = @Permissions
                              WHERE UserID    = @UserID;";
 
-            using (SqlConnection connection = new SqlConnection(clsSettingsDataAccessLayer.ConnectionString))
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
             using (SqlCommand command = new SqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@UserID", userID);
@@ -207,7 +207,7 @@ namespace LibrarySystem.DataAccess
                              SET Password = @NewPassword
                              WHERE UserID = @UserID;";
 
-            using (SqlConnection connection = new SqlConnection(clsSettingsDataAccessLayer.ConnectionString))
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
             using (SqlCommand command = new SqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@UserID", userID);
@@ -236,7 +236,7 @@ namespace LibrarySystem.DataAccess
                              SET IsActive = 0
                              WHERE UserID = @UserID;";
 
-            using (SqlConnection connection = new SqlConnection(clsSettingsDataAccessLayer.ConnectionString))
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
             using (SqlCommand command = new SqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@UserID", userID);
@@ -262,7 +262,7 @@ namespace LibrarySystem.DataAccess
 
             string query = @"DELETE FROM Users WHERE UserID = @UserID;";
 
-            using (SqlConnection connection = new SqlConnection(clsSettingsDataAccessLayer.ConnectionString))
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
             using (SqlCommand command = new SqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@UserID", userID);
@@ -288,7 +288,7 @@ namespace LibrarySystem.DataAccess
 
             string query = @"SELECT 1 FROM Users WHERE UserID = @UserID;";
 
-            using (SqlConnection connection = new SqlConnection(clsSettingsDataAccessLayer.ConnectionString))
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
             using (SqlCommand command = new SqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@UserID", userID);
@@ -315,7 +315,7 @@ namespace LibrarySystem.DataAccess
 
             string query = @"SELECT 1 FROM Users WHERE Username = @Username;";
 
-            using (SqlConnection connection = new SqlConnection(clsSettingsDataAccessLayer.ConnectionString))
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
             using (SqlCommand command = new SqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@Username", username);
@@ -342,7 +342,7 @@ namespace LibrarySystem.DataAccess
 
             string query = @"SELECT 1 FROM Users WHERE PersonID = @PersonID;";
 
-            using (SqlConnection connection = new SqlConnection(clsSettingsDataAccessLayer.ConnectionString))
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
             using (SqlCommand command = new SqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@PersonID", personID);
@@ -380,7 +380,7 @@ namespace LibrarySystem.DataAccess
                              INNER JOIN Users ON People.PersonID = Users.PersonID
                              ORDER BY Users.UserID DESC;";
 
-            using (SqlConnection connection = new SqlConnection(clsSettingsDataAccessLayer.ConnectionString))
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
             using (SqlCommand command = new SqlCommand(query, connection))
             {
                 try
