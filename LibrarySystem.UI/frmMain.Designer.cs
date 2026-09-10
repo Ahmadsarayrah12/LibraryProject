@@ -77,26 +77,26 @@
             // tsmiPeople
             // 
             this.tsmiPeople.Name = "tsmiPeople";
-            this.tsmiPeople.Size = new System.Drawing.Size(174, 22);
+            this.tsmiPeople.Size = new System.Drawing.Size(180, 22);
             this.tsmiPeople.Text = "People";
             // 
             // tsmiUser
             // 
             this.tsmiUser.Name = "tsmiUser";
-            this.tsmiUser.Size = new System.Drawing.Size(174, 22);
+            this.tsmiUser.Size = new System.Drawing.Size(180, 22);
             this.tsmiUser.Text = "Users";
             this.tsmiUser.Click += new System.EventHandler(this.tsmiUser_Click);
             // 
             // tsmiBooks
             // 
             this.tsmiBooks.Name = "tsmiBooks";
-            this.tsmiBooks.Size = new System.Drawing.Size(174, 22);
+            this.tsmiBooks.Size = new System.Drawing.Size(180, 22);
             this.tsmiBooks.Text = "Books";
             // 
             // tsmiBorrowingRecords
             // 
             this.tsmiBorrowingRecords.Name = "tsmiBorrowingRecords";
-            this.tsmiBorrowingRecords.Size = new System.Drawing.Size(174, 22);
+            this.tsmiBorrowingRecords.Size = new System.Drawing.Size(180, 22);
             this.tsmiBorrowingRecords.Text = "Borrowing Records";
             // 
             // accountSettingsToolStripMenuItem
@@ -112,20 +112,22 @@
             // tsmiCurrentUserInfo
             // 
             this.tsmiCurrentUserInfo.Name = "tsmiCurrentUserInfo";
-            this.tsmiCurrentUserInfo.Size = new System.Drawing.Size(168, 22);
+            this.tsmiCurrentUserInfo.Size = new System.Drawing.Size(180, 22);
             this.tsmiCurrentUserInfo.Text = "Current User Info";
             // 
             // tsmiChangePassword
             // 
             this.tsmiChangePassword.Name = "tsmiChangePassword";
-            this.tsmiChangePassword.Size = new System.Drawing.Size(168, 22);
+            this.tsmiChangePassword.Size = new System.Drawing.Size(180, 22);
             this.tsmiChangePassword.Text = "Change Password";
+            this.tsmiChangePassword.Click += new System.EventHandler(this.tsmiChangePassword_Click);
             // 
             // tsmiSignOut
             // 
             this.tsmiSignOut.Name = "tsmiSignOut";
-            this.tsmiSignOut.Size = new System.Drawing.Size(168, 22);
+            this.tsmiSignOut.Size = new System.Drawing.Size(180, 22);
             this.tsmiSignOut.Text = "Sign Out";
+            this.tsmiSignOut.Click += new System.EventHandler(this.tsmiSignOut_Click);
             // 
             // frmMain
             // 

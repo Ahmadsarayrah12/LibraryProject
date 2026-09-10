@@ -268,6 +268,13 @@ namespace LibrarySystem.UI
             if (dgvUsers.CurrentRow != null)
             {
                 int selectedUserID = (int)dgvUsers.CurrentRow.Cells["UserID"].Value;
+               
+                if (selectedUserID == clsGlobal.CurrentUser.UserID)
+                {
+                    MessageBox.Show("You cannot delete your own account while you are logged in!",
+                        "Action Denied", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
                 // Mandatory confirmation prompt before executing irreversible delete operations
                 if (MessageBox.Show($"Are you sure you want to delete User [{selectedUserID}]?", "Confirm Delete",

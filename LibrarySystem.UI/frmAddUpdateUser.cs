@@ -206,7 +206,7 @@ namespace LibrarySystem.UI
         {
             if (string.IsNullOrWhiteSpace(txtFirstName.Text.Trim()))
             {
-                e.Cancel = true;
+                 
                 errorProvider1.SetError(txtFirstName, "First Name is required!");
             }
             else
@@ -222,7 +222,7 @@ namespace LibrarySystem.UI
         {
             if (string.IsNullOrWhiteSpace(txtLastName.Text.Trim()))
             {
-                e.Cancel = true;
+            
                 errorProvider1.SetError(txtLastName, "Last Name is required!");
             }
             else
@@ -238,7 +238,7 @@ namespace LibrarySystem.UI
         {
             if (string.IsNullOrWhiteSpace(txtUsername.Text.Trim()))
             {
-                e.Cancel = true;
+                
                 errorProvider1.SetError(txtUsername, "Username is required!");
                 return;
             }

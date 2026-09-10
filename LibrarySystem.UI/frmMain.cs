@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LibrarySystem.Business;
 
 namespace LibrarySystem.UI
 {
@@ -27,21 +28,35 @@ namespace LibrarySystem.UI
         private void tsmiUser_Click(object sender, EventArgs e)
         {
 
-           
-          if ( clsGlobal.CurrentUser.CheckAccessPermission(Business.clsUser.enPermissions.pManageUsers))
-          {
-              
-            frmUsers users = new frmUsers();
-            users.ShowDialog();
-          }
+
+            if (clsGlobal.CurrentUser.CheckAccessPermission(clsUser.enPermissions.pManageUsers))
+            {
+                frmUsers frm = new frmUsers();
+                frm.ShowDialog();
+            }
             else
             {
-
-                MessageBox.Show("You Dont have Permission To Enter User screen", "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-             }
+                MessageBox.Show("Access Denied! Contact your admin.");
+            }
 
         }
 
+        
+        private void tsmiSignOut_Click(object sender, EventArgs e)
+        {
+             clsGlobal.CurrentUser = null;
 
+             Application.Restart();
+        }
+
+         
+
+        private void tsmiChangePassword_Click(object sender, EventArgs e)
+        {
+            frmChangePassword frm = new frmChangePassword();
+            frm.ShowDialog();
+
+
+        }
     }
 }
