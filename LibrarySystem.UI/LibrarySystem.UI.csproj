@@ -65,6 +65,12 @@
     <Compile Include="frmAddUpdateMember.Designer.cs">
       <DependentUpon>frmAddUpdateMember.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmMembersList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMembersList.Designer.cs">
+      <DependentUpon>frmMembersList.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmAddUpdateUser.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -111,6 +117,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmAddUpdateMember.resx">
       <DependentUpon>frmAddUpdateMember.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMembersList.resx">
+      <DependentUpon>frmMembersList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmAddUpdateUser.resx">
       <DependentUpon>frmAddUpdateUser.cs</DependentUpon>

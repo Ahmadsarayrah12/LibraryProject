@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.Win32;
 using LibrarySystem.Business;
 
@@ -39,7 +39,7 @@ namespace LibrarySystem.UI
 
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // In production, log the exception details to the Windows Event Log or an audit file.
                 return false;
@@ -63,7 +63,7 @@ namespace LibrarySystem.UI
                 // Validate that both retrieved fields contain meaningful data.
                 return !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -94,7 +94,7 @@ namespace LibrarySystem.UI
 
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

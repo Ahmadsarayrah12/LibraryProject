@@ -1,76 +1,126 @@
-﻿using System;
+using System;
 using System.Data;
 using LibrarySystem.DataAccess;
 
 namespace LibrarySystem.Business
 {
+    /// <summary>
+    /// Represents an authenticated system operator.
+    /// Manages user credentials, active states, and bitwise access control permissions.
+    /// </summary>
     public class clsUser
     {
-        public enum enMode { AddNew = 1, Update = 2 };
-        public enMode Mode = enMode.AddNew;
+        public enum enMode { AddNew = 0, Update = 1 };
+        public enMode Mode { get; set; }
 
+        /// <summary>
+        /// Bitwise permission mask flags for fine-grained authorization control.
+        /// </summary>
         [Flags]
         public enum enPermissions
         {
             eAll = -1,
-            pManagePeople = 1,
-            pManageUsers = 2,
-            pManageBooks = 4,
-            pBorrowing = 8,
-            pFines = 16
+            pManagePeople = 1,       // 2^0 = 1
+            pManageUsers = 2,        // 2^1 = 2
+            pManageBooks = 4,        // 2^2 = 4
+            pBorrowing = 8,          // 2^3 = 8
+            pFines = 16,             // 2^4 = 16
+            pManageMembers = 32      // 2^5 = 32
         }
 
-        public int UserID { get; private set; }
+        public int UserID { get; set; }
         public int PersonID { get; set; }
         public string Username { get; set; }
+
+        // Compatibility alias for UserName
+        public string UserName
+        {
+            get { return Username; }
+            set { Username = value; }
+        }
+
         public string Password { get; set; }
-        public bool IsActive { get; set; }
         public int Permissions { get; set; }
+        public bool IsActive { get; set; }
 
-         public clsPerson PersonInfo { get; set; }
+        public clsPerson PersonInfo { get; set; }
 
+        public string FullName
+        {
+            get { return PersonInfo != null ? PersonInfo.FullName : string.Empty; }
+        }
 
-        public string FullName => $"{PersonInfo.FirstName} {PersonInfo.LastName}";
         public clsUser()
         {
             this.UserID = -1;
             this.PersonID = -1;
-            this.Username = "";
-            this.Password = "";
+            this.Username = string.Empty;
+            this.Password = string.Empty;
+            this.Permissions = 0;
             this.IsActive = true;
-            this.Permissions = -1;
             this.PersonInfo = null;
 
-            this.Mode = enMode.AddNew;
+            Mode = enMode.AddNew;
         }
 
-        private clsUser(int userID, int personID, string username, string password, bool isActive, int permissions)
+        public clsUser(int userID, int personID, string username, string password, int permissions, bool isActive)
         {
             this.UserID = userID;
             this.PersonID = personID;
             this.Username = username;
             this.Password = password;
-            this.IsActive = isActive;
             this.Permissions = permissions;
+            this.IsActive = isActive;
             this.PersonInfo = clsPerson.FindPerson(personID);
 
-            this.Mode = enMode.Update;
+            Mode = enMode.Update;
+        }
+
+        public clsUser(int userID, int personID, string username, string password, bool isActive, int permissions)
+            : this(userID, personID, username, password, permissions, isActive)
+        {
+        }
+
+        /// <summary>
+        /// Evaluates whether the user holds a specific bitwise permission mask.
+        /// Returns true if the user has full access (eAll = -1) or contains the specified flag.
+        /// </summary>
+        /// <param name="permission">The permission flag to test.</param>
+        public bool CheckAccessPermission(enPermissions permission)
+        {
+            if (this.Permissions == (int)enPermissions.eAll)
+                return true;
+
+            return ((this.Permissions & (int)permission) == (int)permission);
+        }
+
+        private bool _AddNewUser()
+        {
+            this.UserID = clsUserDataAccess.AddNewUser(this.PersonID, this.Username, this.Password, this.Permissions, this.IsActive);
+            return (this.UserID != -1);
+        }
+
+        private bool _UpdateUser()
+        {
+            return clsUserDataAccess.UpdateUser(this.UserID, this.PersonID, this.Username, this.Password, this.Permissions, this.IsActive);
         }
 
         public static clsUser Find(int userID)
         {
+            return FindByUserID(userID);
+        }
+
+        public static clsUser FindByUserID(int userID)
+        {
             int personID = -1;
-            string username = "";
-            string password = "";
+            string username = string.Empty;
+            string password = string.Empty;
+            int permissions = 0;
             bool isActive = false;
-            int permissions = -1;
 
-            bool isFound = clsUserDataAccess.GetUserByID(
-                userID, ref personID, ref username, ref password, ref isActive, ref permissions);
-
-            if (isFound)
+            if (clsUserDataAccess.GetUserInfoByUserID(userID, ref personID, ref username, ref password, ref permissions, ref isActive))
             {
-                return new clsUser(userID, personID, username, password, isActive, permissions);
+                return new clsUser(userID, personID, username, password, permissions, isActive);
             }
 
             return null;
@@ -79,17 +129,14 @@ namespace LibrarySystem.Business
         public static clsUser FindByPersonID(int personID)
         {
             int userID = -1;
-            string username = "";
-            string password = "";
+            string username = string.Empty;
+            string password = string.Empty;
+            int permissions = 0;
             bool isActive = false;
-            int permissions = -1;
 
-            bool isFound = clsUserDataAccess.GetUserInfoByPersonID(
-                personID, ref userID, ref username, ref password, ref isActive, ref permissions);
-
-            if (isFound)
+            if (clsUserDataAccess.GetUserInfoByPersonID(personID, ref userID, ref username, ref password, ref permissions, ref isActive))
             {
-                return new clsUser(userID, personID, username, password, isActive, permissions);
+                return new clsUser(userID, personID, username, password, permissions, isActive);
             }
 
             return null;
@@ -97,54 +144,41 @@ namespace LibrarySystem.Business
 
         public static clsUser FindByUsernameAndPassword(string username, string password)
         {
+            return FindByUserNameAndPassword(username, password);
+        }
+
+        public static clsUser FindByUserNameAndPassword(string userName, string password)
+        {
             int userID = -1;
             int personID = -1;
+            int permissions = 0;
             bool isActive = false;
-            int permissions = -1;
 
-            bool isFound = clsUserDataAccess.GetUserInfoByUsernameAndPassword(
-                username, password, ref userID, ref personID, ref isActive, ref permissions);
-
-            if (isFound)
+            if (clsUserDataAccess.GetUserInfoByUsernameAndPassword(userName, password, ref userID, ref personID, ref permissions, ref isActive))
             {
-                return new clsUser(userID, personID, username, password, isActive, permissions);
+                return new clsUser(userID, personID, userName, password, permissions, isActive);
             }
 
             return null;
         }
 
-        private bool _AddNewUser()
-        {
-            this.UserID = clsUserDataAccess.AddNewUser(
-                this.PersonID, this.Username, this.Password, this.IsActive, this.Permissions);
-
-            return (this.UserID > 0);
-        }
-
-        private bool _UpdateUser()
-        {
-            return clsUserDataAccess.UpdateUser(
-                this.UserID, this.Username, this.Password, this.IsActive, this.Permissions);
-        }
-
         public bool Save()
         {
-            switch (this.Mode)
+            switch (Mode)
             {
                 case enMode.AddNew:
                     if (_AddNewUser())
                     {
-                        this.Mode = enMode.Update;
+                        Mode = enMode.Update;
                         return true;
                     }
                     return false;
 
                 case enMode.Update:
                     return _UpdateUser();
-
-                default:
-                    return false;
             }
+
+            return false;
         }
 
         public bool ChangePassword(string newPassword)
@@ -160,15 +194,12 @@ namespace LibrarySystem.Business
             return false;
         }
 
-        public bool CheckAccessPermission(enPermissions permission)
+        public static bool Delete(int userID)
         {
-            if (this.Permissions == (int)enPermissions.eAll)
-                return true;
-
-            return ((this.Permissions & (int)permission) == (int)permission);
+            return DeleteUser(userID);
         }
 
-        public static bool Delete(int userID)
+        public static bool DeleteUser(int userID)
         {
             return clsUserDataAccess.DeleteUser(userID);
         }

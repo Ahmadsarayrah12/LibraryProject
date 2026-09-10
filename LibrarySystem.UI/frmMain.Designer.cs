@@ -2,15 +2,8 @@
 {
     partial class frmMain
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,144 +15,158 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            this.lblUser = new System.Windows.Forms.Label();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.manageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiPeople = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiUser = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiBooks = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiBorrowingRecords = new System.Windows.Forms.ToolStripMenuItem();
-            this.accountSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.msMainMenu = new System.Windows.Forms.MenuStrip();
+            this.tsmiMembers = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiManageMembers = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiAddNewMember = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiUsers = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiManageUsers = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiCurrentUserInfo = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiChangePassword = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiSignOut = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuStrip1.SuspendLayout();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.lblUser = new System.Windows.Forms.ToolStripStatusLabel();
+            this.msMainMenu.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // lblUser
+            // msMainMenu
             // 
-            this.lblUser.AutoSize = true;
-            this.lblUser.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUser.Location = new System.Drawing.Point(12, 694);
-            this.lblUser.Name = "lblUser";
-            this.lblUser.Size = new System.Drawing.Size(41, 16);
-            this.lblUser.TabIndex = 1;
-            this.lblUser.Text = "User:";
+            this.msMainMenu.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.msMainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiMembers,
+            this.tsmiUsers});
+            this.msMainMenu.Location = new System.Drawing.Point(0, 0);
+            this.msMainMenu.Name = "msMainMenu";
+            this.msMainMenu.Size = new System.Drawing.Size(984, 25);
+            this.msMainMenu.TabIndex = 0;
+            this.msMainMenu.Text = "menuStrip1";
             // 
-            // menuStrip1
+            // tsmiMembers
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.manageToolStripMenuItem,
-            this.accountSettingsToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1316, 24);
-            this.menuStrip1.TabIndex = 2;
-            this.menuStrip1.Text = "menuStrip1";
+            this.tsmiMembers.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiManageMembers,
+            this.tsmiAddNewMember});
+            this.tsmiMembers.Name = "tsmiMembers";
+            this.tsmiMembers.Size = new System.Drawing.Size(77, 21);
+            this.tsmiMembers.Text = "Members";
             // 
-            // manageToolStripMenuItem
+            // tsmiManageMembers
             // 
-            this.manageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiPeople,
-            this.tsmiUser,
-            this.tsmiBooks,
-            this.tsmiBorrowingRecords});
-            this.manageToolStripMenuItem.Name = "manageToolStripMenuItem";
-            this.manageToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
-            this.manageToolStripMenuItem.Text = "Manage";
+            this.tsmiManageMembers.Name = "tsmiManageMembers";
+            this.tsmiManageMembers.Size = new System.Drawing.Size(187, 22);
+            this.tsmiManageMembers.Text = "Manage Members";
+            this.tsmiManageMembers.Click += new System.EventHandler(this.tsmiManageMembers_Click);
             // 
-            // tsmiPeople
+            // tsmiAddNewMember
             // 
-            this.tsmiPeople.Name = "tsmiPeople";
-            this.tsmiPeople.Size = new System.Drawing.Size(174, 22);
-            this.tsmiPeople.Text = "People";
+            this.tsmiAddNewMember.Name = "tsmiAddNewMember";
+            this.tsmiAddNewMember.Size = new System.Drawing.Size(187, 22);
+            this.tsmiAddNewMember.Text = "Add New Member";
+            this.tsmiAddNewMember.Click += new System.EventHandler(this.tsmiAddNewMember_Click);
             // 
-            // tsmiUser
+            // tsmiUsers
             // 
-            this.tsmiUser.Name = "tsmiUser";
-            this.tsmiUser.Size = new System.Drawing.Size(174, 22);
-            this.tsmiUser.Text = "Users";
-            this.tsmiUser.Click += new System.EventHandler(this.tsmiUser_Click);
-            // 
-            // tsmiBooks
-            // 
-            this.tsmiBooks.Name = "tsmiBooks";
-            this.tsmiBooks.Size = new System.Drawing.Size(174, 22);
-            this.tsmiBooks.Text = "Books";
-            // 
-            // tsmiBorrowingRecords
-            // 
-            this.tsmiBorrowingRecords.Name = "tsmiBorrowingRecords";
-            this.tsmiBorrowingRecords.Size = new System.Drawing.Size(174, 22);
-            this.tsmiBorrowingRecords.Text = "Borrowing Records";
-            // 
-            // accountSettingsToolStripMenuItem
-            // 
-            this.accountSettingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiUsers.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiManageUsers,
             this.tsmiCurrentUserInfo,
             this.tsmiChangePassword,
+            this.toolStripSeparator1,
             this.tsmiSignOut});
-            this.accountSettingsToolStripMenuItem.Name = "accountSettingsToolStripMenuItem";
-            this.accountSettingsToolStripMenuItem.Size = new System.Drawing.Size(109, 20);
-            this.accountSettingsToolStripMenuItem.Text = "Account Settings";
+            this.tsmiUsers.Name = "tsmiUsers";
+            this.tsmiUsers.Size = new System.Drawing.Size(55, 21);
+            this.tsmiUsers.Text = "Users";
+            // 
+            // tsmiManageUsers
+            // 
+            this.tsmiManageUsers.Name = "tsmiManageUsers";
+            this.tsmiManageUsers.Size = new System.Drawing.Size(184, 22);
+            this.tsmiManageUsers.Text = "Manage Users";
+            this.tsmiManageUsers.Click += new System.EventHandler(this.tsmiUser_Click);
             // 
             // tsmiCurrentUserInfo
             // 
             this.tsmiCurrentUserInfo.Name = "tsmiCurrentUserInfo";
-            this.tsmiCurrentUserInfo.Size = new System.Drawing.Size(180, 22);
+            this.tsmiCurrentUserInfo.Size = new System.Drawing.Size(184, 22);
             this.tsmiCurrentUserInfo.Text = "Current User Info";
             this.tsmiCurrentUserInfo.Click += new System.EventHandler(this.tsmiCurrentUserInfo_Click);
             // 
             // tsmiChangePassword
             // 
             this.tsmiChangePassword.Name = "tsmiChangePassword";
-            this.tsmiChangePassword.Size = new System.Drawing.Size(180, 22);
+            this.tsmiChangePassword.Size = new System.Drawing.Size(184, 22);
             this.tsmiChangePassword.Text = "Change Password";
             this.tsmiChangePassword.Click += new System.EventHandler(this.tsmiChangePassword_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(181, 6);
             // 
             // tsmiSignOut
             // 
             this.tsmiSignOut.Name = "tsmiSignOut";
-            this.tsmiSignOut.Size = new System.Drawing.Size(180, 22);
+            this.tsmiSignOut.Size = new System.Drawing.Size(184, 22);
             this.tsmiSignOut.Text = "Sign Out";
             this.tsmiSignOut.Click += new System.EventHandler(this.tsmiSignOut_Click);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblUser});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 539);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(984, 22);
+            this.statusStrip1.TabIndex = 1;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // lblUser
+            // 
+            this.lblUser.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUser.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.lblUser.Name = "lblUser";
+            this.lblUser.Size = new System.Drawing.Size(73, 17);
+            this.lblUser.Text = "Current User";
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1316, 719);
-            this.Controls.Add(this.lblUser);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
+            this.ClientSize = new System.Drawing.Size(984, 561);
+            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.msMainMenu);
+            this.IsMdiContainer = false;
+            this.MainMenuStrip = this.msMainMenu;
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "frmMain";
+            this.Text = "Library Management System - Dashboard";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.frmMain_Load);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.msMainMenu.ResumeLayout(false);
+            this.msMainMenu.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Label lblUser;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem manageToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tsmiPeople;
-        private System.Windows.Forms.ToolStripMenuItem tsmiUser;
-        private System.Windows.Forms.ToolStripMenuItem tsmiBooks;
-        private System.Windows.Forms.ToolStripMenuItem tsmiBorrowingRecords;
-        private System.Windows.Forms.ToolStripMenuItem accountSettingsToolStripMenuItem;
+
+        private System.Windows.Forms.MenuStrip msMainMenu;
+        private System.Windows.Forms.ToolStripMenuItem tsmiMembers;
+        private System.Windows.Forms.ToolStripMenuItem tsmiManageMembers;
+        private System.Windows.Forms.ToolStripMenuItem tsmiAddNewMember;
+        private System.Windows.Forms.ToolStripMenuItem tsmiUsers;
+        private System.Windows.Forms.ToolStripMenuItem tsmiManageUsers;
         private System.Windows.Forms.ToolStripMenuItem tsmiCurrentUserInfo;
         private System.Windows.Forms.ToolStripMenuItem tsmiChangePassword;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem tsmiSignOut;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel lblUser;
     }
 }
