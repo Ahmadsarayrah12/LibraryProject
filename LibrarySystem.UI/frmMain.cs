@@ -188,7 +188,18 @@ namespace LibrarySystem.UI
 
         private void tsmiManageBorrowings_Click(object sender, EventArgs e)
         {
-            // Wired in Sub-feature 5
+            if (clsGlobal.CurrentUser == null || clsGlobal.CurrentUser.CheckAccessPermission(clsUser.enPermissions.pManageBorrowing))
+            {
+                using (frmManageBorrowings frm = new frmManageBorrowings())
+                {
+                    frm.ShowDialog();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Access Denied! You do not have permission to manage borrowings.",
+                    "Permission Denied", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
         }
 
         private void tsmiReturnBook_Click(object sender, EventArgs e)
