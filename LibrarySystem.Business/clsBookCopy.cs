@@ -37,6 +37,25 @@ namespace LibrarySystem.Business
             this._mode = enMode.Update;
         }
 
+        /// <summary>
+        /// Finds and constructs a clsBookCopy instance by CopyID.
+        /// </summary>
+        public static clsBookCopy Find(int copyID)
+        {
+            if (copyID <= 0)
+                return null;
+
+            int bookID = -1;
+            byte status = 1;
+
+            if (clsBookCopyDataAccess.GetCopyInfoByID(copyID, ref bookID, ref status))
+            {
+                return new clsBookCopy(copyID, bookID, (enCopyStatus)status);
+            }
+
+            return null;
+        }
+
         private bool _AddNewCopy()
         {
             this.CopyID = clsBookCopyDataAccess.AddNewCopy(this.BookID, (byte)this.Status);

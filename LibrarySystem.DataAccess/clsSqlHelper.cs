@@ -18,7 +18,7 @@ namespace LibrarySystem.DataAccess
         /// <param name="source">The originating method or component name.</param>
         public static void LogError(Exception ex, string source)
         {
-            // Extensible placeholder: writes diagnostic traces and can be hooked to Windows EventLog
+            Console.WriteLine($"[DAL ERROR] {source}: {ex.Message}");
             Trace.TraceError($"[DAL ERROR] Source: {source} | Time: {DateTime.UtcNow:O} | Message: {ex.Message} | StackTrace: {ex.StackTrace}");
         }
     }

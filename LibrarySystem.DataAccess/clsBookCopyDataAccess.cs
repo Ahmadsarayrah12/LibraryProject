@@ -119,6 +119,42 @@ namespace LibrarySystem.DataAccess
         }
 
         /// <summary>
+        /// Retrieves physical copy information by CopyID.
+        /// </summary>
+        public static bool GetCopyInfoByID(int copyID, ref int bookID, ref byte status)
+        {
+            bool isFound = false;
+
+            const string query = "SELECT BookID, Status FROM BookCopies WHERE CopyID = @CopyID;";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.Add("@CopyID", SqlDbType.Int).Value = copyID;
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            isFound = true;
+                            bookID = reader.SafeGetInt("BookID");
+                            status = Convert.ToByte(reader["Status"]);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsDataLogger.LogError(ex, nameof(GetCopyInfoByID));
+            }
+
+            return isFound;
+        }
+
+        /// <summary>
         /// Retrieves the primary key of the first available copy for a book (Status = 1).
         /// Returns -1 if no copy is available.
         /// </summary>

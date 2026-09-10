@@ -51,6 +51,7 @@
     <Compile Include="clsGenreDataAccess.cs" />
     <Compile Include="clsBookDataAccess.cs" />
     <Compile Include="clsBookCopyDataAccess.cs" />
+    <Compile Include="clsBorrowingDataAccess.cs" />
     <Compile Include="clsDataAccessSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
