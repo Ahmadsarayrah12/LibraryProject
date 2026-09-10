@@ -37,7 +37,7 @@ namespace LibrarySystem.UI
 
         private void frmChangePassword_Load(object sender, EventArgs e)
         {
-            _User = clsUser.Find(_UserID);
+            _User = clsUser.FindByUserID(_UserID);
 
             if (_User == null)
             {

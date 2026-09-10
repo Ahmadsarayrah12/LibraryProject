@@ -83,7 +83,7 @@ namespace LibrarySystem.UI
         private void _LoadUserData()
         {
             // Find the User record by primary key
-            _User = clsUser.Find(_UserID);
+            _User = clsUser.FindByUserID(_UserID);
 
             if (_User == null)
             {
@@ -94,7 +94,7 @@ namespace LibrarySystem.UI
             }
 
             // Find the linked Person entity using the Foreign Key PersonID
-            _Person = clsPerson.FindPerson(_User.PersonID);
+            _Person = clsPerson.Find(_User.PersonID);
 
             if (_Person == null)
             {
@@ -131,7 +131,7 @@ namespace LibrarySystem.UI
                 chkManagePeople.Checked = _User.CheckAccessPermission(clsUser.enPermissions.pManagePeople);
                 chkManageUsers.Checked = _User.CheckAccessPermission(clsUser.enPermissions.pManageUsers);
                 chkManageBooks.Checked = _User.CheckAccessPermission(clsUser.enPermissions.pManageBooks);
-                chkBorrowing.Checked   = _User.CheckAccessPermission(clsUser.enPermissions.pBorrowing);
+                chkBorrowing.Checked   = _User.CheckAccessPermission(clsUser.enPermissions.pManageBorrowing);
                 chkFines.Checked =       _User.CheckAccessPermission(clsUser.enPermissions.pFines);
 
 
@@ -161,7 +161,7 @@ namespace LibrarySystem.UI
                 permissions |= (int)clsUser.enPermissions.pManageBooks;
 
             if (chkBorrowing.Checked)
-                permissions |= (int)clsUser.enPermissions.pBorrowing;
+                permissions |= (int)clsUser.enPermissions.pManageBorrowing;
 
             if (chkFines.Checked)
                 permissions |= (int)clsUser.enPermissions.pFines;
@@ -247,7 +247,7 @@ namespace LibrarySystem.UI
             // Check uniqueness if adding new OR if the username was altered during an update
             if (_Mode == enMode.AddNew || (_Mode == enMode.Update && _User.Username != txtUsername.Text.Trim()))
             {
-                if (clsUser.IsUserExist(txtUsername.Text.Trim()))
+                if (clsUser.isUserExist(txtUsername.Text.Trim()))
                 {
                    
                     errorProvider1.SetError(txtUsername, "Username is already used by another user!");

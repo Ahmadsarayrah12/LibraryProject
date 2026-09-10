@@ -288,7 +288,7 @@ namespace LibrarySystem.UI
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     // Execute deletion through the Business Logic Layer
-                    if (clsUser.Delete(selectedUserID))
+                    if (clsUser.DeleteUser(selectedUserID))
                     {
                         MessageBox.Show("User deleted successfully.", "Deleted",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);

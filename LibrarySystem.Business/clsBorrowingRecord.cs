@@ -141,7 +141,7 @@ namespace LibrarySystem.Business
             {
                 if (_createdByUserInfo == null && this.CreatedByUserID > 0)
                 {
-                    _createdByUserInfo = clsUser.Find(this.CreatedByUserID);
+                    _createdByUserInfo = clsUser.FindByUserID(this.CreatedByUserID);
                 }
                 return _createdByUserInfo;
             }

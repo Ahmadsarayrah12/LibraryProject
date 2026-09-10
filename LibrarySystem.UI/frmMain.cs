@@ -38,7 +38,7 @@ namespace LibrarySystem.UI
             tsmiManageMembers.Enabled = canManageMembers;
             tsmiAddNewMember.Enabled = canManageMembers;
 
-            bool canManageBorrowing = clsGlobal.CurrentUser.CheckAccessPermission(clsUser.enPermissions.pBorrowing);
+            bool canManageBorrowing = clsGlobal.CurrentUser.CheckAccessPermission(clsUser.enPermissions.pManageBorrowing);
             tsmiManageBorrowings.Enabled = canManageBorrowing;
             tsmiBorrowBook.Enabled = canManageBorrowing;
             tsmiReturnBook.Enabled = canManageBorrowing;

@@ -105,7 +105,7 @@ namespace LibrarySystem.UI
                     break;
 
                 case "Phone":
-                    clsPerson person = clsPerson.FindByPhone(query);
+                    clsPerson person = clsPerson.Find(query);
                     if (person != null)
                     {
                         ctrlPersonCard1.LoadPersonInfo(person);

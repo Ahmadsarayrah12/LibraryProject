@@ -84,7 +84,6 @@ namespace LibrarySystem.UI
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(280, 23);
             this.txtUsername.TabIndex = 3;
-            this.txtUsername.Validating += new System.ComponentModel.CancelEventHandler(this.txtUsername_Validating);
             // 
             // lblPasswordLabel
             // 
@@ -104,7 +103,6 @@ namespace LibrarySystem.UI
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(280, 23);
             this.txtPassword.TabIndex = 5;
-            this.txtPassword.Validating += new System.ComponentModel.CancelEventHandler(this.txtPassword_Validating);
             // 
             // chkRememberMe
             // 

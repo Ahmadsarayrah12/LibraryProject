@@ -71,7 +71,7 @@ namespace LibrarySystem.Business
             this.MemberID = memberID;
             this.PersonID = personID;
             this.SubscriptionDate = subscriptionDate;
-            this.PersonInfo = clsPerson.FindPerson(personID);
+            this.PersonInfo = clsPerson.Find(personID);
 
             this.Mode = enMode.Update;
         }

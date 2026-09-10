@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using System.Windows.Forms;
 using LibrarySystem.Business;
@@ -60,7 +60,7 @@ namespace LibrarySystem.UI
             if (_User.CheckAccessPermission(clsUser.enPermissions.pManageBooks))
                 sb.Append("Manage Books, ");
 
-            if (_User.CheckAccessPermission(clsUser.enPermissions.pBorrowing))
+            if (_User.CheckAccessPermission(clsUser.enPermissions.pManageBorrowing))
                 sb.Append("Borrowing Records, ");
 
             if (_User.CheckAccessPermission(clsUser.enPermissions.pFines))
@@ -77,7 +77,7 @@ namespace LibrarySystem.UI
         private void _LoadUserData()
         {
             // Retrieve user credentials and permissions from BLL
-            _User = clsUser.Find(_UserID);
+            _User = clsUser.FindByUserID(_UserID);
 
             if (_User == null)
             {
@@ -88,7 +88,7 @@ namespace LibrarySystem.UI
             }
 
             // Retrieve associated personal information from BLL
-            _Person = clsPerson.FindPerson(_User.PersonID);
+            _Person = clsPerson.Find(_User.PersonID);
 
             if (_Person == null)
             {
