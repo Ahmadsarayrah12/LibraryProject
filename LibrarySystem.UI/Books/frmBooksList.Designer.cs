@@ -222,7 +222,7 @@ namespace LibrarySystem.UI
             this.Controls.Add(this.btnAddBook);
             this.Controls.Add(this.dgvBooks);
             this.Controls.Add(this.lblTitle);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmBooksList";
@@ -253,3 +253,4 @@ namespace LibrarySystem.UI
         private System.Windows.Forms.Button btnClose;
     }
 }
+

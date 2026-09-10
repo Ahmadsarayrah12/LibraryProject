@@ -413,7 +413,7 @@ namespace LibrarySystem.UI
             this.Controls.Add(this.tcBorrow);
             this.Controls.Add(this.lblHeaderTitle);
             this.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmBorrowBook";
@@ -466,3 +466,4 @@ namespace LibrarySystem.UI
         private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }
+

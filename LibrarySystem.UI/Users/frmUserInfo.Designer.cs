@@ -1,4 +1,4 @@
-﻿namespace LibrarySystem.UI
+namespace LibrarySystem.UI
 {
     partial class frmUserInfo
     {
@@ -263,7 +263,7 @@
             this.Controls.Add(this.gbUserInfo);
             this.Controls.Add(this.gbPersonInfo);
             this.Controls.Add(this.lblTitle);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.Name = "frmUserInfo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "User Information";

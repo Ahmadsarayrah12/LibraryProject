@@ -1,4 +1,4 @@
-﻿namespace LibrarySystem.UI
+namespace LibrarySystem.UI
 {
     partial class frmChangePassword
     {
@@ -170,7 +170,7 @@
             this.Controls.Add(this.lblUsername);
             this.Controls.Add(this.lblUserTag);
             this.Controls.Add(this.lblTitle);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.Name = "frmChangePassword";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Change Password";

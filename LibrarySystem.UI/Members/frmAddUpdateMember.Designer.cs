@@ -223,7 +223,7 @@ namespace LibrarySystem.UI
             this.Controls.Add(this.gbMembershipInfo);
             this.Controls.Add(this.gbPersonInfo);
             this.Controls.Add(this.lblTitle);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.Name = "frmAddUpdateMember";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add / Edit Member";
@@ -260,3 +260,4 @@ namespace LibrarySystem.UI
         private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }
+

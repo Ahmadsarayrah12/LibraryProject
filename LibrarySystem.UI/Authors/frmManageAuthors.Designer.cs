@@ -212,7 +212,7 @@ namespace LibrarySystem.UI
             this.Controls.Add(this.gbAddAuthor);
             this.Controls.Add(this.dgvAuthors);
             this.Controls.Add(this.lblTitle);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmManageAuthors";
@@ -248,3 +248,4 @@ namespace LibrarySystem.UI
         private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }
+

@@ -340,7 +340,7 @@ namespace LibrarySystem.UI
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.gbBookDetails);
             this.Controls.Add(this.lblTitle);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmAddUpdateBook";
@@ -386,3 +386,4 @@ namespace LibrarySystem.UI
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
+

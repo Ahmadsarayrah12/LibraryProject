@@ -13,6 +13,14 @@ namespace LibrarySystem.UI
         public frmManageAuthors()
         {
             InitializeComponent();
+            _SetupResizing();
+        }
+
+        private void _SetupResizing()
+        {
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            dgvAuthors.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            btnClose.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
         }
 
         private void _RefreshAuthorsList()
@@ -167,3 +175,7 @@ namespace LibrarySystem.UI
         }
     }
 }
+
+
+
+

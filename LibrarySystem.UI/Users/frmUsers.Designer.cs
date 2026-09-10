@@ -210,7 +210,7 @@ namespace LibrarySystem.UI
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblRecordsCount);
             this.Controls.Add(this.dgvUsers);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.Name = "frmUsers";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Manage Users";

@@ -204,7 +204,7 @@ namespace LibrarySystem.UI
             this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.lblRecordsCount);
             this.Controls.Add(this.dgvMembers);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.Name = "frmMembersList";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Manage Members";
@@ -232,3 +232,4 @@ namespace LibrarySystem.UI
         private System.Windows.Forms.Button btnClose;
     }
 }
+

@@ -17,13 +17,22 @@ namespace LibrarySystem.UI
         public frmAddUpdatePerson()
         {
             InitializeComponent();
+            _SetupResizing();
             _PersonID = -1;
         }
 
         public frmAddUpdatePerson(int personID)
         {
             InitializeComponent();
+            _SetupResizing();
             _PersonID = personID;
+        }
+
+        private void _SetupResizing()
+        {
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            if (this.Controls.ContainsKey("btnSave")) ((Button)this.Controls["btnSave"]).Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            if (this.Controls.ContainsKey("btnClose")) ((Button)this.Controls["btnClose"]).Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
         }
 
         private void FrmAddUpdatePerson_Load(object sender, EventArgs e)
@@ -97,3 +106,4 @@ namespace LibrarySystem.UI
         }
     }
 }
+

@@ -19,6 +19,16 @@ namespace LibrarySystem.UI
         public frmManageBorrowings()
         {
             InitializeComponent();
+            _SetupResizing();
+        }
+
+        private void _SetupResizing()
+        {
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            dgvBorrowings.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            btnClose.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnBorrowBook.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnReturnBook.Anchor = AnchorStyles.Top | AnchorStyles.Right;
         }
 
         private void frmManageBorrowings_Load(object sender, EventArgs e)
@@ -545,4 +555,5 @@ namespace LibrarySystem.UI
         #endregion
     }
 }
+
 

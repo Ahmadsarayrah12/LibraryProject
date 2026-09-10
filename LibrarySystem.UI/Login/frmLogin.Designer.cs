@@ -185,7 +185,7 @@ namespace LibrarySystem.UI
             this.Controls.Add(this.lblUsernameLabel);
             this.Controls.Add(this.lblSubtitle);
             this.Controls.Add(this.lblTitle);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.Name = "frmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login to System";

@@ -149,7 +149,7 @@ namespace LibrarySystem.UI
             this.Controls.Add(this.txtFirstName);
             this.Controls.Add(this.lblFirstName);
             this.Controls.Add(this.lblTitle);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmAddUpdatePerson";
@@ -178,3 +178,4 @@ namespace LibrarySystem.UI
         private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }
+

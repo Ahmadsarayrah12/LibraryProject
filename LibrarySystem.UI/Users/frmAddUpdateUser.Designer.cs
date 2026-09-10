@@ -1,4 +1,4 @@
-﻿namespace LibrarySystem.UI
+namespace LibrarySystem.UI
 {
     partial class frmAddUpdateUser
     {
@@ -393,7 +393,7 @@
             this.Controls.Add(this.gbLoginInfo);
             this.Controls.Add(this.gbPersonInfo);
             this.Controls.Add(this.lblTitle);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.Name = "frmAddUpdateUser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add / Update User";
