@@ -75,6 +75,9 @@
     <Compile Include="frmAddUpdatePerson.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmAddUpdatePerson.Designer.cs">
+      <DependentUpon>frmAddUpdatePerson.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmAddUpdateUser.cs">
       <SubType>Form</SubType>
     </Compile>
