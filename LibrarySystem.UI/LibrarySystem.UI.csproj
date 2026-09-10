@@ -143,6 +143,12 @@
     <Compile Include="frmBooksList.Designer.cs">
       <DependentUpon>frmBooksList.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmBorrowBook.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBorrowBook.Designer.cs">
+      <DependentUpon>frmBorrowBook.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ctrlBookCard.resx">
@@ -162,6 +168,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmBooksList.resx">
       <DependentUpon>frmBooksList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBorrowBook.resx">
+      <DependentUpon>frmBorrowBook.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ctrlPersonCard.resx">
       <DependentUpon>ctrlPersonCard.cs</DependentUpon>

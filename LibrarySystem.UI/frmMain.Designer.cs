@@ -25,6 +25,10 @@ namespace LibrarySystem.UI
             this.tsmiMembers = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiManageMembers = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiAddNewMember = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiCirculation = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiManageBorrowings = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiBorrowBook = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiReturnBook = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiUsers = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiManageUsers = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiCurrentUserInfo = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,6 +47,7 @@ namespace LibrarySystem.UI
             this.msMainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiBooks,
             this.tsmiMembers,
+            this.tsmiCirculation,
             this.tsmiUsers});
             this.msMainMenu.Location = new System.Drawing.Point(0, 0);
             this.msMainMenu.Name = "msMainMenu";
@@ -103,6 +108,37 @@ namespace LibrarySystem.UI
             this.tsmiAddNewMember.Size = new System.Drawing.Size(187, 22);
             this.tsmiAddNewMember.Text = "Add New Member";
             this.tsmiAddNewMember.Click += new System.EventHandler(this.tsmiAddNewMember_Click);
+            // 
+            // tsmiCirculation
+            // 
+            this.tsmiCirculation.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiManageBorrowings,
+            this.tsmiBorrowBook,
+            this.tsmiReturnBook});
+            this.tsmiCirculation.Name = "tsmiCirculation";
+            this.tsmiCirculation.Size = new System.Drawing.Size(84, 21);
+            this.tsmiCirculation.Text = "Circulation";
+            // 
+            // tsmiManageBorrowings
+            // 
+            this.tsmiManageBorrowings.Name = "tsmiManageBorrowings";
+            this.tsmiManageBorrowings.Size = new System.Drawing.Size(200, 22);
+            this.tsmiManageBorrowings.Text = "Manage Borrowings";
+            this.tsmiManageBorrowings.Click += new System.EventHandler(this.tsmiManageBorrowings_Click);
+            // 
+            // tsmiBorrowBook
+            // 
+            this.tsmiBorrowBook.Name = "tsmiBorrowBook";
+            this.tsmiBorrowBook.Size = new System.Drawing.Size(200, 22);
+            this.tsmiBorrowBook.Text = "Issue Book Loan";
+            this.tsmiBorrowBook.Click += new System.EventHandler(this.tsmiBorrowBook_Click);
+            // 
+            // tsmiReturnBook
+            // 
+            this.tsmiReturnBook.Name = "tsmiReturnBook";
+            this.tsmiReturnBook.Size = new System.Drawing.Size(200, 22);
+            this.tsmiReturnBook.Text = "Return Book";
+            this.tsmiReturnBook.Click += new System.EventHandler(this.tsmiReturnBook_Click);
             // 
             // tsmiUsers
             // 
@@ -200,6 +236,10 @@ namespace LibrarySystem.UI
         private System.Windows.Forms.ToolStripMenuItem tsmiMembers;
         private System.Windows.Forms.ToolStripMenuItem tsmiManageMembers;
         private System.Windows.Forms.ToolStripMenuItem tsmiAddNewMember;
+        private System.Windows.Forms.ToolStripMenuItem tsmiCirculation;
+        private System.Windows.Forms.ToolStripMenuItem tsmiManageBorrowings;
+        private System.Windows.Forms.ToolStripMenuItem tsmiBorrowBook;
+        private System.Windows.Forms.ToolStripMenuItem tsmiReturnBook;
         private System.Windows.Forms.ToolStripMenuItem tsmiUsers;
         private System.Windows.Forms.ToolStripMenuItem tsmiManageUsers;
         private System.Windows.Forms.ToolStripMenuItem tsmiCurrentUserInfo;

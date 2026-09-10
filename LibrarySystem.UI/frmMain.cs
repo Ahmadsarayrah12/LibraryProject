@@ -167,5 +167,35 @@ namespace LibrarySystem.UI
         }
 
         #endregion
+
+        #region Circulation Management
+
+        private void tsmiBorrowBook_Click(object sender, EventArgs e)
+        {
+            if (clsGlobal.CurrentUser == null || clsGlobal.CurrentUser.CheckAccessPermission(clsUser.enPermissions.pManageBorrowing))
+            {
+                using (frmBorrowBook frm = new frmBorrowBook())
+                {
+                    frm.ShowDialog();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Access Denied! You do not have permission to issue book loans.",
+                    "Permission Denied", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+        }
+
+        private void tsmiManageBorrowings_Click(object sender, EventArgs e)
+        {
+            // Wired in Sub-feature 5
+        }
+
+        private void tsmiReturnBook_Click(object sender, EventArgs e)
+        {
+            // Wired in Sub-feature 4
+        }
+
+        #endregion
     }
 }
