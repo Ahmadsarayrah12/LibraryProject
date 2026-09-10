@@ -195,10 +195,7 @@ namespace LibrarySystem.DataAccess
                     connection.Open();
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        if (reader.HasRows)
-                        {
-                            dt.Load(reader);
-                        }
+                        dt.Load(reader);
                     }
                 }
             }

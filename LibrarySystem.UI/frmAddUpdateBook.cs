@@ -41,23 +41,29 @@ namespace LibrarySystem.UI
         private void _FillAuthorsComboBox()
         {
             DataTable dt = clsAuthor.GetAllAuthors();
-            cbAuthors.DataSource = dt;
+            cbAuthors.DataSource = null;
             cbAuthors.DisplayMember = "FullName";
             cbAuthors.ValueMember = "AuthorID";
+            cbAuthors.DataSource = dt;
 
-            if (cbAuthors.Items.Count > 0)
+            if (dt != null && dt.Rows.Count > 0)
                 cbAuthors.SelectedIndex = 0;
+            else
+                cbAuthors.SelectedIndex = -1;
         }
 
         private void _FillGenresComboBox()
         {
             DataTable dt = clsGenre.GetAllGenres();
-            cbGenres.DataSource = dt;
+            cbGenres.DataSource = null;
             cbGenres.DisplayMember = "GenreName";
             cbGenres.ValueMember = "GenreID";
+            cbGenres.DataSource = dt;
 
-            if (cbGenres.Items.Count > 0)
+            if (dt != null && dt.Rows.Count > 0)
                 cbGenres.SelectedIndex = 0;
+            else
+                cbGenres.SelectedIndex = -1;
         }
 
         private void _ResetDefaultValues()
