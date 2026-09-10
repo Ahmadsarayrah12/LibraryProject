@@ -438,3 +438,6 @@ TestDb*.exe
 TestDb*.cs
 TestDb*.dll
 
+
+TestConsole/
+
