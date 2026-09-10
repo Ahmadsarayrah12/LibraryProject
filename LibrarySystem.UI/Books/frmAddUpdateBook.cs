@@ -400,7 +400,7 @@ namespace LibrarySystem.UI
 
             if (_mode == enMode.AddNew || (_mode == enMode.Update && _book != null && _book.ISBN != isbn))
             {
-                if (clsBook.IsBookExist(isbn))
+                if (clsBook.isBookExist(isbn))
                 {
                     errorProvider1.SetError(txtISBN, "This ISBN is already assigned to another book.");
                     return;

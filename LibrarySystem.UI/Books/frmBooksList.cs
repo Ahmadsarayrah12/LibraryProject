@@ -279,7 +279,7 @@ namespace LibrarySystem.UI
 
             try
             {
-                if (clsBook.Delete(bookID))
+                if (clsBook.DeleteBook(bookID))
                 {
                     MessageBox.Show("Book and associated copies deleted successfully!", "Deleted",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);

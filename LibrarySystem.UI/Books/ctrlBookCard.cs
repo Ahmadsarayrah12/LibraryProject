@@ -123,7 +123,7 @@ namespace LibrarySystem.UI
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode)
                 return false;
 
-            _book = clsBook.Find(isbn);
+            _book = clsBook.FindByISBN(isbn);
 
             if (_book == null)
             {

@@ -42,7 +42,7 @@ namespace LibrarySystem.UI
             int count = (int)nudAddCopies.Value;
             clsBook book = ctrlBookCard1.SelectedBook;
 
-            if (book != null && book.AddCopies(count))
+            if (book != null && book.ProvisionCopies(count))
             {
                 MessageBox.Show($"{count} new copy/copies added successfully!", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
