@@ -18,6 +18,7 @@ namespace LibrarySystem.UI
         private void InitializeComponent()
         {
             this.msMainMenu = new System.Windows.Forms.MenuStrip();
+            this.tsmiDashboard = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiBooks = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiManageBooks = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiAddNewBook = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,15 +47,24 @@ namespace LibrarySystem.UI
             // 
             this.msMainMenu.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.msMainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiDashboard,
             this.tsmiBooks,
             this.tsmiMembers,
             this.tsmiCirculation,
             this.tsmiUsers});
             this.msMainMenu.Location = new System.Drawing.Point(0, 0);
             this.msMainMenu.Name = "msMainMenu";
-            this.msMainMenu.Size = new System.Drawing.Size(984, 25);
-            this.msMainMenu.TabIndex = 0;
+            this.msMainMenu.Size = new System.Drawing.Size(952, 29);
+            this.msMainMenu.TabIndex = 1;
             this.msMainMenu.Text = "menuStrip1";
+            // 
+            // tsmiDashboard
+            // 
+            this.tsmiDashboard.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsmiDashboard.Name = "tsmiDashboard";
+            this.tsmiDashboard.Size = new System.Drawing.Size(104, 25);
+            this.tsmiDashboard.Text = "Dashboard";
+            this.tsmiDashboard.Click += new System.EventHandler(this.tsmiDashboard_Click);
             // 
             // tsmiBooks
             // 
@@ -237,6 +247,7 @@ namespace LibrarySystem.UI
         #endregion
 
         private System.Windows.Forms.MenuStrip msMainMenu;
+        private System.Windows.Forms.ToolStripMenuItem tsmiDashboard;
         private System.Windows.Forms.ToolStripMenuItem tsmiBooks;
         private System.Windows.Forms.ToolStripMenuItem tsmiManageBooks;
         private System.Windows.Forms.ToolStripMenuItem tsmiAddNewBook;

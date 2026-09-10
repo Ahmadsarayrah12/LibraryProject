@@ -15,6 +15,26 @@ namespace LibrarySystem.UI
         {
             _ApplyPermissionStates();
             _UpdateStatusBar();
+            ShowDashboard();
+        }
+
+        public void ShowDashboard()
+        {
+            // Close existing dashboard if open to refresh it, or just bring it to front
+            foreach (Form child in this.MdiChildren)
+            {
+                if (child is Dashboard.frmDashboard)
+                {
+                    ((Dashboard.frmDashboard)child)._LoadData();
+                    child.BringToFront();
+                    return;
+                }
+            }
+
+            Dashboard.frmDashboard frm = new Dashboard.frmDashboard();
+            frm.MdiParent = this;
+            frm.Dock = DockStyle.Fill;
+            frm.Show();
         }
 
         private void _UpdateStatusBar()
@@ -145,6 +165,11 @@ namespace LibrarySystem.UI
         {
             clsGlobal.CurrentUser = null;
             this.Close();
+        }
+
+        private void tsmiDashboard_Click(object sender, EventArgs e)
+        {
+            ShowDashboard();
         }
     }
 }
