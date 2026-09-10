@@ -201,7 +201,7 @@ namespace LibrarySystem.UI
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(1093, 648);
+            this.ClientSize = new System.Drawing.Size(1102, 668);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnAddUser);
             this.Controls.Add(this.cbIsActive);
@@ -210,7 +210,6 @@ namespace LibrarySystem.UI
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblRecordsCount);
             this.Controls.Add(this.dgvUsers);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.Name = "frmUsers";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Manage Users";

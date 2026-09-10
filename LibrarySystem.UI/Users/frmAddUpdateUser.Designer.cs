@@ -133,7 +133,7 @@ namespace LibrarySystem.UI
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(20, 78);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(49, 14);
+            this.label6.Size = new System.Drawing.Size(50, 14);
             this.label6.TabIndex = 4;
             this.label6.Text = "Phone:";
             // 
@@ -216,7 +216,7 @@ namespace LibrarySystem.UI
             this.chkBorrowing.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkBorrowing.Location = new System.Drawing.Point(15, 115);
             this.chkBorrowing.Name = "chkBorrowing";
-            this.chkBorrowing.Size = new System.Drawing.Size(126, 18);
+            this.chkBorrowing.Size = new System.Drawing.Size(128, 18);
             this.chkBorrowing.TabIndex = 3;
             this.chkBorrowing.Text = "Borrowing Records";
             this.chkBorrowing.UseVisualStyleBackColor = true;
@@ -249,7 +249,7 @@ namespace LibrarySystem.UI
             this.chkManagePeople.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkManagePeople.Location = new System.Drawing.Point(15, 10);
             this.chkManagePeople.Name = "chkManagePeople";
-            this.chkManagePeople.Size = new System.Drawing.Size(108, 18);
+            this.chkManagePeople.Size = new System.Drawing.Size(109, 18);
             this.chkManagePeople.TabIndex = 0;
             this.chkManagePeople.Text = "Manage People";
             this.chkManagePeople.UseVisualStyleBackColor = true;
@@ -261,7 +261,7 @@ namespace LibrarySystem.UI
             this.chkAllPermissions.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkAllPermissions.Location = new System.Drawing.Point(20, 30);
             this.chkAllPermissions.Name = "chkAllPermissions";
-            this.chkAllPermissions.Size = new System.Drawing.Size(147, 18);
+            this.chkAllPermissions.Size = new System.Drawing.Size(143, 18);
             this.chkAllPermissions.TabIndex = 0;
             this.chkAllPermissions.Text = "All Permissions (-1)";
             this.chkAllPermissions.UseVisualStyleBackColor = true;
@@ -294,7 +294,7 @@ namespace LibrarySystem.UI
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(20, 193);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(120, 14);
+            this.label10.Size = new System.Drawing.Size(122, 14);
             this.label10.TabIndex = 6;
             this.label10.Text = "Confirm Password:";
             // 
@@ -350,7 +350,7 @@ namespace LibrarySystem.UI
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(20, 45);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(56, 14);
+            this.label3.Size = new System.Drawing.Size(55, 14);
             this.label3.TabIndex = 0;
             this.label3.Text = "User ID:";
             // 
@@ -387,13 +387,12 @@ namespace LibrarySystem.UI
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(819, 565);
+            this.ClientSize = new System.Drawing.Size(841, 573);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.gbLoginInfo);
             this.Controls.Add(this.gbPersonInfo);
             this.Controls.Add(this.lblTitle);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.Name = "frmAddUpdateUser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add / Update User";

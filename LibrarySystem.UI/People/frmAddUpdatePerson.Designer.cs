@@ -137,7 +137,7 @@ namespace LibrarySystem.UI
             // 
             // frmAddUpdatePerson
             // 
-            this.ClientSize = new System.Drawing.Size(630, 250);
+            this.ClientSize = new System.Drawing.Size(626, 251);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.txtEmail);
@@ -149,7 +149,6 @@ namespace LibrarySystem.UI
             this.Controls.Add(this.txtFirstName);
             this.Controls.Add(this.lblFirstName);
             this.Controls.Add(this.lblTitle);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmAddUpdatePerson";

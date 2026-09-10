@@ -9,7 +9,7 @@ namespace LibrarySystem.UI
         /// The main entry point for the application.
         /// Implements a login loop so sign-out returns cleanly to the login screen
         /// without restarting the process.
-        /// </summary>
+        /// </summary >
         [STAThread]
         static void Main()
         {

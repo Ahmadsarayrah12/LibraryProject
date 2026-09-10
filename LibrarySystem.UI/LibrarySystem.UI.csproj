@@ -209,6 +209,9 @@
     <EmbeddedResource Include="Members\frmMembersList.resx">
       <DependentUpon>frmMembersList.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="People\frmAddUpdatePerson.resx">
+      <DependentUpon>frmAddUpdatePerson.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Users\frmAddUpdateUser.resx">
       <DependentUpon>frmAddUpdateUser.cs</DependentUpon>
     </EmbeddedResource>
