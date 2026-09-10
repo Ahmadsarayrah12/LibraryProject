@@ -10,7 +10,7 @@ namespace LibrarySystem.UI
     /// <summary>
     /// Provides global static access to runtime session context, active user credentials,
     /// and local machine registry persistence for client configuration.
-    /// Password storage uses Windows DPAPI encryption for security.
+    /// Password storage uses simple Base64 encoding.
     /// </summary>
     public static class clsGlobal
     {
@@ -26,7 +26,7 @@ namespace LibrarySystem.UI
 
         /// <summary>
         /// Persists user credentials into the Windows Registry under the current user's hive.
-        /// Password is encrypted using Windows DPAPI (DataProtectionScope.CurrentUser).
+        /// Password is encrypted using simple Base64 encoding.
         /// </summary>
         /// <param name="username">The username to store.</param>
         /// <param name="password">The password to store (will be encrypted before writing).</param>
