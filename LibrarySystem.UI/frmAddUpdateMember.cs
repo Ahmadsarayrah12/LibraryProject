@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using LibrarySystem.Business;
 
@@ -15,6 +15,7 @@ namespace LibrarySystem.UI
 
         private int _MemberID = -1;
         private clsMember _Member;
+        private bool _isSaved = false;
 
         /// <summary>
         /// Default constructor initializing the form in AddNew mode.
@@ -152,6 +153,7 @@ namespace LibrarySystem.UI
                 lblTitle.Text = "Update Member";
                 this.Text = "Update Member";
                 ctrlPersonCardWithFilter1.FilterEnabled = false;
+                _isSaved = true;
 
                 MessageBox.Show("Member details saved successfully!", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -166,6 +168,20 @@ namespace LibrarySystem.UI
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            
+            if (!_isSaved && ctrlPersonCardWithFilter1.PersonID != -1)
+            {
+                if (MessageBox.Show("You have unsaved changes. Are you sure you want to close this window?", 
+                    "Unsaved Changes", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                {
+                    e.Cancel = true;
+                }
+            }
         }
     }
 }

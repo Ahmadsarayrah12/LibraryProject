@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 using LibrarySystem.Business;
@@ -127,6 +127,16 @@ namespace LibrarySystem.UI
 
             if (_User.Save())
             {
+                // Sync the cached credentials if the current user changed their own password
+                if (clsGlobal.CurrentUser != null && _User.UserID == clsGlobal.CurrentUser.UserID)
+                {
+                    string cachedUser = "", cachedPass = "";
+                    if (clsGlobal.GetStoredCredential(ref cachedUser, ref cachedPass))
+                    {
+                        clsGlobal.RememberUsernameAndPassword(_User.Username, txtNewPassword.Text.Trim());
+                    }
+                }
+
                 MessageBox.Show("Password has been changed successfully.", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 

@@ -248,5 +248,15 @@ namespace LibrarySystem.UI
         private System.Windows.Forms.ToolStripMenuItem tsmiSignOut;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel lblUser;
+        
+        // Dashboard controls
+        private System.Windows.Forms.Panel pnlDashboard;
+        private System.Windows.Forms.Label lblWelcome;
+        private System.Windows.Forms.Label lblDashboardSub;
+        private System.Windows.Forms.FlowLayoutPanel flpQuickActions;
+        private System.Windows.Forms.Button btnQuickBorrow;
+        private System.Windows.Forms.Button btnQuickReturn;
+        private System.Windows.Forms.Button btnQuickAddBook;
+        private System.Windows.Forms.Button btnQuickAddMember;
     }
 }

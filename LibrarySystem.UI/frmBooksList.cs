@@ -16,6 +16,16 @@ namespace LibrarySystem.UI
         public frmBooksList()
         {
             InitializeComponent();
+            _SetupResizing();
+        }
+
+        private void _SetupResizing()
+        {
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            dgvBooks.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            btnClose.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnAddBook.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblRecordsCount.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
         }
 
         private void _FormatGridColumns()
@@ -277,8 +287,8 @@ namespace LibrarySystem.UI
                 }
                 else
                 {
-                    MessageBox.Show("Failed to delete book.", "Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Failed to delete book.\n\nThis usually happens because the book has active physical copies or borrowing history. You must delete all associated copies and resolve loans before deleting the book record.", "Deletion Blocked",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)

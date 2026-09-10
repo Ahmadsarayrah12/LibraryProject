@@ -1,4 +1,4 @@
-﻿namespace LibrarySystem.UI
+namespace LibrarySystem.UI
 {
     partial class frmLogin
     {
@@ -31,9 +31,9 @@
             this.components = new System.ComponentModel.Container();
             this.lblTitle = new System.Windows.Forms.Label();
             this.lblSubtitle = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblUsernameLabel = new System.Windows.Forms.Label();
             this.txtUsername = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblPasswordLabel = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.chkRememberMe = new System.Windows.Forms.CheckBox();
             this.btnLogin = new System.Windows.Forms.Button();
@@ -67,15 +67,15 @@
             this.lblSubtitle.TabIndex = 1;
             this.lblSubtitle.Text = "Please enter your credentials to login";
             // 
-            // label1
+            // lblUsernameLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(262, 100);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 14);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Username:";
+            this.lblUsernameLabel.AutoSize = true;
+            this.lblUsernameLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUsernameLabel.Location = new System.Drawing.Point(262, 100);
+            this.lblUsernameLabel.Name = "lblUsernameLabel";
+            this.lblUsernameLabel.Size = new System.Drawing.Size(70, 14);
+            this.lblUsernameLabel.TabIndex = 2;
+            this.lblUsernameLabel.Text = "Username:";
             // 
             // txtUsername
             // 
@@ -86,15 +86,15 @@
             this.txtUsername.TabIndex = 3;
             this.txtUsername.Validating += new System.ComponentModel.CancelEventHandler(this.txtUsername_Validating);
             // 
-            // label2
+            // lblPasswordLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(262, 160);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(70, 14);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Password:";
+            this.lblPasswordLabel.AutoSize = true;
+            this.lblPasswordLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPasswordLabel.Location = new System.Drawing.Point(262, 160);
+            this.lblPasswordLabel.Name = "lblPasswordLabel";
+            this.lblPasswordLabel.Size = new System.Drawing.Size(70, 14);
+            this.lblPasswordLabel.TabIndex = 4;
+            this.lblPasswordLabel.Text = "Password:";
             // 
             // txtPassword
             // 
@@ -182,9 +182,9 @@
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.chkRememberMe);
             this.Controls.Add(this.txtPassword);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblPasswordLabel);
             this.Controls.Add(this.txtUsername);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblUsernameLabel);
             this.Controls.Add(this.lblSubtitle);
             this.Controls.Add(this.lblTitle);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -205,9 +205,9 @@
         private System.Windows.Forms.Label lblBannerText;
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Label lblSubtitle;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblUsernameLabel;
         private System.Windows.Forms.TextBox txtUsername;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblPasswordLabel;
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.CheckBox chkRememberMe;
         private System.Windows.Forms.Button btnLogin;

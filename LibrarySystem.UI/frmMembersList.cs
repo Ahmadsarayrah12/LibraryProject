@@ -19,6 +19,16 @@ namespace LibrarySystem.UI
         public frmMembersList()
         {
             InitializeComponent();
+            _SetupResizing();
+        }
+
+        private void _SetupResizing()
+        {
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            dgvMembers.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            btnClose.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnAddMember.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblRecordsCount.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
         }
 
         /// <summary>
@@ -193,7 +203,7 @@ namespace LibrarySystem.UI
                     }
                     else
                     {
-                        MessageBox.Show("Failed to delete member. Member might be linked to active borrowings or records.", "Error",
+                        MessageBox.Show("Failed to delete member.\n\nThis usually happens because the member has active borrowing records or a history of loans. You must resolve these dependencies before deleting the member.", "Deletion Blocked",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }

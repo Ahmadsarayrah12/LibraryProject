@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System;
 using System.Windows.Forms;
 
 namespace LibrarySystem.UI
@@ -10,6 +7,8 @@ namespace LibrarySystem.UI
     {
         /// <summary>
         /// The main entry point for the application.
+        /// Implements a login loop so sign-out returns cleanly to the login screen
+        /// without restarting the process.
         /// </summary>
         [STAThread]
         static void Main()
@@ -17,20 +16,20 @@ namespace LibrarySystem.UI
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-
-            frmLogin login = new frmLogin();
-
-            if (login.ShowDialog() == DialogResult.OK)
+            while (true)
             {
+                using (frmLogin login = new frmLogin())
+                {
+                    if (login.ShowDialog() != DialogResult.OK)
+                        break;
+                }
 
                 Application.Run(new frmMain());
+
+                // If CurrentUser is still set, the user closed the window (not signed out)
+                if (clsGlobal.CurrentUser != null)
+                    break;
             }
-            else
-                Application.Exit();
-
-            //Application.Run(new frmUsers());
-
-
         }
     }
 }

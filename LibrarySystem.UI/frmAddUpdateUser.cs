@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 using LibrarySystem.Business;
@@ -19,6 +19,7 @@ namespace LibrarySystem.UI
         private int _UserID = -1;
         private clsUser _User;
         private clsPerson _Person;
+        private bool _isSaved = false;
 
         /// <summary>
         /// Default parameterless constructor used for creating a new user record.
@@ -326,6 +327,7 @@ namespace LibrarySystem.UI
 
             if (_User.Save())
             {
+                _isSaved = true;
                 MessageBox.Show("User Saved Successfully.", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -345,6 +347,20 @@ namespace LibrarySystem.UI
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+
+            if (!_isSaved && (!string.IsNullOrWhiteSpace(txtFirstName.Text) || !string.IsNullOrWhiteSpace(txtUsername.Text)))
+            {
+                if (MessageBox.Show("You have unsaved changes. Are you sure you want to close this window?", 
+                    "Unsaved Changes", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                {
+                    e.Cancel = true;
+                }
+            }
         }
     }
 }

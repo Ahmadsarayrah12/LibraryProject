@@ -24,6 +24,7 @@ namespace LibrarySystem.UI
         private clsBook _book;
         private string _tempSourceImagePath = null;
         private bool _imageRemoved = false;
+        private bool _isSaved = false;
 
         public frmAddUpdateBook()
         {
@@ -336,6 +337,7 @@ namespace LibrarySystem.UI
                     lblInitialCopies.Visible = false;
                     _tempSourceImagePath = null;
                     _imageRemoved = false;
+                    _isSaved = true;
 
                     MessageBox.Show("Book saved successfully!", "Success",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -358,6 +360,21 @@ namespace LibrarySystem.UI
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            
+            // Only warn if they actually typed something and haven't saved
+            if (!_isSaved && (!string.IsNullOrWhiteSpace(txtTitle.Text) || !string.IsNullOrWhiteSpace(txtISBN.Text)))
+            {
+                if (MessageBox.Show("You have unsaved changes. Are you sure you want to close this window?", 
+                    "Unsaved Changes", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                {
+                    e.Cancel = true;
+                }
+            }
         }
 
         private void txtTitle_Validating(object sender, CancelEventArgs e)

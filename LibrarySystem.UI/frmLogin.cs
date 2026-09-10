@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 using LibrarySystem.Business;
@@ -12,9 +12,49 @@ namespace LibrarySystem.UI
     /// </summary>
     public partial class frmLogin : Form
     {
+        private CheckBox _chkShowPassword;
+        private Label _lblCapsLock;
+
         public frmLogin()
         {
             InitializeComponent();
+            _SetupExtraUI();
+        }
+
+        private void _SetupExtraUI()
+        {
+            // Show Password Toggle
+            _chkShowPassword = new CheckBox
+            {
+                Text = "👁",
+                Font = new System.Drawing.Font("Segoe UI", 10F),
+                AutoSize = true,
+                Location = new System.Drawing.Point(txtPassword.Right + 5, txtPassword.Top + 2),
+                Cursor = Cursors.Hand,
+                FlatStyle = FlatStyle.Flat
+            };
+            _chkShowPassword.Appearance = Appearance.Button;
+            _chkShowPassword.FlatAppearance.BorderSize = 0;
+            _chkShowPassword.CheckedChanged += (s, e) => 
+            {
+                txtPassword.PasswordChar = _chkShowPassword.Checked ? '\0' : '*';
+            };
+            this.Controls.Add(_chkShowPassword);
+
+            // Caps Lock Warning
+            _lblCapsLock = new Label
+            {
+                Text = "⚠️ Caps Lock is ON",
+                ForeColor = System.Drawing.Color.DarkOrange,
+                AutoSize = true,
+                Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold),
+                Location = new System.Drawing.Point(txtPassword.Left, txtPassword.Bottom + 2),
+                Visible = Control.IsKeyLocked(Keys.CapsLock)
+            };
+            this.Controls.Add(_lblCapsLock);
+
+            this.KeyPreview = true;
+            this.KeyDown += (s, e) => _lblCapsLock.Visible = Control.IsKeyLocked(Keys.CapsLock);
         }
 
         /// <summary>
@@ -48,7 +88,6 @@ namespace LibrarySystem.UI
         {
             if (string.IsNullOrWhiteSpace(txtUsername.Text.Trim()))
             {
-                e.Cancel = true;
                 errorProvider1.SetError(txtUsername, "Username is required!");
             }
             else
@@ -64,7 +103,6 @@ namespace LibrarySystem.UI
         {
             if (string.IsNullOrWhiteSpace(txtPassword.Text))
             {
-                e.Cancel = true;
                 errorProvider1.SetError(txtPassword, "Password is required!");
             }
             else
@@ -85,11 +123,31 @@ namespace LibrarySystem.UI
         /// </summary>
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            // Triggers OnValidating on all child controls; aborts if any control fails validation
-            if (!this.ValidateChildren())
+            // Manual validation since we don't use e.Cancel (to avoid focus trap)
+            bool hasErrors = false;
+
+            if (string.IsNullOrWhiteSpace(txtUsername.Text.Trim()))
             {
-                MessageBox.Show("Please enter both username and password.", "Validation Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                errorProvider1.SetError(txtUsername, "Username is required!");
+                hasErrors = true;
+            }
+            else
+            {
+                errorProvider1.SetError(txtUsername, null);
+            }
+
+            if (string.IsNullOrWhiteSpace(txtPassword.Text))
+            {
+                errorProvider1.SetError(txtPassword, "Password is required!");
+                hasErrors = true;
+            }
+            else
+            {
+                errorProvider1.SetError(txtPassword, null);
+            }
+
+            if (hasErrors)
+            {
                 return;
             }
 

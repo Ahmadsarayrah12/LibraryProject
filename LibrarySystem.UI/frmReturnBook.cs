@@ -114,8 +114,9 @@ namespace LibrarySystem.UI
                 record = clsBorrowingRecord.FindActiveByCopyID(id);
                 if (record == null)
                 {
-                    // Check if copy has any borrowing history at all
-                    record = clsBorrowingRecord.Find(id);
+                    MessageBox.Show($"This book copy (ID: {id}) is not currently loaned out.", "No Active Loan",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
                 }
             }
 

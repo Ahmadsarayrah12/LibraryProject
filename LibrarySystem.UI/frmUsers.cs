@@ -19,6 +19,16 @@ namespace LibrarySystem.UI
         public frmUsers()
         {
             InitializeComponent();
+            _SetupResizing();
+        }
+
+        private void _SetupResizing()
+        {
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            dgvUsers.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            btnClose.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnAddUser.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblRecordsCount.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
         }
 
         /// <summary>
