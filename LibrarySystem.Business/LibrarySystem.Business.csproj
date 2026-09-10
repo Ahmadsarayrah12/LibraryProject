@@ -48,6 +48,7 @@
     <Compile Include="clsGenre.cs" />
     <Compile Include="clsBookCopy.cs" />
     <Compile Include="clsBook.cs" />
+    <Compile Include="clsBorrowingRecord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
