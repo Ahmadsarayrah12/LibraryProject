@@ -193,7 +193,18 @@ namespace LibrarySystem.UI
 
         private void tsmiReturnBook_Click(object sender, EventArgs e)
         {
-            // Wired in Sub-feature 4
+            if (clsGlobal.CurrentUser == null || clsGlobal.CurrentUser.CheckAccessPermission(clsUser.enPermissions.pManageBorrowing))
+            {
+                using (frmReturnBook frm = new frmReturnBook())
+                {
+                    frm.ShowDialog();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Access Denied! You do not have permission to return books.",
+                    "Permission Denied", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
         }
 
         #endregion
